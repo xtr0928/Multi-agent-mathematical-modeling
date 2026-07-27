@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>暴力思考架构 — Brute-Force Think</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'JetBrains Mono', monospace; background: #020617; min-height: 100vh; padding: 2rem; color: white; }
+    .container { max-width: 1400px; margin: 0 auto; }
+    .header { margin-bottom: 2rem; }
+    .header-row { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem; }
+    .pulse-dot { width: 12px; height: 12px; background: #22d3ee; border-radius: 50%; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.5} }
+    h1 { font-size: 1.5rem; font-weight: 700; }
+    .subtitle { color: #94a3b8; font-size: .875rem; margin-left: 1.75rem; }
+    .diagram-container { background: rgba(15,23,42,.5); border-radius: 1rem; border: 1px solid #1e293b; padding: 1.5rem; overflow-x: auto; }
+    svg { width: 100%; min-width: 1000px; display: block; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-top: 2rem; }
+    .card { background: rgba(15,23,42,.5); border-radius: .75rem; border: 1px solid #1e293b; padding: 1.25rem; }
+    .card-header { display: flex; align-items: center; gap: .5rem; margin-bottom: .75rem; }
+    .card-dot { width: 8px; height: 8px; border-radius: 50%; }
+    .card-dot.c { background: #22d3ee } .card-dot.e { background: #34d399 } .card-dot.v { background: #a78bfa }
+    .card-dot.a { background: #fbbf24 } .card-dot.r { background: #fb7185 } .card-dot.o { background: #fb923c }
+    .card h3 { font-size: .875rem; font-weight: 600; }
+    .card ul { list-style: none; color: #94a3b8; font-size: .75rem; }
+    .card li { margin-bottom: .375rem; }
+    .footer { text-align: center; margin-top: 1.5rem; color: #475569; font-size: .75rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="header-row"><div class="pulse-dot"></div><h1>Brute-Force Think — 暴力思考架构</h1></div>
+      <p class="subtitle">GLM 5.2 + DeepSeek V4 + Kimi K2.6 · 三 Agent 迭代收敛 · MCM/ICM 竞赛解题专用</p>
+    </div>
+
+    <div class="diagram-container">
+      <svg viewBox="0 0 1200 900">
+        <defs>
+          <marker id="ah" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#64748b"/></marker>
+          <marker id="ahg" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#34d399"/></marker>
+          <marker id="ahr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#fb7185"/></marker>
+          <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="0.5"/></pattern>
+          <filter id="glow"><feGaussianBlur stdDeviation="2" result="g"/><feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        </defs>
+
+        <rect width="100%" height="100%" fill="url(#grid)"/>
+
+        <!-- ==== TITLE AREA ==== -->
+        <rect x="350" y="12" width="500" height="56" rx="10" fill="rgba(8,51,68,.5)" stroke="#22d3ee" stroke-width="2" filter="url(#glow)"/>
+        <text x="600" y="38" fill="#22d3ee" font-size="15" font-weight="700" text-anchor="middle">题目 + 数据</text>
+        <text x="600" y="56" fill="#94a3b8" font-size="9" text-anchor="middle">MCM/ICM Problem Statement &amp; Data Files</text>
+
+        <!-- Arrow: title -> three agents -->
+        <line x1="600" y1="68" x2="600" y2="95" stroke="#22d3ee" stroke-width="2" marker-end="url(#ah)"/>
+        <line x1="150" y1="95" x2="1050" y2="95" stroke="#22d3ee" stroke-width="2"/>
+        <line x1="150" y1="95" x2="150" y2="125" stroke="#22d3ee" stroke-width="2" marker-end="url(#ah)"/>
+        <line x1="600" y1="95" x2="600" y2="125" stroke="#22d3ee" stroke-width="2" marker-end="url(#ah)"/>
+        <line x1="1050" y1="95" x2="1050" y2="125" stroke="#22d3ee" stroke-width="2" marker-end="url(#ah)"/>
+
+        <!-- ==== ROUND 0: Three Agents ==== -->
+        <rect x="10" y="125" width="380" height="30" rx="4" fill="rgba(76,29,149,.3)" stroke="#a78bfa" stroke-width="1"/>
+        <text x="20" y="144" fill="#a78bfa" font-size="10" font-weight="600">Round 0 — 三方独立深度思考 (无限时)</text>
+
+        <!-- GLM -->
+        <rect x="40" y="170" width="260" height="90" rx="8" fill="rgba(8,51,68,.4)" stroke="#22d3ee" stroke-width="1.5"/>
+        <text x="170" y="195" fill="white" font-size="12" font-weight="700" text-anchor="middle">GLM 5.2</text>
+        <text x="170" y="213" fill="#22d3ee" font-size="9" text-anchor="middle">数学理论派</text>
+        <text x="170" y="228" fill="#94a3b8" font-size="8" text-anchor="middle">公式推导 · 凸优化 · 概率建模</text>
+        <text x="170" y="245" fill="#94a3b8" font-size="8" text-anchor="middle">严谨性优先 · 理论完备</text>
+
+        <!-- DeepSeek -->
+        <rect x="470" y="170" width="260" height="90" rx="8" fill="rgba(6,78,59,.4)" stroke="#34d399" stroke-width="1.5"/>
+        <text x="600" y="195" fill="white" font-size="12" font-weight="700" text-anchor="middle">DeepSeek V4</text>
+        <text x="600" y="213" fill="#34d399" font-size="9" text-anchor="middle">综合推理派</text>
+        <text x="600" y="228" fill="#94a3b8" font-size="8" text-anchor="middle">全局架构 · 可行性评估</text>
+        <text x="600" y="245" fill="#94a3b8" font-size="8" text-anchor="middle">多模型整合 · 实用导向</text>
+
+        <!-- Kimi -->
+        <rect x="900" y="170" width="260" height="90" rx="8" fill="rgba(251,146,60,.3)" stroke="#fb923c" stroke-width="1.5"/>
+        <text x="1030" y="195" fill="white" font-size="12" font-weight="700" text-anchor="middle">Kimi K2.6</text>
+        <text x="1030" y="213" fill="#fb923c" font-size="9" text-anchor="middle">创新发散派</text>
+        <text x="1030" y="228" fill="#94a3b8" font-size="8" text-anchor="middle">跨学科借鉴 · 非常规方法</text>
+        <text x="1030" y="245" fill="#94a3b8" font-size="8" text-anchor="middle">Arrow公理 · 经济/物理类比</text>
+
+        <!-- Error recovery annotation -->
+        <rect x="40" y="265" width="1120" height="28" rx="4" fill="rgba(136,19,55,.15)" stroke="#fb7185" stroke-width="1" stroke-dasharray="4,4"/>
+        <text x="60" y="284" fill="#fb7185" font-size="9">报错/超时10min → 自动重启 | 连续3次失败 → 标记不可用，其余继续 | 网关断开 → 重连后继续</text>
+
+        <!-- Arrow: agents -> schemes -->
+        <line x1="170" y1="260" x2="170" y2="310" stroke="#22d3ee" stroke-width="2" marker-end="url(#ah)"/>
+        <line x1="600" y1="260" x2="600" y2="310" stroke="#34d399" stroke-width="2" marker-end="url(#ah)"/>
+        <line x1="1030" y1="260" x2="1030" y2="310" stroke="#fb923c" stroke-width="2" marker-end="url(#ah)"/>
+
+        <!-- Three schemes -->
+        <rect x="40" y="310" width="260" height="45" rx="6" fill="rgba(30,41,59,.5)" stroke="#64748b" stroke-width="1"/>
+        <text x="170" y="330" fill="white" font-size="11" font-weight="600" text-anchor="middle">方案 A</text>
+        <text x="170" y="346" fill="#94a3b8" font-size="8" text-anchor="middle">GLM 独立输出</text>
+
+        <rect x="470" y="310" width="260" height="45" rx="6" fill="rgba(30,41,59,.5)" stroke="#64748b" stroke-width="1"/>
+        <text x="600" y="330" fill="white" font-size="11" font-weight="600" text-anchor="middle">方案 B</text>
+        <text x="600" y="346" fill="#94a3b8" font-size="8" text-anchor="middle">DeepSeek 独立输出</text>
+
+        <rect x="900" y="310" width="260" height="45" rx="6" fill="rgba(30,41,59,.5)" stroke="#64748b" stroke-width="1"/>
+        <text x="1030" y="330" fill="white" font-size="11" font-weight="600" text-anchor="middle">方案 C</text>
+        <text x="1030" y="346" fill="#94a3b8" font-size="8" text-anchor="middle">Kimi 独立输出</text>
+
+        <!-- ==== ROUND 1 ==== -->
+        <rect x="10" y="375" width="380" height="30" rx="4" fill="rgba(76,29,149,.3)" stroke="#a78bfa" stroke-width="1"/>
+        <text x="20" y="394" fill="#a78bfa" font-size="10" font-weight="600">Round 1 — 三向交叉讨论</text>
+
+        <!-- Cross arrows -->
+        <line x1="170" y1="370" x2="170" y2="420" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#ah)"/>
+        <line x1="600" y1="370" x2="600" y2="420" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#ah)"/>
+        <line x1="1030" y1="370" x2="1030" y2="420" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#ah)"/>
+
+        <path d="M 300 420 L 300 445 Q 300 460 450 460 L 470 460" fill="none" stroke="#a78bfa" stroke-width="1.5" marker-end="url(#ah)"/>
+        <text x="370" y="455" fill="#a78bfa" font-size="7">A→B</text>
+        <path d="M 170 420 L 170 460 Q 170 475 450 475 L 470 475" fill="none" stroke="#a78bfa" stroke-width="1.5" marker-end="url(#ah)"/>
+        <text x="310" y="470" fill="#a78bfa" font-size="7">A→C</text>
+        <path d="M 600 420 L 600 445 Q 600 445 350 445 L 300 445" fill="none" stroke="#a78bfa" stroke-width="1.5" marker-end="url(#ah)"/>
+        <text x="450" y="438" fill="#a78bfa" font-size="7">B→A</text>
+        <path d="M 730 420 L 730 460 Q 730 475 900 475 L 900 460" fill="none" stroke="#a78bfa" stroke-width="1.5" marker-end="url(#ah)"/>
+        <text x="810" y="470" fill="#a78bfa" font-size="7">B→C</text>
+        <path d="M 1030 420 L 1030 445 Q 1030 445 770 445 L 730 445" fill="none" stroke="#a78bfa" stroke-width="1.5" marker-end="url(#ah)"/>
+        <text x="880" y="438" fill="#a78bfa" font-size="7">C→A</text>
+        <path d="M 900 420 L 900 460 Q 900 460 770 460 L 730 460" fill="none" stroke="#a78bfa" stroke-width="1.5" marker-end="url(#ah)"/>
+        <text x="840" y="453" fill="#a78bfa" font-size="7">C→B</text>
+
+        <!-- ==== ROUND 2 ==== -->
+        <rect x="10" y="495" width="380" height="30" rx="4" fill="rgba(76,29,149,.3)" stroke="#a78bfa" stroke-width="1"/>
+        <text x="20" y="514" fill="#a78bfa" font-size="10" font-weight="600">Round 2 — 基于反馈修订方案</text>
+
+        <!-- Revised schemes -->
+        <rect x="40" y="540" width="260" height="45" rx="6" fill="rgba(6,78,59,.3)" stroke="#34d399" stroke-width="1"/>
+        <text x="170" y="560" fill="white" font-size="11" font-weight="600" text-anchor="middle">方案 A'</text>
+        <text x="170" y="576" fill="#34d399" font-size="8" text-anchor="middle">吸收 B、C 优点后修订</text>
+
+        <rect x="470" y="540" width="260" height="45" rx="6" fill="rgba(6,78,59,.3)" stroke="#34d399" stroke-width="1"/>
+        <text x="600" y="560" fill="white" font-size="11" font-weight="600" text-anchor="middle">方案 B'</text>
+        <text x="600" y="576" fill="#34d399" font-size="8" text-anchor="middle">吸收 A、C 优点后修订</text>
+
+        <rect x="900" y="540" width="260" height="45" rx="6" fill="rgba(6,78,59,.3)" stroke="#34d399" stroke-width="1"/>
+        <text x="1030" y="560" fill="white" font-size="11" font-weight="600" text-anchor="middle">方案 C'</text>
+        <text x="1030" y="576" fill="#34d399" font-size="8" text-anchor="middle">吸收 A、B 优点后修订</text>
+
+        <!-- ==== ROUND 3: CONVERGE ==== -->
+        <rect x="10" y="605" width="380" height="30" rx="4" fill="rgba(76,29,149,.3)" stroke="#a78bfa" stroke-width="1"/>
+        <text x="20" y="624" fill="#a78bfa" font-size="10" font-weight="600">Round 3 — 收敛判断 (最多 3 轮)</text>
+
+        <!-- Diamond: converge? -->
+        <polygon points="600,640 660,680 600,720 540,680" fill="rgba(76,29,149,.3)" stroke="#a78bfa" stroke-width="1.5"/>
+        <text x="600" y="677" fill="white" font-size="11" font-weight="700" text-anchor="middle">收敛?</text>
+        <text x="600" y="693" fill="#94a3b8" font-size="8" text-anchor="middle">sim > 0.8</text>
+
+        <line x1="170" y1="585" x2="170" y2="640" stroke="#64748b" stroke-width="1.5"/>
+        <line x1="600" y1="585" x2="600" y2="640" stroke="#64748b" stroke-width="1.5"/>
+        <line x1="1030" y1="585" x2="1030" y2="600" stroke="#64748b" stroke-width="1.5"/>
+        <line x1="1030" y1="600" x2="660" y2="600" stroke="#64748b" stroke-width="1.5"/>
+        <line x1="170" y1="600" x2="540" y2="600" stroke="#64748b" stroke-width="1.5"/>
+        <line x1="540" y1="600" x2="540" y2="680" stroke="#64748b" stroke-width="1.5"/>
+        <line x1="660" y1="600" x2="660" y2="680" stroke="#64748b" stroke-width="1.5"/>
+
+        <!-- YES path -->
+        <line x1="600" y1="720" x2="600" y2="770" stroke="#34d399" stroke-width="2.5" marker-end="url(#ahg)"/>
+        <text x="615" y="748" fill="#34d399" font-size="10" font-weight="600">YES</text>
+
+        <!-- NO path (loop back) -->
+        <path d="M 660 680 L 820 680 Q 860 680 860 720 L 860 760 Q 860 800 860 820 L 860 840" fill="none" stroke="#fb7185" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#ahr)"/>
+        <text x="830" y="760" fill="#fb7185" font-size="9" font-weight="600">NO → 回 Round 1</text>
+
+        <!-- ==== ROUND 4: MERGE ==== -->
+        <rect x="10" y="780" width="380" height="30" rx="4" fill="rgba(6,78,59,.4)" stroke="#34d399" stroke-width="1.5"/>
+        <text x="20" y="799" fill="#34d399" font-size="10" font-weight="600">Round 4 — 最终汇总 (DeepSeek 主笔)</text>
+
+        <rect x="200" y="825" width="800" height="55" rx="10" fill="rgba(34,211,238,.15)" stroke="#22d3ee" stroke-width="2" filter="url(#glow)"/>
+        <text x="600" y="848" fill="white" font-size="13" font-weight="700" text-anchor="middle">📄 统一最终方案</text>
+        <text x="600" y="868" fill="#94a3b8" font-size="9" text-anchor="middle">标注每部分来源 Agent · 完整解题报告 · 包含所有公式与数据</text>
+
+        <line x1="600" y1="770" x2="600" y2="823" stroke="#22d3ee" stroke-width="2.5" marker-end="url(#ah)"/>
+
+        <!-- ===== RETRY PATH (LEFT) ===== -->
+        <rect x="30" y="420" width="160" height="22" rx="3" fill="rgba(136,19,55,.3)" stroke="#fb7185" stroke-width="1"/>
+        <text x="110" y="435" fill="#fb7185" font-size="7" font-weight="600" text-anchor="middle">容错: 报错→ 自动重启</text>
+
+        <!-- Legend -->
+        <rect x="930" y="780" width="240" height="105" rx="8" fill="rgba(15,23,42,.7)" stroke="#1e293b" stroke-width="1"/>
+        <text x="950" y="800" fill="white" font-size="10" font-weight="600">Legend</text>
+        <rect x="950" y="810" width="14" height="8" rx="2" fill="rgba(8,51,68,.4)" stroke="#22d3ee" stroke-width="1"/><text x="970" y="817" fill="#94a3b8" font-size="7">GLM 5.2</text>
+        <rect x="950" y="823" width="14" height="8" rx="2" fill="rgba(6,78,59,.4)" stroke="#34d399" stroke-width="1"/><text x="970" y="830" fill="#94a3b8" font-size="7">DeepSeek V4</text>
+        <rect x="950" y="836" width="14" height="8" rx="2" fill="rgba(251,146,60,.3)" stroke="#fb923c" stroke-width="1"/><text x="970" y="843" fill="#94a3b8" font-size="7">Kimi K2.6</text>
+        <line x1="950" y1="852" x2="964" y2="852" stroke="#fb7185" stroke-width="1" stroke-dasharray="3,3"/><text x="970" y="856" fill="#94a3b8" font-size="7">错误/回退</text>
+        <rect x="950" y="862" width="14" height="8" rx="2" fill="rgba(6,78,59,.4)" stroke="#34d399" stroke-width="1.5"/><text x="970" y="869" fill="#94a3b8" font-size="7">收敛路径</text>
+      </svg>
+    </div>
+
+    <!-- Info Cards -->
+    <div class="cards">
+      <div class="card">
+        <div class="card-header"><div class="card-dot e"></div><h3>Agent 阵容</h3></div>
+        <ul>
+          <li>• ① GLM 5.2 — 数学理论 · 公式推导 · 凸优化</li>
+          <li>• ② DeepSeek V4 — 综合推理 · 可行性 · 多模型整合</li>
+          <li>• ③ Kimi K2.6 — 创新发散 · 跨学科 · 非常规方法</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="card-dot v"></div><h3>迭代机制</h3></div>
+        <ul>
+          <li>• Round 0: 三方独立深思考 (不限时)</li>
+          <li>• Round 1: 三向交叉讨论 (6 次互评)</li>
+          <li>• Round 2: 基于反馈修订方案</li>
+          <li>• Round 3: 收敛判断 (sim &gt; 0.8 → 通过)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="card-dot r"></div><h3>容错策略</h3></div>
+        <ul>
+          <li>• 报错退出 → 自动重启, 原 prompt 不变</li>
+          <li>• 10min 无响应 → kill + restart</li>
+          <li>• 3 次连续失败 → 标记不可用, 2 人继续</li>
+          <li>• 仅剩 1 人 → 直接输出, 标记"降级模式"</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="card-dot a"></div><h3>收敛指标</h3></div>
+        <ul>
+          <li>• keyword_overlap 权重 0.3</li>
+          <li>• method_overlap 权重 0.3</li>
+          <li>• task_agreement 权重 0.2</li>
+          <li>• metric_alignment 权重 0.2</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="footer">Brute-Force Think · MCM/ICM 数学建模竞赛专用 · 3 Agent × 4 Round 迭代收敛</p>
+  </div>
+</body>
+</html>
