@@ -2,6 +2,20 @@
 
 Phase 3b 使用。派发 Kimi K3 审查时，将此清单嵌入 prompt，逐项检查。
 
+## 浏览器工具使用规范
+
+| 工具 | 用途 | 时机 |
+|------|------|------|
+| `browser_navigate` | 打开页面 | 服务启动后，确认 `localhost:<port>` 可访问 |
+| `browser_snapshot` | 获取页面文本结构（快速） | 检查 DOM 元素是否存在，不需视觉时优先用 |
+| `browser_vision` | 截图分析（慢，有成本） | 仅 Kimi K3 视觉审查时使用 |
+| `browser_console` | 查看 JS 错误/日志 | 排查前端报错时 |
+
+**硬规则**：
+- **截图前等待渲染**：`browser_navigate` 后等 1-2s 再调用 `browser_vision`，确保 CSS 动画/图表完成渲染
+- **snapshot 优先**：能用文本结构判断的问题不用截图（省成本）
+- **截图需对比基准**：每次视觉审查附带期望效果（来自 Kimi K3 Phase 1b 视觉规格或设计稿）
+
 ## 审查前准备
 
 - [ ] 服务已启动，`localhost:<port>` 可访问
