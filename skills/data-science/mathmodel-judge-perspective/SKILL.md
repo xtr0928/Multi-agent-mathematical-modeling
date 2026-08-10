@@ -18,15 +18,47 @@ triggers:
 
 # 数模评委评价 Skill — 站在评委立场反向审视论文
 
-> 版本 v1.0 · 调研来源：COMAP 官方评审标准 / xuec699-math-modeling-skills
-> （integrity-gate + G5.1/G5.2 + QA checklist）/ MathModel-Skill（评分闭环 + 格式门禁）/
-> 38 篇 MCM/ICM O 奖论文共性分析 / MathModelAgent 论文模板。
+> 版本 v1.1 · 调研来源：
+> **官方一手**：2019 MCM Triage Judging Guidelines（官方初评指南，全文实证）/
+> 2009 MCM Judges' Commentary（A/B 两题官方评委评语，全文实证）
+> **工程沉淀**：xuec699-math-modeling-skills（integrity-gate + G5.1/G5.2 + QA checklist）
+> / MathModel-Skill（评分闭环 + 格式门禁）
+> **论文实证**：4 篇真实 O 奖论文全文分析（2017 A/B/C + 2020 C，共 125 页）
 
 ---
 
-## 一、评委评分维度（MCM/ICM 官方框架）
+## 一、官方评分机制（2019 Triage 指南原文实证）
 
-评委给每篇论文打分时，围绕 **7 个维度** 进行。满分 100，权重为经验值（官方不公开权重，此为本 skill 对标 O 奖论文反推的合理估计）：
+**评委真实流程**（官方 Triage Judging Guidelines）：
+- **7 档分类**：Disqualified（DQ）→ Unsuccessful（UN）→ Successful（P）→ Honorable Mention（HM）→ Meritorious（M）→ Finalist（F）→ Outstanding（O）
+- **初评两读制**：每篇论文由 **2 位评委独立阅读**，2 读一致决定是否进入终审
+- **时间极限**：每篇 **10-15 分钟（平均），上限 15-20 分钟**——比任何人的想象都短
+- **淘汰率**：初评后 **60-80% 论文被淘汰**，仅 20-40% 进入终审
+- **比例目标**：Meritorious 约 10%，Finalist/Outstanding 合计 <1%
+- **7 分制打分**（官方评分表）：1-2 = Successful，3-5 = Honorable Mention，6-7 = Meritorious，7 = Finalist/Outstanding
+
+**官方建模流程五要素**（triage 指南明确列出，缺任一要素都限制评分上限）：
+1. Problem Restatement（问题重述）
+2. Assumptions & Justifications（假设与论证）
+3. Model Construction and Application（模型构建与应用）
+4. Model Testing and/or Sensitivity Analysis（模型检验/灵敏度分析）
+5. Analysis of Strengths & Weaknesses（优缺点分析）
+
+**官方质量指标**（评委识别的高分信号）：
+- 数学与科学的**正确应用**
+- **探索深度**（depth of exploration）
+- 建模流程的**完整性**（completeness of a recognized modeling process）
+- 研究支撑的**合理引用与文档化**
+- **创新且有洞见**的建模方法
+- **清晰简洁的表达**（clear and concise exposition）
+
+**官方 HARD FAIL 逻辑**（2019 C 题示例）：「Teams that fail to build this Spread Model can score **no higher than 2**」「fail to address both time and geographical dimensions **no higher than 3**」「good graphical results should be **scored higher**」——核心模型缺失 = 封顶 2 分。
+
+---
+
+## 二、评委评分维度（七维，权重为经验估计）
+
+评委给每篇论文打分时，围绕 **7 个维度** 进行。满分 100，权重为经验值（官方不公开权重，此为本 skill 对标 O 奖论文反推的合理估计，**标注为估计值**）：
 
 | 维度 | 权重 | 评委在问什么 | O 奖论文表现 |
 |------|:--:|------------|------------|
@@ -38,12 +70,15 @@ triggers:
 | 6. 图表质量 | 10% | 图表是否专业、信息量大、被正确引用？ | 每张图一个信息点，图注解释核心发现 |
 | 7. 创新与洞察 | 5% | 有没有超出常规的见解？ | 至少 1 个原创洞察 + 可执行的建议 |
 
-**评委真实心理**（经验之谈）：
-- 评委每天要看几十篇论文，**每篇真正精读的时间不超过 20-30 分钟**；
-- 前 3 分钟决定印象分：摘要 → 图表 → 结构；
+**评委真实心理**（2009 Judges' Commentary + 2019 Triage 指南实证）：
+- 初评每篇论文平均 **10-15 分钟**，2 位评委各读一遍——「do not have a great deal of time」；
+- **摘要决定生死**：「absolutely essential that a paper be well written and have a clear, concise summary to make it past the initial round」——摘要差 = 过不了初评；
+- **摘要与正文必须一致**：「the summary and the rest of the paper must be consistent. Differences... do not make a positive impression」；
+- **评委每年必谈灵敏度**：「Every year the judges explicitly discuss the issue of sensitivity and stability. The few teams that make a concerted effort to explore this aspect will almost always stand out」——官方原话；
+- **基线验证加分**：「The few teams that did provide a confirmation of the numerical model made an immediate positive impression」；
+- **图表必须融入叙述**：「figures and tables are part of the story... not something that stands apart」——孤立图表 = 无效；
 - 评委先找「有没有明显硬伤」，再找「有没有亮点」——**消除硬伤比制造亮点更重要**；
-- 评委喜欢「能一眼看懂」的论文：公式规范、图表清晰、结论醒目；
-- 评委讨厌「需要替他找答案」的论文：结论藏在段落里、图表没有引用、数字对不上。
+- 评委喜欢「能一眼看懂」的论文；讨厌「需要替他找答案」的论文。
 
 ---
 
@@ -258,21 +293,31 @@ triggers:
 
 ---
 
-## 八、O 奖论文共性速查（38 篇分析结论）
+## 八、O 奖论文共性速查（4 篇真实全文实证：2017 A/B/C + 2020 C，共 125 页）
 
-1. **摘要全部有数字**——无一例外；
-2. **图表标题全部是结论式**；
-3. **每篇都有灵敏度/鲁棒性分析**；
-4. **模型选择有明确理由**（含淘汰方法）；
-5. **至少一个原创洞察**（超出题面的发现）；
-6. **诚实局限**（2-3 条，不遮掩）；
-7. **结论给决策者建议**（不只是总结）；
-8. **参考文献 ≥ 10 条且格式统一**。
+| # | 共性 | 实证情况 |
+|:--:|------|---------|
+| 1 | **摘要全部含具体数字** | ✅ 4/4 篇全部证实 |
+| 2 | **摘要全部含方法描述** | ✅ 4/4 篇全部证实 |
+| 3 | **灵敏度/鲁棒性分析必有** | ✅ 4/4 篇全部证实（与官方"每年必谈"一致） |
+| 4 | **局限/假设讨论必有** | ✅ 4/4 篇全部证实 |
+| 5 | **篇幅 24-40 页** | ✅ 实测 31/24/30/40 页，平均 31 页 |
+| 6 | 图表标题「结论式」 | ⚠️ **部分修正**：实测 4 篇中图题风格多样（有结论式也有描述式如 "Plot of typical traffic volume versus hour"）；**官方强调的是「图表必须融入叙述 + 图注解释核心发现」，而非标题必须是结论**。推荐做法：标题清晰描述 + 正文充分讨论，图注点出关键结论 |
 
-## 九、参考来源
+**官方评委评语（2009）额外证实**：
+- 摘要三要素：问题概述 + 具体结论/建议 + 方法概述（官方原话："provide a brief overview of the problem... let the reader know their specific conclusions and recommendations... provide the reader with an overview of the approach"）
+- 摘要不要堆背景和叙事（"such material in the summary can drastically reduce the space available"）
+- 语法/标点/公式规范性差 = 过不了初评（"Teams that do not make use of proper grammar and punctuation are not likely to make it past the initial rounds"）
+- 引用是「最珍视的原则之一」，评委能快速识别方法来源
 
-- COMAP 官方 MCM/ICM 赛题与评审说明
-- xuec699/math-modeling-skills: integrity-gate-checklist / paper-writing-rules(G5.1/G5.2) / qa-checklist / nature-writing-guide
-- yushui2022/MathModel-Skill: 评分闭环 / 格式门禁 / 评分点对齐表
-- jihe520/MathModelAgent: 论文模板与摘要结构
-- 2017 MCM/ICM 27 篇 O 奖论文 + CUMCM 11 篇国奖论文共性分析
+## 九、参考来源与证据等级
+
+| 等级 | 来源 | 获取方式 |
+|:--:|------|---------|
+| ✅ 官方 | 2019 MCM Triage Judging Guidelines（A-F 六题） | 全文下载实证 |
+| ✅ 官方 | 2009 MCM Judges' Commentary（A/B 两题，Kelly Black） | 全文下载实证 |
+| ✅ 论文 | 2017 MCM A/B/C + 2020 MCM C 共 4 篇 O 奖论文 | 全文下载分析（125 页） |
+| ✅ 工程 | xuec699 integrity-gate / paper-writing-rules / qa-checklist / nature-writing-guide | GitHub API 全文 |
+| ✅ 工程 | MathModel-Skill scoring_strategy / 评分点对齐表 | 本地仓库 |
+| ⚠️ 估计 | 七维权重（15/25/20/15/10/10/5） | 经验估计，非官方 |
+| ⚠️ 索引 | xuec699 outstanding-thesis 清单（38 篇） | 仅有文件名，论文本体未验证 |
