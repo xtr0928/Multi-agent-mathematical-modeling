@@ -68,6 +68,26 @@ apmcm, default, mcm
 
 **后续步骤中的所有代码示例、文件扩展名、图片插入语法都必须按所选引擎选择对应版本，不要混用。**
 
+### 步骤 0.5：环境预检（硬规则，排版前必须执行）
+
+**任何排版工作开始前，先做两项检查，缺什么补什么，禁止直接上手写论文：**
+
+```bash
+# ① 本地是否有可用排版工具
+which typst 2>/dev/null || typst --version 2>/dev/null || echo "NO_TYPST"
+which xelatex pdflatex 2>/dev/null || echo "NO_LATEX"
+# Windows 便携 MiKTeX 检查
+ls /c/tools/miktex/texmfs/install/miktex/bin/x64/xelatex.exe 2>/dev/null && echo "MIKTEX_OK"
+# ② 模板是否可访问
+ls "$SKILL_DIR/templates/<lang>/<竞赛>/main.typ" 2>/dev/null && echo "TYPST_TEMPLATE_OK"
+ls "$SKILL_DIR/templates/<lang>/<竞赛>-latex/main.tex" 2>/dev/null && echo "LATEX_TEMPLATE_OK"
+```
+
+**决策规则：**
+- **工具缺失**：Typst → `winget install Typst` 或下载单二进制；LaTeX → 按 `references/latex-mcm-compile-qa.md` 装 MiKTeX 便携版（清华镜像，两步：download → install --portable）。装完必须 `xelatex --version` 验证可用才继续。
+- **模板缺失**：先查 skill 自带模板族（`templates/` 下全量列表见前文）；没有匹配竞赛模板 → 从零重建最小框架并注明"重建自 default 结构"。**绝不跳过模板直接用裸 article 写**（页眉/Summary Sheet/目录格式会丢）。
+- **预检结果写入 `paper/ENV_CHECK.md`**：引擎版本 + 模板路径 + 缺失项处理记录，方便排查。
+
 ### 步骤 1：选择语言和模板
 
 
