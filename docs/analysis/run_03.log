@@ -1,0 +1,12 @@
+total weekly problems: 335
+finals: 29 | elim weeks: 264 | no-elim: 42 | weak: 73
+infeasible: 1
+   (29, 11, 'finals dropped')
+season 32: SLSQP FAILED
+season 33: SLSQP FAILED
+season optimizations failed: 2/34
+
+replay (own rule): 227/264 exact elim (86.0%); elim in bottom2: 238/264 (90.2%)
+  rank rule: exact 29/66 (43.9%), bottom2 41/66 (62.1%)
+  percent rule: exact 198/198 (100.0%), bottom2 197/198 (99.5%)
+saved /home/zhenjinchao/projects/mcm-2026/analysis/fan_est.json | problems: 335

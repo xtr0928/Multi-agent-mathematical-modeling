@@ -1,0 +1,53 @@
+=== per-season structure ===
+s1: n=6 weeks=[1, 2, 3, 4, 5, 6] finalists=["John O'Hurley", 'Kelly Monaco', 'Joey McIntyre']
+s2: n=10 weeks=[1, 2, 3, 4, 5, 6, 7, 8] finalists=['Stacy Keibler', 'Jerry Rice', 'Drew Lachey']
+s3: n=11 weeks=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10] finalists=['Joey Lawrence', 'Mario Lopez', 'Emmitt Smith']
+s4: n=11 weeks=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10] finalists=['Laila Ali', 'Apolo Anton Ohno', 'Joey Fatone']
+s5: n=12 weeks=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10] finalists=['Helio Castroneves', 'Mel B', 'Marie Osmond']
+s6: n=12 weeks=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10] finalists=['Cristian de la Fuente', 'Jason Taylor', 'Kristi Yamaguchi']
+s7: n=13 weeks=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10] finalists=['Warren Sapp', 'Lance Bass', 'Brooke Burke']
+s8: n=13 weeks=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] finalists=['Gilles Marini', 'Shawn Johnson', 'Melissa Rycroft']
+s9: n=16 weeks=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10] finalists=['Mya', 'Donny Osmond', 'Kelly Osbourne']
+s10: n=11 weeks=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10] finalists=['Evan Lysacek', 'Nicole Scherzinger', 'Erin Andrews']
+s11: n=12 weeks=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10] finalists=['Kyle Massey', 'Jennifer Grey', 'Bristol Palin']
+s12: n=11 weeks=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10] finalists=['Chelsea Kane', 'Kirstie Alley', 'Hines Ward']
+s13: n=12 weeks=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10] finalists=['Ricki Lake', 'J.R. Martinez', 'Rob Kardashian']
+s14: n=12 weeks=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10] finalists=['William Levy', 'Donald Driver', 'Katherine Jenkins']
+s15: n=13 weeks=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10] finalists=['Kelly Monaco', 'Shawn Johnson', 'Melissa Rycroft']
+s16: n=12 weeks=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10] finalists=['Zendaya', 'Jacoby Jones', 'Kellie Pickler']
+s17: n=12 weeks=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] finalists=['Corbin Bleu', 'Amber Riley', 'Jack Osbourne']
+s18: n=12 weeks=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10] finalists=['Candace Cameron Bure', 'Amy Purdy', 'Meryl Davis']
+s19: n=13 weeks=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] finalists=['Janel Parrish', 'Alfonso Ribeiro', 'Sadie Robertson']
+s20: n=12 weeks=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10] finalists=['Riker Lynch', 'Rumer Willis', 'Noah Galloway']
+s21: n=13 weeks=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] finalists=['Alek Skarlatos', 'Nick Carter', 'Bindi Irwin']
+s22: n=12 weeks=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10] finalists=['Paige VanZant', 'Nyle DiMarco', 'Ginger Zee']
+s23: n=13 weeks=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] finalists=['Calvin Johnson Jr.', 'Laurie Hernandez', 'James Hinchcliffe']
+s24: n=12 weeks=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10] finalists=['David Ross', 'Rashad Jennings', 'Normani']
+s25: n=13 weeks=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10] finalists=['Frankie Muniz', 'Jordan Fisher', 'Lindsey Stirling']
+s26: n=10 weeks=[1, 2, 3, 4] finalists=['Tonya Harding', 'Josh Norman', 'Adam Rippon']
+s27: n=13 weeks=[1, 2, 3, 4, 5, 6, 7, 8, 9] finalists=['Evanna Lynch', 'Milo Manheim', 'Bobby Bones', 'Alexis Ren']
+s28: n=12 weeks=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] finalists=['Kel Mitchell', 'Lauren Alaina', 'Ally Brooke', 'Hannah Brown']
+s29: n=15 weeks=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] finalists=['Justina Machado', 'Nev Schulman', 'Nelly', 'Kaitlyn Bristowe']
+s30: n=15 weeks=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10] finalists=['Iman Shumpert', 'Cody Rigsby', 'JoJo Siwa', 'Amanda Kloots']
+s31: n=16 weeks=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10] finalists=['Wayne Brady', "Charli D'Amelio", 'Shangela', 'Gabby Windey']
+s32: n=14 weeks=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] finalists=['Alyson Hannigan', 'Xochitl Gomez', 'Jason Mraz', 'Charity Lawson', 'Ariana Madix']
+s33: n=13 weeks=[1, 2, 3, 4, 5, 6, 7, 8, 9] finalists=['Chandler Kinney', 'Danny Amendola', 'Stephen Nedoroscik', 'Ilona Maher', 'Joey Graziadei']
+s34: n=14 weeks=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] finalists=['Elaine Hendrix', 'Jordan Chiles', 'Robert Irwin', 'Alix Earle', 'Dylan Efron']
+
+=== results-vs-scores mismatches (elim week inferred) ===
+(18, 'Diana Nyad', 'Eliminated Week 2', 2, 1)
+total mismatches: 1
+
+=== withdrawn ===
+(3, 'Sara Evans', 'Withdrew', 5)
+(7, 'Misty May-Treanor', 'Withdrew', 2)
+(9, 'Tom DeLay', 'Withdrew', 3)
+(16, 'Dorothy Hamill', 'Withdrew', 2)
+(18, 'Billy Dee Williams', 'Withdrew', 2)
+(21, 'Tamar Braxton', 'Withdrew', 9)
+(21, 'Kim Zolciak-Biermann', 'Withdrew', 2)
+(28, 'Ray Lewis', 'Withdrew', 2)
+(29, 'Jeannie Mai', 'Withdrew', 7)
+(31, 'Selma Blair', 'Withdrew', 5)
+
+saved /home/zhenjinchao/projects/mcm-2026/analysis/panel.json

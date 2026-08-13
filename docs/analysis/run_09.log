@@ -1,0 +1,32 @@
+CHECK                                         GOT   EXPECTED  STATUS
+total problems                                335        335  OK
+finals weeks                                   29         29  OK
+elim weeks                                    264        264  OK
+no-elim weeks                                  42         42  OK
+S1-2 exact                                     10         10  OK
+S3-27 exact                                   198        198  OK
+S28+ exact                                     19         19  OK
+S28+ b2                                        31         31  OK
+mean width                                  0.898      0.898  OK
+elim width                                  0.346      0.346  OK
+surv width                                  0.965      0.965  OK
+week1 width                                 0.967      0.967  OK
+week11 width                                0.648      0.648  OK
+percent exact                                 232        232  OK
+rank exact                                    101        101  OK
+BWF-0.5 exact                                 241        241  OK
+BWF-0.5 b2                                    251        251  OK
+BWF-0.7 exact                                 236        236  OK
+judge_only exact                               94         94  OK
+fan_only exact                                242        242  OK
+finals percent winner                          22         22  OK
+finals BWF-0.5 winner                          17         17  OK
+finals rank winner                             19         19  OK
+Derek judge effect                           0.68       0.68  OK
+Val judge effect                             0.35       0.35  OK
+Artem judge effect                           0.45       0.45  OK
+Koko judge effect                            -1.5       -1.5  OK
+Other fan effect                             0.63       0.63  OK
+Musician judge effect                        0.22       0.22  OK
+
+29/29 checks passed

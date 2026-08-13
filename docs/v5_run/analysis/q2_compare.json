@@ -1,0 +1,45 @@
+{
+ "percent_exact": 220,
+ "percent_rate": 0.8333,
+ "rank_exact": 223,
+ "rank_rate": 0.8447,
+ "n_elim_weeks": 264,
+ "disagree_weeks": 60,
+ "fan_save_count": 163,
+ "fan_save_rate": 0.6174,
+ "n_judge_worst": 264,
+ "cases": {
+  "Jerry Rice": {
+   "season": 2,
+   "week": 1,
+   "judge_rank": 5,
+   "fan_rank": 2,
+   "eliminated": false,
+   "survives_p": false
+  },
+  "Billy Ray Cyrus": {
+   "season": 4,
+   "week": 2,
+   "judge_rank": 6,
+   "fan_rank": 4,
+   "eliminated": false,
+   "survives_p": false
+  },
+  "Bristol Palin": {
+   "season": 11,
+   "week": 1,
+   "judge_rank": 7,
+   "fan_rank": 10,
+   "eliminated": false,
+   "survives_p": false
+  },
+  "Bobby Bones": {
+   "season": 27,
+   "week": 1,
+   "judge_rank": 6,
+   "fan_rank": 10,
+   "eliminated": false,
+   "survives_p": false
+  }
+ }
+}

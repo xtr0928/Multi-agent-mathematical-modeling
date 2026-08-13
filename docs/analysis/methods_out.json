@@ -1,0 +1,1922 @@
+{
+ "cases": {
+  "s2_Jerry Rice": {
+   "actual": "2nd Place",
+   "placement": 2,
+   "weeks": [
+    {
+     "week": 1,
+     "judge_rank": 5,
+     "fan_rank": 2,
+     "comb_rank_rankrule": 5,
+     "comb_rank_pctrule": 5,
+     "eliminated": false
+    },
+    {
+     "week": 2,
+     "judge_rank": 4,
+     "fan_rank": 2,
+     "comb_rank_rankrule": 4,
+     "comb_rank_pctrule": 6,
+     "eliminated": false
+    },
+    {
+     "week": 3,
+     "judge_rank": 7,
+     "fan_rank": 2,
+     "comb_rank_rankrule": 6,
+     "comb_rank_pctrule": 5,
+     "eliminated": false
+    },
+    {
+     "week": 4,
+     "judge_rank": 5,
+     "fan_rank": 2,
+     "comb_rank_rankrule": 5,
+     "comb_rank_pctrule": 4,
+     "eliminated": false
+    },
+    {
+     "week": 5,
+     "judge_rank": 5,
+     "fan_rank": 1,
+     "comb_rank_rankrule": 5,
+     "comb_rank_pctrule": 4,
+     "eliminated": false
+    },
+    {
+     "week": 6,
+     "judge_rank": 5,
+     "fan_rank": 1,
+     "comb_rank_rankrule": 4,
+     "comb_rank_pctrule": 5,
+     "eliminated": false
+    },
+    {
+     "week": 7,
+     "judge_rank": 4,
+     "fan_rank": 1,
+     "comb_rank_rankrule": 3,
+     "comb_rank_pctrule": 4,
+     "eliminated": false
+    },
+    {
+     "week": 8,
+     "judge_rank": 3,
+     "fan_rank": 1,
+     "comb_rank_rankrule": 2,
+     "comb_rank_pctrule": 3,
+     "eliminated": false
+    }
+   ]
+  },
+  "s4_Billy Ray Cyrus": {
+   "actual": "Eliminated Week 8",
+   "placement": 5,
+   "weeks": [
+    {
+     "week": 1,
+     "judge_rank": 11,
+     "fan_rank": 2,
+     "comb_rank_rankrule": 11,
+     "comb_rank_pctrule": 1,
+     "eliminated": false
+    },
+    {
+     "week": 2,
+     "judge_rank": 8,
+     "fan_rank": 3,
+     "comb_rank_rankrule": 8,
+     "comb_rank_pctrule": 5,
+     "eliminated": false
+    },
+    {
+     "week": 3,
+     "judge_rank": 8,
+     "fan_rank": 3,
+     "comb_rank_rankrule": 8,
+     "comb_rank_pctrule": 5,
+     "eliminated": false
+    },
+    {
+     "week": 4,
+     "judge_rank": 6,
+     "fan_rank": 3,
+     "comb_rank_rankrule": 6,
+     "comb_rank_pctrule": 5,
+     "eliminated": false
+    },
+    {
+     "week": 5,
+     "judge_rank": 7,
+     "fan_rank": 2,
+     "comb_rank_rankrule": 7,
+     "comb_rank_pctrule": 2,
+     "eliminated": false
+    },
+    {
+     "week": 6,
+     "judge_rank": 6,
+     "fan_rank": 2,
+     "comb_rank_rankrule": 6,
+     "comb_rank_pctrule": 3,
+     "eliminated": false
+    },
+    {
+     "week": 7,
+     "judge_rank": 6,
+     "fan_rank": 1,
+     "comb_rank_rankrule": 6,
+     "comb_rank_pctrule": 2,
+     "eliminated": false
+    },
+    {
+     "week": 8,
+     "judge_rank": 5,
+     "fan_rank": 5,
+     "comb_rank_rankrule": 5,
+     "comb_rank_pctrule": 1,
+     "eliminated": true
+    }
+   ]
+  },
+  "s11_Bristol Palin": {
+   "actual": "3rd Place",
+   "placement": 3,
+   "weeks": [
+    {
+     "week": 1,
+     "judge_rank": 8,
+     "fan_rank": 1,
+     "comb_rank_rankrule": 8,
+     "comb_rank_pctrule": 6,
+     "eliminated": false
+    },
+    {
+     "week": 2,
+     "judge_rank": 4,
+     "fan_rank": 1,
+     "comb_rank_rankrule": 4,
+     "comb_rank_pctrule": 9,
+     "eliminated": false
+    },
+    {
+     "week": 3,
+     "judge_rank": 9,
+     "fan_rank": 1,
+     "comb_rank_rankrule": 9,
+     "comb_rank_pctrule": 2,
+     "eliminated": false
+    },
+    {
+     "week": 4,
+     "judge_rank": 8,
+     "fan_rank": 1,
+     "comb_rank_rankrule": 8,
+     "comb_rank_pctrule": 2,
+     "eliminated": false
+    },
+    {
+     "week": 5,
+     "judge_rank": 8,
+     "fan_rank": 1,
+     "comb_rank_rankrule": 8,
+     "comb_rank_pctrule": 2,
+     "eliminated": false
+    },
+    {
+     "week": 6,
+     "judge_rank": 6,
+     "fan_rank": 2,
+     "comb_rank_rankrule": 6,
+     "comb_rank_pctrule": 3,
+     "eliminated": false
+    },
+    {
+     "week": 7,
+     "judge_rank": 6,
+     "fan_rank": 1,
+     "comb_rank_rankrule": 6,
+     "comb_rank_pctrule": 2,
+     "eliminated": false
+    },
+    {
+     "week": 8,
+     "judge_rank": 5,
+     "fan_rank": 1,
+     "comb_rank_rankrule": 5,
+     "comb_rank_pctrule": 2,
+     "eliminated": false
+    },
+    {
+     "week": 9,
+     "judge_rank": 4,
+     "fan_rank": 1,
+     "comb_rank_rankrule": 4,
+     "comb_rank_pctrule": 2,
+     "eliminated": false
+    },
+    {
+     "week": 10,
+     "judge_rank": 3,
+     "fan_rank": 1,
+     "comb_rank_rankrule": 3,
+     "comb_rank_pctrule": 1,
+     "eliminated": false
+    }
+   ]
+  },
+  "s27_Bobby Bones": {
+   "actual": "1st Place",
+   "placement": 1,
+   "weeks": [
+    {
+     "week": 1,
+     "judge_rank": 7,
+     "fan_rank": 2,
+     "comb_rank_rankrule": 7,
+     "comb_rank_pctrule": 9,
+     "eliminated": false
+    },
+    {
+     "week": 2,
+     "judge_rank": 10,
+     "fan_rank": 2,
+     "comb_rank_rankrule": 10,
+     "comb_rank_pctrule": 3,
+     "eliminated": false
+    },
+    {
+     "week": 3,
+     "judge_rank": 8,
+     "fan_rank": 2,
+     "comb_rank_rankrule": 8,
+     "comb_rank_pctrule": 4,
+     "eliminated": false
+    },
+    {
+     "week": 4,
+     "judge_rank": 9,
+     "fan_rank": 2,
+     "comb_rank_rankrule": 9,
+     "comb_rank_pctrule": 3,
+     "eliminated": false
+    },
+    {
+     "week": 5,
+     "judge_rank": 8,
+     "fan_rank": 3,
+     "comb_rank_rankrule": 8,
+     "comb_rank_pctrule": 2,
+     "eliminated": false
+    },
+    {
+     "week": 6,
+     "judge_rank": 7,
+     "fan_rank": 3,
+     "comb_rank_rankrule": 7,
+     "comb_rank_pctrule": 3,
+     "eliminated": false
+    },
+    {
+     "week": 7,
+     "judge_rank": 7,
+     "fan_rank": 2,
+     "comb_rank_rankrule": 7,
+     "comb_rank_pctrule": 4,
+     "eliminated": false
+    },
+    {
+     "week": 8,
+     "judge_rank": 6,
+     "fan_rank": 1,
+     "comb_rank_rankrule": 6,
+     "comb_rank_pctrule": 3,
+     "eliminated": false
+    },
+    {
+     "week": 9,
+     "judge_rank": 4,
+     "fan_rank": 1,
+     "comb_rank_rankrule": 4,
+     "comb_rank_pctrule": 4,
+     "eliminated": false
+    }
+   ]
+  }
+ },
+ "save_evidence": [
+  {
+   "season": 28,
+   "week": 2,
+   "name": "Lamar Odom",
+   "b2": [
+    "Mary Wilson",
+    "Lamar Odom"
+   ],
+   "eliminated": [
+    "Mary Wilson"
+   ]
+  },
+  {
+   "season": 28,
+   "week": 4,
+   "name": "Sean Spicer",
+   "b2": [
+    "Sean Spicer",
+    "Lamar Odom"
+   ],
+   "eliminated": [
+    "Lamar Odom"
+   ]
+  },
+  {
+   "season": 28,
+   "week": 6,
+   "name": "Hannah Brown",
+   "b2": [
+    "Hannah Brown",
+    "Sean Spicer"
+   ],
+   "eliminated": [
+    "Sailor Brinkley-Cook"
+   ]
+  },
+  {
+   "season": 28,
+   "week": 6,
+   "name": "Sean Spicer",
+   "b2": [
+    "Hannah Brown",
+    "Sean Spicer"
+   ],
+   "eliminated": [
+    "Sailor Brinkley-Cook"
+   ]
+  },
+  {
+   "season": 28,
+   "week": 7,
+   "name": "Kate Flannery",
+   "b2": [
+    "Kate Flannery",
+    "Sean Spicer"
+   ],
+   "eliminated": [
+    "Karamo Brown"
+   ]
+  },
+  {
+   "season": 28,
+   "week": 7,
+   "name": "Sean Spicer",
+   "b2": [
+    "Kate Flannery",
+    "Sean Spicer"
+   ],
+   "eliminated": [
+    "Karamo Brown"
+   ]
+  },
+  {
+   "season": 28,
+   "week": 8,
+   "name": "Lauren Alaina",
+   "b2": [
+    "Lauren Alaina",
+    "Sean Spicer"
+   ],
+   "eliminated": [
+    "Kate Flannery"
+   ]
+  },
+  {
+   "season": 28,
+   "week": 8,
+   "name": "Sean Spicer",
+   "b2": [
+    "Lauren Alaina",
+    "Sean Spicer"
+   ],
+   "eliminated": [
+    "Kate Flannery"
+   ]
+  },
+  {
+   "season": 28,
+   "week": 9,
+   "name": "Lauren Alaina",
+   "b2": [
+    "Lauren Alaina",
+    "Sean Spicer"
+   ],
+   "eliminated": [
+    "Sean Spicer"
+   ]
+  },
+  {
+   "season": 28,
+   "week": 10,
+   "name": "Hannah Brown",
+   "b2": [
+    "Hannah Brown",
+    "James Van Der Beek"
+   ],
+   "eliminated": [
+    "James Van Der Beek"
+   ]
+  },
+  {
+   "season": 29,
+   "week": 2,
+   "name": "Skai Jackson",
+   "b2": [
+    "Skai Jackson",
+    "Charles Oakley"
+   ],
+   "eliminated": [
+    "Charles Oakley"
+   ]
+  },
+  {
+   "season": 29,
+   "week": 3,
+   "name": "Anne Heche",
+   "b2": [
+    "Anne Heche",
+    "Carole Baskin"
+   ],
+   "eliminated": [
+    "Carole Baskin"
+   ]
+  },
+  {
+   "season": 29,
+   "week": 4,
+   "name": "Jesse Metcalfe",
+   "b2": [
+    "Jesse Metcalfe",
+    "Nelly"
+   ],
+   "eliminated": [
+    "Anne Heche"
+   ]
+  },
+  {
+   "season": 29,
+   "week": 4,
+   "name": "Nelly",
+   "b2": [
+    "Jesse Metcalfe",
+    "Nelly"
+   ],
+   "eliminated": [
+    "Anne Heche"
+   ]
+  },
+  {
+   "season": 29,
+   "week": 5,
+   "name": "Chrishell Stause",
+   "b2": [
+    "Jesse Metcalfe",
+    "Chrishell Stause"
+   ],
+   "eliminated": [
+    "Jesse Metcalfe"
+   ]
+  },
+  {
+   "season": 29,
+   "week": 6,
+   "name": "Skai Jackson",
+   "b2": [
+    "Veron Davis",
+    "Skai Jackson"
+   ],
+   "eliminated": [
+    "Veron Davis"
+   ]
+  },
+  {
+   "season": 29,
+   "week": 7,
+   "name": "Kaitlyn Bristowe",
+   "b2": [
+    "Kaitlyn Bristowe",
+    "Monica Aldama"
+   ],
+   "eliminated": [
+    "Monica Aldama"
+   ]
+  },
+  {
+   "season": 29,
+   "week": 8,
+   "name": "Skai Jackson",
+   "b2": [
+    "Skai Jackson",
+    "Nelly"
+   ],
+   "eliminated": [
+    "Chrishell Stause"
+   ]
+  },
+  {
+   "season": 29,
+   "week": 8,
+   "name": "Nelly",
+   "b2": [
+    "Skai Jackson",
+    "Nelly"
+   ],
+   "eliminated": [
+    "Chrishell Stause"
+   ]
+  },
+  {
+   "season": 29,
+   "week": 9,
+   "name": "Nelly",
+   "b2": [
+    "AJ McLean",
+    "Nelly"
+   ],
+   "eliminated": [
+    "AJ McLean"
+   ]
+  },
+  {
+   "season": 29,
+   "week": 10,
+   "name": "Nelly",
+   "b2": [
+    "Johnny Weir",
+    "Nelly"
+   ],
+   "eliminated": [
+    "Skai Jackson",
+    "Johnny Weir"
+   ]
+  },
+  {
+   "season": 30,
+   "week": 2,
+   "name": "Matt James",
+   "b2": [
+    "Matt James",
+    "Martin Kove"
+   ],
+   "eliminated": [
+    "Martin Kove"
+   ]
+  },
+  {
+   "season": 30,
+   "week": 3,
+   "name": "Iman Shumpert",
+   "b2": [
+    "Iman Shumpert",
+    "Cody Rigsby"
+   ],
+   "eliminated": [
+    "Christine Chiu"
+   ]
+  },
+  {
+   "season": 30,
+   "week": 3,
+   "name": "Cody Rigsby",
+   "b2": [
+    "Iman Shumpert",
+    "Cody Rigsby"
+   ],
+   "eliminated": [
+    "Christine Chiu"
+   ]
+  },
+  {
+   "season": 30,
+   "week": 5,
+   "name": "Cody Rigsby",
+   "b2": [
+    "Cody Rigsby",
+    "Iman Shumpert"
+   ],
+   "eliminated": [
+    "Melanie C"
+   ]
+  },
+  {
+   "season": 30,
+   "week": 5,
+   "name": "Iman Shumpert",
+   "b2": [
+    "Cody Rigsby",
+    "Iman Shumpert"
+   ],
+   "eliminated": [
+    "Melanie C"
+   ]
+  },
+  {
+   "season": 30,
+   "week": 6,
+   "name": "Mike \"The Miz\" Mizanin",
+   "b2": [
+    "Mike \"The Miz\" Mizanin",
+    "Kenya Moore"
+   ],
+   "eliminated": [
+    "Kenya Moore"
+   ]
+  },
+  {
+   "season": 30,
+   "week": 7,
+   "name": "Amanda Kloots",
+   "b2": [
+    "Amanda Kloots",
+    "Mike \"The Miz\" Mizanin"
+   ],
+   "eliminated": [
+    "Mike \"The Miz\" Mizanin"
+   ]
+  },
+  {
+   "season": 30,
+   "week": 8,
+   "name": "Iman Shumpert",
+   "b2": [
+    "Iman Shumpert",
+    "Jimmie Allen"
+   ],
+   "eliminated": [
+    "Jimmie Allen",
+    "Olivia Jade"
+   ]
+  },
+  {
+   "season": 30,
+   "week": 9,
+   "name": "Cody Rigsby",
+   "b2": [
+    "Melora Hardin",
+    "Cody Rigsby"
+   ],
+   "eliminated": [
+    "Melora Hardin",
+    "Suni Lee"
+   ]
+  },
+  {
+   "season": 31,
+   "week": 1,
+   "name": "Vinny Guadagnino",
+   "b2": [
+    "Jason Lewis",
+    "Vinny Guadagnino"
+   ],
+   "eliminated": [
+    "Jason Lewis"
+   ]
+  },
+  {
+   "season": 31,
+   "week": 2,
+   "name": "Cheryl Ladd",
+   "b2": [
+    "Teresa Giudice",
+    "Cheryl Ladd"
+   ],
+   "eliminated": [
+    "Teresa Giudice"
+   ]
+  },
+  {
+   "season": 31,
+   "week": 3,
+   "name": "Vinny Guadagnino",
+   "b2": [
+    "Cheryl Ladd",
+    "Vinny Guadagnino"
+   ],
+   "eliminated": [
+    "Cheryl Ladd"
+   ]
+  },
+  {
+   "season": 31,
+   "week": 4,
+   "name": "Trevor Donovan",
+   "b2": [
+    "Trevor Donovan",
+    "Sam Champion"
+   ],
+   "eliminated": [
+    "Sam Champion"
+   ]
+  },
+  {
+   "season": 31,
+   "week": 5,
+   "name": "Daniel Durant",
+   "b2": [
+    "Daniel Durant",
+    "Vinny Guadagnino"
+   ],
+   "eliminated": [
+    "Joseph Baena"
+   ]
+  },
+  {
+   "season": 31,
+   "week": 5,
+   "name": "Vinny Guadagnino",
+   "b2": [
+    "Daniel Durant",
+    "Vinny Guadagnino"
+   ],
+   "eliminated": [
+    "Joseph Baena"
+   ]
+  },
+  {
+   "season": 31,
+   "week": 6,
+   "name": "Vinny Guadagnino",
+   "b2": [
+    "Jessie James Decker",
+    "Vinny Guadagnino"
+   ],
+   "eliminated": [
+    "Jessie James Decker"
+   ]
+  },
+  {
+   "season": 31,
+   "week": 7,
+   "name": "Vinny Guadagnino",
+   "b2": [
+    "Jordin Sparks",
+    "Vinny Guadagnino"
+   ],
+   "eliminated": [
+    "Jordin Sparks"
+   ]
+  },
+  {
+   "season": 32,
+   "week": 1,
+   "name": "Tyson Beckford",
+   "b2": [
+    "Tyson Beckford",
+    "Harry Jowsey"
+   ],
+   "eliminated": [
+    "Matt Walsh"
+   ]
+  },
+  {
+   "season": 32,
+   "week": 1,
+   "name": "Harry Jowsey",
+   "b2": [
+    "Tyson Beckford",
+    "Harry Jowsey"
+   ],
+   "eliminated": [
+    "Matt Walsh"
+   ]
+  },
+  {
+   "season": 32,
+   "week": 2,
+   "name": "Harry Jowsey",
+   "b2": [
+    "Harry Jowsey",
+    "Mauricio Umansky"
+   ],
+   "eliminated": [
+    "Jamie Lynn Spears"
+   ]
+  },
+  {
+   "season": 32,
+   "week": 2,
+   "name": "Mauricio Umansky",
+   "b2": [
+    "Harry Jowsey",
+    "Mauricio Umansky"
+   ],
+   "eliminated": [
+    "Jamie Lynn Spears"
+   ]
+  },
+  {
+   "season": 32,
+   "week": 3,
+   "name": "Adrian Peterson",
+   "b2": [
+    "Adrian Peterson",
+    "Tyson Beckford"
+   ],
+   "eliminated": [
+    "Tyson Beckford"
+   ]
+  },
+  {
+   "season": 32,
+   "week": 4,
+   "name": "Barry Williams",
+   "b2": [
+    "Barry Williams",
+    "Alyson Hannigan"
+   ],
+   "eliminated": [
+    "Adrian Peterson"
+   ]
+  },
+  {
+   "season": 32,
+   "week": 4,
+   "name": "Alyson Hannigan",
+   "b2": [
+    "Barry Williams",
+    "Alyson Hannigan"
+   ],
+   "eliminated": [
+    "Adrian Peterson"
+   ]
+  },
+  {
+   "season": 32,
+   "week": 5,
+   "name": "Alyson Hannigan",
+   "b2": [
+    "Alyson Hannigan",
+    "Harry Jowsey"
+   ],
+   "eliminated": [
+    "Mira Sorvino"
+   ]
+  },
+  {
+   "season": 32,
+   "week": 5,
+   "name": "Harry Jowsey",
+   "b2": [
+    "Alyson Hannigan",
+    "Harry Jowsey"
+   ],
+   "eliminated": [
+    "Mira Sorvino"
+   ]
+  },
+  {
+   "season": 32,
+   "week": 6,
+   "name": "Alyson Hannigan",
+   "b2": [
+    "Alyson Hannigan",
+    "Harry Jowsey"
+   ],
+   "eliminated": [
+    "Mauricio Umansky"
+   ]
+  },
+  {
+   "season": 32,
+   "week": 6,
+   "name": "Harry Jowsey",
+   "b2": [
+    "Alyson Hannigan",
+    "Harry Jowsey"
+   ],
+   "eliminated": [
+    "Mauricio Umansky"
+   ]
+  },
+  {
+   "season": 32,
+   "week": 7,
+   "name": "Barry Williams",
+   "b2": [
+    "Barry Williams",
+    "Harry Jowsey"
+   ],
+   "eliminated": [
+    "Lele Pons"
+   ]
+  },
+  {
+   "season": 32,
+   "week": 7,
+   "name": "Harry Jowsey",
+   "b2": [
+    "Barry Williams",
+    "Harry Jowsey"
+   ],
+   "eliminated": [
+    "Lele Pons"
+   ]
+  },
+  {
+   "season": 32,
+   "week": 8,
+   "name": "Jason Mraz",
+   "b2": [
+    "Jason Mraz",
+    "Harry Jowsey"
+   ],
+   "eliminated": [
+    "Barry Williams"
+   ]
+  },
+  {
+   "season": 32,
+   "week": 8,
+   "name": "Harry Jowsey",
+   "b2": [
+    "Jason Mraz",
+    "Harry Jowsey"
+   ],
+   "eliminated": [
+    "Barry Williams"
+   ]
+  },
+  {
+   "season": 32,
+   "week": 9,
+   "name": "Alyson Hannigan",
+   "b2": [
+    "Alyson Hannigan",
+    "Harry Jowsey"
+   ],
+   "eliminated": [
+    "Harry Jowsey"
+   ]
+  },
+  {
+   "season": 33,
+   "week": 2,
+   "name": "Reginald VelJohnson",
+   "b2": [
+    "Anna Delvey",
+    "Reginald VelJohnson"
+   ],
+   "eliminated": [
+    "Tori Spelling",
+    "Anna Delvey"
+   ]
+  },
+  {
+   "season": 33,
+   "week": 4,
+   "name": "Jenn Tran",
+   "b2": [
+    "Jenn Tran",
+    "Dwight Howard"
+   ],
+   "eliminated": [
+    "Brooks Nader"
+   ]
+  },
+  {
+   "season": 33,
+   "week": 4,
+   "name": "Dwight Howard",
+   "b2": [
+    "Jenn Tran",
+    "Dwight Howard"
+   ],
+   "eliminated": [
+    "Brooks Nader"
+   ]
+  },
+  {
+   "season": 33,
+   "week": 5,
+   "name": "Stephen Nedoroscik",
+   "b2": [
+    "Stephen Nedoroscik",
+    "Phaedra Parks"
+   ],
+   "eliminated": [
+    "Phaedra Parks"
+   ]
+  },
+  {
+   "season": 33,
+   "week": 6,
+   "name": "Stephen Nedoroscik",
+   "b2": [
+    "Stephen Nedoroscik",
+    "Ilona Maher"
+   ],
+   "eliminated": [
+    "Jenn Tran"
+   ]
+  },
+  {
+   "season": 33,
+   "week": 6,
+   "name": "Ilona Maher",
+   "b2": [
+    "Stephen Nedoroscik",
+    "Ilona Maher"
+   ],
+   "eliminated": [
+    "Jenn Tran"
+   ]
+  },
+  {
+   "season": 33,
+   "week": 7,
+   "name": "Danny Amendola",
+   "b2": [
+    "Dwight Howard",
+    "Danny Amendola"
+   ],
+   "eliminated": [
+    "Dwight Howard"
+   ]
+  },
+  {
+   "season": 34,
+   "week": 2,
+   "name": "Andy Richter",
+   "b2": [
+    "Andy Richter",
+    "Corey Feldman"
+   ],
+   "eliminated": [
+    "Corey Feldman",
+    "Baron Davis"
+   ]
+  },
+  {
+   "season": 34,
+   "week": 3,
+   "name": "Andy Richter",
+   "b2": [
+    "Andy Richter",
+    "Lauren Jauregui"
+   ],
+   "eliminated": [
+    "Lauren Jauregui"
+   ]
+  },
+  {
+   "season": 34,
+   "week": 4,
+   "name": "Scott Hoying",
+   "b2": [
+    "Scott Hoying",
+    "Andy Richter"
+   ],
+   "eliminated": [
+    "Hilaria Baldwin"
+   ]
+  },
+  {
+   "season": 34,
+   "week": 4,
+   "name": "Andy Richter",
+   "b2": [
+    "Scott Hoying",
+    "Andy Richter"
+   ],
+   "eliminated": [
+    "Hilaria Baldwin"
+   ]
+  },
+  {
+   "season": 34,
+   "week": 6,
+   "name": "Andy Richter",
+   "b2": [
+    "Scott Hoying",
+    "Andy Richter"
+   ],
+   "eliminated": [
+    "Scott Hoying"
+   ]
+  },
+  {
+   "season": 34,
+   "week": 7,
+   "name": "Elaine Hendrix",
+   "b2": [
+    "Elaine Hendrix",
+    "Andy Richter"
+   ],
+   "eliminated": [
+    "Jen Affleck"
+   ]
+  },
+  {
+   "season": 34,
+   "week": 7,
+   "name": "Andy Richter",
+   "b2": [
+    "Elaine Hendrix",
+    "Andy Richter"
+   ],
+   "eliminated": [
+    "Jen Affleck"
+   ]
+  },
+  {
+   "season": 34,
+   "week": 8,
+   "name": "Andy Richter",
+   "b2": [
+    "Danielle Fishel",
+    "Andy Richter"
+   ],
+   "eliminated": [
+    "Danielle Fishel"
+   ]
+  },
+  {
+   "season": 34,
+   "week": 9,
+   "name": "Elaine Hendrix",
+   "b2": [
+    "Elaine Hendrix",
+    "Andy Richter"
+   ],
+   "eliminated": [
+    "Andy Richter"
+   ]
+  },
+  {
+   "season": 34,
+   "week": 10,
+   "name": "Jordan Chiles",
+   "b2": [
+    "Jordan Chiles",
+    "Dylan Efron"
+   ],
+   "eliminated": [
+    "Whitney Leavitt"
+   ]
+  },
+  {
+   "season": 34,
+   "week": 10,
+   "name": "Dylan Efron",
+   "b2": [
+    "Jordan Chiles",
+    "Dylan Efron"
+   ],
+   "eliminated": [
+    "Whitney Leavitt"
+   ]
+  }
+ ],
+ "finals": [
+  {
+   "season": 1,
+   "names": [
+    "John O'Hurley",
+    "Kelly Monaco",
+    "Joey McIntyre"
+   ],
+   "actual": {
+    "John O'Hurley": 2,
+    "Kelly Monaco": 1,
+    "Joey McIntyre": 3
+   },
+   "rank_rule": [
+    "Kelly Monaco",
+    "John O'Hurley",
+    "Joey McIntyre"
+   ],
+   "pct_rule": [
+    "Kelly Monaco",
+    "Joey McIntyre",
+    "John O'Hurley"
+   ]
+  },
+  {
+   "season": 2,
+   "names": [
+    "Stacy Keibler",
+    "Jerry Rice",
+    "Drew Lachey"
+   ],
+   "actual": {
+    "Stacy Keibler": 3,
+    "Jerry Rice": 2,
+    "Drew Lachey": 1
+   },
+   "rank_rule": [
+    "Drew Lachey",
+    "Jerry Rice",
+    "Stacy Keibler"
+   ],
+   "pct_rule": [
+    "Jerry Rice",
+    "Drew Lachey",
+    "Stacy Keibler"
+   ]
+  },
+  {
+   "season": 3,
+   "names": [
+    "Joey Lawrence",
+    "Mario Lopez",
+    "Emmitt Smith"
+   ],
+   "actual": {
+    "Joey Lawrence": 3,
+    "Mario Lopez": 2,
+    "Emmitt Smith": 1
+   },
+   "rank_rule": [
+    "Joey Lawrence",
+    "Mario Lopez",
+    "Emmitt Smith"
+   ],
+   "pct_rule": [
+    "Emmitt Smith",
+    "Mario Lopez",
+    "Joey Lawrence"
+   ]
+  },
+  {
+   "season": 4,
+   "names": [
+    "Laila Ali",
+    "Apolo Anton Ohno",
+    "Joey Fatone"
+   ],
+   "actual": {
+    "Laila Ali": 3,
+    "Apolo Anton Ohno": 1,
+    "Joey Fatone": 2
+   },
+   "rank_rule": [
+    "Apolo Anton Ohno",
+    "Joey Fatone",
+    "Laila Ali"
+   ],
+   "pct_rule": [
+    "Apolo Anton Ohno",
+    "Joey Fatone",
+    "Laila Ali"
+   ]
+  },
+  {
+   "season": 5,
+   "names": [
+    "Helio Castroneves",
+    "Mel B",
+    "Marie Osmond"
+   ],
+   "actual": {
+    "Helio Castroneves": 1,
+    "Mel B": 2,
+    "Marie Osmond": 3
+   },
+   "rank_rule": [
+    "Mel B",
+    "Helio Castroneves",
+    "Marie Osmond"
+   ],
+   "pct_rule": [
+    "Helio Castroneves",
+    "Mel B",
+    "Marie Osmond"
+   ]
+  },
+  {
+   "season": 6,
+   "names": [
+    "Cristian de la Fuente",
+    "Jason Taylor",
+    "Kristi Yamaguchi"
+   ],
+   "actual": {
+    "Cristian de la Fuente": 3,
+    "Jason Taylor": 2,
+    "Kristi Yamaguchi": 1
+   },
+   "rank_rule": [
+    "Kristi Yamaguchi",
+    "Jason Taylor",
+    "Cristian de la Fuente"
+   ],
+   "pct_rule": [
+    "Kristi Yamaguchi",
+    "Jason Taylor",
+    "Cristian de la Fuente"
+   ]
+  },
+  {
+   "season": 7,
+   "names": [
+    "Warren Sapp",
+    "Lance Bass",
+    "Brooke Burke"
+   ],
+   "actual": {
+    "Warren Sapp": 2,
+    "Lance Bass": 3,
+    "Brooke Burke": 1
+   },
+   "rank_rule": [
+    "Brooke Burke",
+    "Warren Sapp",
+    "Lance Bass"
+   ],
+   "pct_rule": [
+    "Brooke Burke",
+    "Warren Sapp",
+    "Lance Bass"
+   ]
+  },
+  {
+   "season": 8,
+   "names": [
+    "Gilles Marini",
+    "Shawn Johnson",
+    "Melissa Rycroft"
+   ],
+   "actual": {
+    "Gilles Marini": 2,
+    "Shawn Johnson": 1,
+    "Melissa Rycroft": 3
+   },
+   "rank_rule": [
+    "Shawn Johnson",
+    "Gilles Marini",
+    "Melissa Rycroft"
+   ],
+   "pct_rule": [
+    "Shawn Johnson",
+    "Gilles Marini",
+    "Melissa Rycroft"
+   ]
+  },
+  {
+   "season": 9,
+   "names": [
+    "Mya",
+    "Donny Osmond",
+    "Kelly Osbourne"
+   ],
+   "actual": {
+    "Mya": 2,
+    "Donny Osmond": 1,
+    "Kelly Osbourne": 3
+   },
+   "rank_rule": [
+    "Donny Osmond",
+    "Mya",
+    "Kelly Osbourne"
+   ],
+   "pct_rule": [
+    "Donny Osmond",
+    "Mya",
+    "Kelly Osbourne"
+   ]
+  },
+  {
+   "season": 10,
+   "names": [
+    "Evan Lysacek",
+    "Nicole Scherzinger",
+    "Erin Andrews"
+   ],
+   "actual": {
+    "Evan Lysacek": 2,
+    "Nicole Scherzinger": 1,
+    "Erin Andrews": 3
+   },
+   "rank_rule": [
+    "Nicole Scherzinger",
+    "Erin Andrews",
+    "Evan Lysacek"
+   ],
+   "pct_rule": [
+    "Nicole Scherzinger",
+    "Evan Lysacek",
+    "Erin Andrews"
+   ]
+  },
+  {
+   "season": 11,
+   "names": [
+    "Kyle Massey",
+    "Jennifer Grey",
+    "Bristol Palin"
+   ],
+   "actual": {
+    "Kyle Massey": 2,
+    "Jennifer Grey": 1,
+    "Bristol Palin": 3
+   },
+   "rank_rule": [
+    "Jennifer Grey",
+    "Kyle Massey",
+    "Bristol Palin"
+   ],
+   "pct_rule": [
+    "Jennifer Grey",
+    "Kyle Massey",
+    "Bristol Palin"
+   ]
+  },
+  {
+   "season": 12,
+   "names": [
+    "Chelsea Kane",
+    "Kirstie Alley",
+    "Hines Ward"
+   ],
+   "actual": {
+    "Chelsea Kane": 3,
+    "Kirstie Alley": 2,
+    "Hines Ward": 1
+   },
+   "rank_rule": [
+    "Chelsea Kane",
+    "Hines Ward",
+    "Kirstie Alley"
+   ],
+   "pct_rule": [
+    "Hines Ward",
+    "Kirstie Alley",
+    "Chelsea Kane"
+   ]
+  },
+  {
+   "season": 13,
+   "names": [
+    "Ricki Lake",
+    "J.R. Martinez",
+    "Rob Kardashian"
+   ],
+   "actual": {
+    "Ricki Lake": 3,
+    "J.R. Martinez": 1,
+    "Rob Kardashian": 2
+   },
+   "rank_rule": [
+    "Rob Kardashian",
+    "J.R. Martinez",
+    "Ricki Lake"
+   ],
+   "pct_rule": [
+    "J.R. Martinez",
+    "Rob Kardashian",
+    "Ricki Lake"
+   ]
+  },
+  {
+   "season": 14,
+   "names": [
+    "William Levy",
+    "Donald Driver",
+    "Katherine Jenkins"
+   ],
+   "actual": {
+    "William Levy": 3,
+    "Donald Driver": 1,
+    "Katherine Jenkins": 2
+   },
+   "rank_rule": [
+    "Katherine Jenkins",
+    "William Levy",
+    "Donald Driver"
+   ],
+   "pct_rule": [
+    "Donald Driver",
+    "Katherine Jenkins",
+    "William Levy"
+   ]
+  },
+  {
+   "season": 15,
+   "names": [
+    "Kelly Monaco",
+    "Shawn Johnson",
+    "Melissa Rycroft"
+   ],
+   "actual": {
+    "Kelly Monaco": 3,
+    "Shawn Johnson": 2,
+    "Melissa Rycroft": 1
+   },
+   "rank_rule": [
+    "Melissa Rycroft",
+    "Kelly Monaco",
+    "Shawn Johnson"
+   ],
+   "pct_rule": [
+    "Melissa Rycroft",
+    "Shawn Johnson",
+    "Kelly Monaco"
+   ]
+  },
+  {
+   "season": 20,
+   "names": [
+    "Riker Lynch",
+    "Rumer Willis",
+    "Noah Galloway"
+   ],
+   "actual": {
+    "Riker Lynch": 2,
+    "Rumer Willis": 1,
+    "Noah Galloway": 3
+   },
+   "rank_rule": [
+    "Riker Lynch",
+    "Rumer Willis",
+    "Noah Galloway"
+   ],
+   "pct_rule": [
+    "Rumer Willis",
+    "Riker Lynch",
+    "Noah Galloway"
+   ]
+  },
+  {
+   "season": 22,
+   "names": [
+    "Paige VanZant",
+    "Nyle DiMarco",
+    "Ginger Zee"
+   ],
+   "actual": {
+    "Paige VanZant": 2,
+    "Nyle DiMarco": 1,
+    "Ginger Zee": 3
+   },
+   "rank_rule": [
+    "Paige VanZant",
+    "Nyle DiMarco",
+    "Ginger Zee"
+   ],
+   "pct_rule": [
+    "Nyle DiMarco",
+    "Paige VanZant",
+    "Ginger Zee"
+   ]
+  },
+  {
+   "season": 24,
+   "names": [
+    "David Ross",
+    "Rashad Jennings",
+    "Normani"
+   ],
+   "actual": {
+    "David Ross": 2,
+    "Rashad Jennings": 1,
+    "Normani": 3
+   },
+   "rank_rule": [
+    "Rashad Jennings",
+    "Normani",
+    "David Ross"
+   ],
+   "pct_rule": [
+    "Rashad Jennings",
+    "David Ross",
+    "Normani"
+   ]
+  },
+  {
+   "season": 26,
+   "names": [
+    "Tonya Harding",
+    "Josh Norman",
+    "Adam Rippon"
+   ],
+   "actual": {
+    "Tonya Harding": 3,
+    "Josh Norman": 2,
+    "Adam Rippon": 1
+   },
+   "rank_rule": [
+    "Adam Rippon",
+    "Josh Norman",
+    "Tonya Harding"
+   ],
+   "pct_rule": [
+    "Adam Rippon",
+    "Josh Norman",
+    "Tonya Harding"
+   ]
+  },
+  {
+   "season": 27,
+   "names": [
+    "Evanna Lynch",
+    "Milo Manheim",
+    "Bobby Bones",
+    "Alexis Ren"
+   ],
+   "actual": {
+    "Evanna Lynch": 3,
+    "Milo Manheim": 2,
+    "Bobby Bones": 1,
+    "Alexis Ren": 4
+   },
+   "rank_rule": [
+    "Evanna Lynch",
+    "Milo Manheim",
+    "Alexis Ren",
+    "Bobby Bones"
+   ],
+   "pct_rule": [
+    "Bobby Bones",
+    "Milo Manheim",
+    "Evanna Lynch",
+    "Alexis Ren"
+   ]
+  },
+  {
+   "season": 28,
+   "names": [
+    "Kel Mitchell",
+    "Lauren Alaina",
+    "Ally Brooke",
+    "Hannah Brown"
+   ],
+   "actual": {
+    "Kel Mitchell": 2,
+    "Lauren Alaina": 4,
+    "Ally Brooke": 3,
+    "Hannah Brown": 1
+   },
+   "rank_rule": [
+    "Hannah Brown",
+    "Kel Mitchell",
+    "Ally Brooke",
+    "Lauren Alaina"
+   ],
+   "pct_rule": [
+    "Hannah Brown",
+    "Kel Mitchell",
+    "Lauren Alaina",
+    "Ally Brooke"
+   ]
+  },
+  {
+   "season": 29,
+   "names": [
+    "Justina Machado",
+    "Nev Schulman",
+    "Nelly",
+    "Kaitlyn Bristowe"
+   ],
+   "actual": {
+    "Justina Machado": 4,
+    "Nev Schulman": 2,
+    "Nelly": 3,
+    "Kaitlyn Bristowe": 1
+   },
+   "rank_rule": [
+    "Justina Machado",
+    "Nev Schulman",
+    "Kaitlyn Bristowe",
+    "Nelly"
+   ],
+   "pct_rule": [
+    "Nev Schulman",
+    "Kaitlyn Bristowe",
+    "Justina Machado",
+    "Nelly"
+   ]
+  },
+  {
+   "season": 30,
+   "names": [
+    "Iman Shumpert",
+    "Cody Rigsby",
+    "JoJo Siwa",
+    "Amanda Kloots"
+   ],
+   "actual": {
+    "Iman Shumpert": 1,
+    "Cody Rigsby": 3,
+    "JoJo Siwa": 2,
+    "Amanda Kloots": 4
+   },
+   "rank_rule": [
+    "Iman Shumpert",
+    "JoJo Siwa",
+    "Cody Rigsby",
+    "Amanda Kloots"
+   ],
+   "pct_rule": [
+    "Cody Rigsby",
+    "JoJo Siwa",
+    "Iman Shumpert",
+    "Amanda Kloots"
+   ]
+  },
+  {
+   "season": 31,
+   "names": [
+    "Wayne Brady",
+    "Charli D'Amelio",
+    "Shangela",
+    "Gabby Windey"
+   ],
+   "actual": {
+    "Wayne Brady": 3,
+    "Charli D'Amelio": 1,
+    "Shangela": 4,
+    "Gabby Windey": 2
+   },
+   "rank_rule": [
+    "Charli D'Amelio",
+    "Gabby Windey",
+    "Wayne Brady",
+    "Shangela"
+   ],
+   "pct_rule": [
+    "Charli D'Amelio",
+    "Gabby Windey",
+    "Shangela",
+    "Wayne Brady"
+   ]
+  },
+  {
+   "season": 32,
+   "names": [
+    "Alyson Hannigan",
+    "Xochitl Gomez",
+    "Jason Mraz",
+    "Charity Lawson",
+    "Ariana Madix"
+   ],
+   "actual": {
+    "Alyson Hannigan": 5,
+    "Xochitl Gomez": 1,
+    "Jason Mraz": 2,
+    "Charity Lawson": 4,
+    "Ariana Madix": 3
+   },
+   "rank_rule": [
+    "Xochitl Gomez",
+    "Jason Mraz",
+    "Ariana Madix",
+    "Charity Lawson",
+    "Alyson Hannigan"
+   ],
+   "pct_rule": [
+    "Jason Mraz",
+    "Ariana Madix",
+    "Xochitl Gomez",
+    "Alyson Hannigan",
+    "Charity Lawson"
+   ]
+  },
+  {
+   "season": 32,
+   "names": [
+    "Alyson Hannigan",
+    "Xochitl Gomez",
+    "Jason Mraz",
+    "Charity Lawson",
+    "Ariana Madix"
+   ],
+   "actual": {
+    "Alyson Hannigan": 5,
+    "Xochitl Gomez": 1,
+    "Jason Mraz": 2,
+    "Charity Lawson": 4,
+    "Ariana Madix": 3
+   },
+   "rank_rule": [
+    "Xochitl Gomez",
+    "Jason Mraz",
+    "Ariana Madix",
+    "Charity Lawson",
+    "Alyson Hannigan"
+   ],
+   "pct_rule": [
+    "Ariana Madix",
+    "Jason Mraz",
+    "Xochitl Gomez",
+    "Alyson Hannigan",
+    "Charity Lawson"
+   ]
+  },
+  {
+   "season": 33,
+   "names": [
+    "Chandler Kinney",
+    "Danny Amendola",
+    "Stephen Nedoroscik",
+    "Ilona Maher",
+    "Joey Graziadei"
+   ],
+   "actual": {
+    "Chandler Kinney": 3,
+    "Danny Amendola": 5,
+    "Stephen Nedoroscik": 4,
+    "Ilona Maher": 2,
+    "Joey Graziadei": 1
+   },
+   "rank_rule": [
+    "Joey Graziadei",
+    "Ilona Maher",
+    "Chandler Kinney",
+    "Stephen Nedoroscik",
+    "Danny Amendola"
+   ],
+   "pct_rule": [
+    "Ilona Maher",
+    "Joey Graziadei",
+    "Stephen Nedoroscik",
+    "Chandler Kinney",
+    "Danny Amendola"
+   ]
+  },
+  {
+   "season": 33,
+   "names": [
+    "Chandler Kinney",
+    "Danny Amendola",
+    "Stephen Nedoroscik",
+    "Ilona Maher",
+    "Joey Graziadei"
+   ],
+   "actual": {
+    "Chandler Kinney": 3,
+    "Danny Amendola": 5,
+    "Stephen Nedoroscik": 4,
+    "Ilona Maher": 2,
+    "Joey Graziadei": 1
+   },
+   "rank_rule": [
+    "Chandler Kinney",
+    "Joey Graziadei",
+    "Ilona Maher",
+    "Stephen Nedoroscik",
+    "Danny Amendola"
+   ],
+   "pct_rule": [
+    "Ilona Maher",
+    "Joey Graziadei",
+    "Chandler Kinney",
+    "Stephen Nedoroscik",
+    "Danny Amendola"
+   ]
+  },
+  {
+   "season": 34,
+   "names": [
+    "Elaine Hendrix",
+    "Jordan Chiles",
+    "Robert Irwin",
+    "Alix Earle",
+    "Dylan Efron"
+   ],
+   "actual": {
+    "Elaine Hendrix": 5,
+    "Jordan Chiles": 3,
+    "Robert Irwin": 1,
+    "Alix Earle": 2,
+    "Dylan Efron": 4
+   },
+   "rank_rule": [
+    "Robert Irwin",
+    "Alix Earle",
+    "Jordan Chiles",
+    "Dylan Efron",
+    "Elaine Hendrix"
+   ],
+   "pct_rule": [
+    "Robert Irwin",
+    "Jordan Chiles",
+    "Dylan Efron",
+    "Elaine Hendrix",
+    "Alix Earle"
+   ]
+  }
+ ],
+ "judge_fan_rho_by_era": {
+  "S1-2": {
+   "mean": 0.22062461348175635,
+   "n": 14
+  },
+  "S3-27": {
+   "mean": 0.03241818665205762,
+   "n": 248
+  },
+  "S28-34": {
+   "mean": 0.008607146278379151,
+   "n": 73
+  }
+ }
+}

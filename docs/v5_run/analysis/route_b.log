@@ -1,0 +1,9 @@
+{
+ "route": "B_set_identification",
+ "n_weeks": 335,
+ "n_elim_weeks": 198,
+ "exact_count": 198,
+ "exact_rate": 1.0,
+ "mean_width": 0.9252
+}
+EXIT=0

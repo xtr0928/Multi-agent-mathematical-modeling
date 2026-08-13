@@ -1,0 +1,333 @@
+{
+ "claims": [
+  {
+   "section": "2.1",
+   "predicate": "n_seasons",
+   "value": 34,
+   "value_display": "34 seasons",
+   "scope": {
+    "population": "all"
+   },
+   "provenance": {
+    "file": "analysis/panel.json",
+    "key": "stats.n_seasons"
+   },
+   "caveats": [],
+   "depends_on": [],
+   "claim_id": "C0001"
+  },
+  {
+   "section": "2.1",
+   "predicate": "n_celebrities",
+   "value": 421,
+   "value_display": "421 celebrities",
+   "scope": {
+    "population": "all"
+   },
+   "provenance": {
+    "file": "analysis/panel.json",
+    "key": "stats.n_celebrities"
+   },
+   "caveats": [],
+   "depends_on": [],
+   "claim_id": "C0002"
+  },
+  {
+   "section": "2.2",
+   "predicate": "n_elim_events",
+   "value": 297,
+   "value_display": "297 elimination events",
+   "scope": {
+    "population": "含退赛"
+   },
+   "provenance": {
+    "file": "analysis/panel.json",
+    "key": "stats.n_elim_events"
+   },
+   "caveats": [],
+   "depends_on": [],
+   "claim_id": "C0003"
+  },
+  {
+   "section": "2.2",
+   "predicate": "n_panel_rows",
+   "value": 2777,
+   "value_display": "2777 celebrity-week rows",
+   "scope": {
+    "population": "all"
+   },
+   "provenance": {
+    "file": "analysis/panel.json",
+    "key": "stats.n_panel_rows"
+   },
+   "caveats": [],
+   "depends_on": [],
+   "claim_id": "C0004"
+  },
+  {
+   "section": "3.1",
+   "predicate": "route_a_exact_rate",
+   "value": 0.9205,
+   "value_display": "92.05% (243/264)",
+   "scope": {
+    "era": "all",
+    "route": "A"
+   },
+   "provenance": {
+    "file": "analysis/route_a_results.json",
+    "key": "exact_rate"
+   },
+   "caveats": [],
+   "depends_on": [],
+   "claim_id": "C0005"
+  },
+  {
+   "section": "3.1",
+   "predicate": "route_a_pct_exact",
+   "value": 1.0,
+   "value_display": "100% (198/198)",
+   "scope": {
+    "era": "percent",
+    "route": "A"
+   },
+   "provenance": {
+    "file": "analysis/route_a_results.json",
+    "key": "exact_rate"
+   },
+   "caveats": [],
+   "depends_on": [],
+   "claim_id": "C0006"
+  },
+  {
+   "section": "3.1",
+   "predicate": "route_a_ci_width",
+   "value": 0.5775,
+   "value_display": "0.578 mean CI width",
+   "scope": {
+    "era": "all",
+    "route": "A"
+   },
+   "provenance": {
+    "file": "analysis/route_a_results.json",
+    "key": "mean_ci_width"
+   },
+   "caveats": [],
+   "depends_on": [],
+   "claim_id": "C0007"
+  },
+  {
+   "section": "3.2",
+   "predicate": "route_b_pct_exact",
+   "value": 1.0,
+   "value_display": "100% (198/198)",
+   "scope": {
+    "era": "percent",
+    "route": "B"
+   },
+   "provenance": {
+    "file": "analysis/route_b_results.json",
+    "key": "exact_rate"
+   },
+   "caveats": [],
+   "depends_on": [],
+   "claim_id": "C0008"
+  },
+  {
+   "section": "3.2",
+   "predicate": "route_b_width",
+   "value": 0.9252,
+   "value_display": "0.925 mean interval width",
+   "scope": {
+    "era": "percent",
+    "route": "B"
+   },
+   "provenance": {
+    "file": "analysis/route_b_results.json",
+    "key": "mean_width"
+   },
+   "caveats": [],
+   "depends_on": [],
+   "claim_id": "C0009"
+  },
+  {
+   "section": "4.1",
+   "predicate": "recovery_l1",
+   "value": 0.6534,
+   "value_display": "L1 0.6534 vs random 0.6857 (improve 4.7%)",
+   "scope": {
+    "n_active": 8,
+    "n_weeks": 200
+   },
+   "provenance": {
+    "file": "analysis/validation_recovery.json",
+    "key": "share_l1_mean"
+   },
+   "caveats": [],
+   "depends_on": [],
+   "claim_id": "C0010"
+  },
+  {
+   "section": "4.1",
+   "predicate": "recovery_replay",
+   "value": 1.0,
+   "value_display": "100% replay (construct artifact)",
+   "scope": {
+    "n_active": 8
+   },
+   "provenance": {
+    "file": "analysis/validation_recovery.json",
+    "key": "replay_rate"
+   },
+   "caveats": [],
+   "depends_on": [],
+   "claim_id": "C0011"
+  },
+  {
+   "section": "5.1",
+   "predicate": "q2_pct_rate",
+   "value": 0.8333,
+   "value_display": "220/264 percent replay",
+   "scope": {
+    "rule": "percent",
+    "all_weeks": true
+   },
+   "provenance": {
+    "file": "analysis/q2_compare.json",
+    "key": "percent_rate"
+   },
+   "caveats": [],
+   "depends_on": [],
+   "claim_id": "C0012"
+  },
+  {
+   "section": "5.1",
+   "predicate": "q2_rank_rate",
+   "value": 0.8447,
+   "value_display": "223/264 rank replay",
+   "scope": {
+    "rule": "rank",
+    "all_weeks": true
+   },
+   "provenance": {
+    "file": "analysis/q2_compare.json",
+    "key": "rank_rate"
+   },
+   "caveats": [],
+   "depends_on": [],
+   "claim_id": "C0013"
+  },
+  {
+   "section": "5.2",
+   "predicate": "q2_disagree",
+   "value": 60,
+   "value_display": "60 disagree weeks",
+   "scope": {
+    "rule": "both"
+   },
+   "provenance": {
+    "file": "analysis/q2_compare.json",
+    "key": "disagree_weeks"
+   },
+   "caveats": [],
+   "depends_on": [],
+   "claim_id": "C0014"
+  },
+  {
+   "section": "5.3",
+   "predicate": "fan_save_rate",
+   "value": 0.6174,
+   "value_display": "61.7% (163/264)",
+   "scope": {
+    "population": "all elim weeks"
+   },
+   "provenance": {
+    "file": "analysis/q2_compare.json",
+    "key": "fan_save_rate"
+   },
+   "caveats": [],
+   "depends_on": [],
+   "claim_id": "C0015"
+  },
+  {
+   "section": "6.1",
+   "predicate": "age_judge_coef",
+   "value": -0.024,
+   "value_display": "judge age coef -0.024",
+   "scope": {
+    "model": "judge_z"
+   },
+   "provenance": {
+    "file": "analysis/q3_factors.json",
+    "key": "judge_model.age"
+   },
+   "caveats": [],
+   "depends_on": [],
+   "claim_id": "C0016"
+  },
+  {
+   "section": "6.1",
+   "predicate": "age_fan_coef",
+   "value": -0.0,
+   "value_display": "fan age coef -0.0",
+   "scope": {
+    "model": "logit_share"
+   },
+   "provenance": {
+    "file": "analysis/q3_factors.json",
+    "key": "fan_model.age"
+   },
+   "caveats": [],
+   "depends_on": [],
+   "claim_id": "C0017"
+  },
+  {
+   "section": "6.1",
+   "predicate": "r2_judge",
+   "value": 0.234,
+   "value_display": "judge R2 0.234",
+   "scope": {
+    "model": "judge_z"
+   },
+   "provenance": {
+    "file": "analysis/q3_factors.json",
+    "key": "judge_model.r2"
+   },
+   "caveats": [],
+   "depends_on": [],
+   "claim_id": "C0018"
+  },
+  {
+   "section": "7.1",
+   "predicate": "rdf_exact_rate",
+   "value": 0.8182,
+   "value_display": "81.8% (216/264)",
+   "scope": {
+    "alpha": 0.5
+   },
+   "provenance": {
+    "file": "analysis/q4_new_system.json",
+    "key": "alphas.0.5.exact_rate"
+   },
+   "caveats": [],
+   "depends_on": [],
+   "claim_id": "C0019"
+  },
+  {
+   "section": "7.2",
+   "predicate": "final_pct_champ",
+   "value": 16,
+   "value_display": "16/34 final champion match (percent)",
+   "scope": {
+    "rule": "percent",
+    "note": "决赛周份额不可识别"
+   },
+   "provenance": {
+    "file": "analysis/q4_new_system.json",
+    "key": "finals.percent"
+   },
+   "caveats": [],
+   "depends_on": [],
+   "claim_id": "C0020"
+  }
+ ]
+}

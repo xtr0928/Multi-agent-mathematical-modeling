@@ -1,0 +1,878 @@
+{
+ "deepseek": [
+  {
+   "predicate": "percent_era_route_agreement",
+   "value": "198/198 eliminations reproduced by both",
+   "section_hint": "agree perfectly on the percent era (198/198 eliminations reproduced by both)"
+  },
+  {
+   "predicate": "route_A_overall_replay",
+   "value": "92.05% (243/264)",
+   "section_hint": "Route A reproduces 92.05% of all elimination events (243/264) across all rule eras"
+  },
+  {
+   "predicate": "route_A_mean_95_interval_width",
+   "value": "0.578",
+   "section_hint": "with a mean 95% share interval of width 0.578"
+  },
+  {
+   "predicate": "simulation_replay_rate",
+   "value": "100%",
+   "section_hint": "the 100% replay rate is constructed"
+  },
+  {
+   "predicate": "share_recovery_improvement_over_random",
+   "value": "4.7%",
+   "section_hint": "share-point recovery is only 4.7% better than random"
+  },
+  {
+   "predicate": "share_recovery_L1",
+   "value": "0.6534",
+   "section_hint": "L1 0.6534 vs. 0.6857"
+  },
+  {
+   "predicate": "random_baseline_L1",
+   "value": "0.6857",
+   "section_hint": "L1 0.6534 vs. 0.6857"
+  },
+  {
+   "predicate": "counterfactual_percent_exact_reproduction",
+   "value": "83.3%",
+   "section_hint": "Counterfactual replay on all 264 elimination weeks yields percent 83.3%"
+  },
+  {
+   "predicate": "counterfactual_rank_exact_reproduction",
+   "value": "84.5%",
+   "section_hint": "rank 84.5% exact reproduction"
+  },
+  {
+   "predicate": "disagreeing_weeks_count",
+   "value": "60 (22.7%)",
+   "section_hint": "only 60 (22.7%) disagreeing weeks"
+  },
+  {
+   "predicate": "fan_support_rescues_judge_worst",
+   "value": "61.7% (163/264)",
+   "section_hint": "fan support rescues the judge-worst celebrity in 61.7% (163/264) of weeks"
+  },
+  {
+   "predicate": "age_coefficient_judge_scores",
+   "value": "-0.025 per year",
+   "section_hint": "Age penalizes judge scores (−0.025 per year, R2=0.21)"
+  },
+  {
+   "predicate": "age_judge_scores_R2",
+   "value": "0.21",
+   "section_hint": "R2=0.21"
+  },
+  {
+   "predicate": "age_coefficient_fan_shares",
+   "value": "≈0",
+   "section_hint": "fan shares (≈0, R2=0.021)"
+  },
+  {
+   "predicate": "age_fan_shares_R2",
+   "value": "0.021",
+   "section_hint": "fan shares (≈0, R2=0.021)"
+  },
+  {
+   "predicate": "RDF_alpha_05_replay",
+   "value": "81.8%",
+   "section_hint": "at α=0.5 it reproduces 81.8% of eliminations"
+  },
+  {
+   "predicate": "RDF_stable_plateau_range",
+   "value": "[0.2, 0.8]",
+   "section_hint": "stable plateau over α ∈[0.2, 0.8]"
+  },
+  {
+   "predicate": "judges_score_scale",
+   "value": "10-point",
+   "section_hint": "Judges score performances on a 10-point scale"
+  },
+  {
+   "predicate": "total_seasons",
+   "value": "34",
+   "section_hint": "across 34 seasons"
+  },
+  {
+   "predicate": "unique_celebrities",
+   "value": "421",
+   "section_hint": "contains 34 seasons, 421 unique celebrities"
+  },
+  {
+   "predicate": "judge_score_columns",
+   "value": "44",
+   "section_hint": "44 judge-score columns"
+  },
+  {
+   "predicate": "max_weeks_times_judges",
+   "value": "11 weeks × 4 judges",
+   "section_hint": "up to 11 weeks × 4 judges"
+  },
+  {
+   "predicate": "celebrity_week_observations",
+   "value": "2777",
+   "section_hint": "we build 2777 celebrity-week observations"
+  },
+  {
+   "predicate": "total_elimination_events",
+   "value": "297",
+   "section_hint": "2777 celebrity-week observations, 297 elimination events"
+  },
+  {
+   "predicate": "total_final_weeks",
+   "value": "34",
+   "section_hint": "2777 celebrity-week observations, 297 elimination events, and 34 final weeks"
+  },
+  {
+   "predicate": "rank_era_elimination_weeks",
+   "value": "14",
+   "section_hint": "14 elimination weeks under the rank rule (S1–S2)"
+  },
+  {
+   "predicate": "percent_era_elimination_weeks",
+   "value": "198",
+   "section_hint": "198 under the percent rule (S3–S27)"
+  },
+  {
+   "predicate": "rank_save_era_elimination_weeks",
+   "value": "52",
+   "section_hint": "52 under rank-plus-judge-save (S28+)"
+  },
+  {
+   "predicate": "withdrawal_weeks",
+   "value": "33",
+   "section_hint": "plus 33 withdrawal weeks"
+  },
+  {
+   "predicate": "S1_S2_judges_count",
+   "value": "3 judges",
+   "section_hint": "S1–S2 weeks use only 3 judges (the fourth column is NaN)"
+  },
+  {
+   "predicate": "route_B_weak_identification_weeks",
+   "value": "66",
+   "section_hint": "Route B declares weak identification for those 66 weeks (14 rank-era and 52 save-era weeks)"
+  },
+  {
+   "predicate": "constraint_slack_epsilon",
+   "value": "10−4",
+   "section_hint": "Constraint slack is fixed at ε = 10−4"
+  },
+  {
+   "predicate": "slack_insensitive_range",
+   "value": "[10−5, 10−3]",
+   "section_hint": "results are insensitive to it over [10−5, 10−3]"
+  },
+  {
+   "predicate": "route_A_rank_replay",
+   "value": "7/10 (70.0%)",
+   "section_hint": "Route A extends to the rank eras with 7/10 (S1–S2)"
+  },
+  {
+   "predicate": "route_A_rank_save_replay",
+   "value": "38/56 (67.9%)",
+   "section_hint": "38/56 (S28+) exact replays"
+  },
+  {
+   "predicate": "S3_W2_contestants",
+   "value": "10",
+   "section_hint": "Season 3 Week 2 (10 contestants"
+  },
+  {
+   "predicate": "S3_W2_judge_share_min",
+   "value": "0.083",
+   "section_hint": "judge shares range from 0.083 (Jerry Springer)"
+  },
+  {
+   "predicate": "S3_W2_judge_share_max",
+   "value": "0.126",
+   "section_hint": "to 0.126 (Joey Lawrence)"
+  },
+  {
+   "predicate": "S3_W2_Shanna_judge_share",
+   "value": "0.096",
+   "section_hint": "Shanna’s judge share is 0.096"
+  },
+  {
+   "predicate": "S3_W2_Shanna_share_pinned",
+   "value": "0.055",
+   "section_hint": "Route A’s maximum-entropy solution pins her share at 0.055"
+  },
+  {
+   "predicate": "S3_W2_mid_table_judge_share_range",
+   "value": "0.091–0.104",
+   "section_hint": "mid-table contestants (judge shares 0.091–0.104)"
+  },
+  {
+   "predicate": "simulation_synthetic_weeks",
+   "value": "200",
+   "section_hint": "Over 200 synthetic weeks"
+  },
+  {
+   "predicate": "simulation_contestants_per_week",
+   "value": "8",
+   "section_hint": "with 8 contestants"
+  },
+  {
+   "predicate": "simulation_95th_percentile_L1",
+   "value": "0.9168",
+   "section_hint": "95th percentile L1: 0.9168"
+  },
+  {
+   "predicate": "route_B_identification_interval_mean_width",
+   "value": "0.925",
+   "section_hint": "Route B’s identification intervals (mean width 0.925)"
+  },
+  {
+   "predicate": "Jerry_Rice_judge_rank",
+   "value": "5",
+   "section_hint": "Jerry Rice (S2 W1): judge rank 5"
+  },
+  {
+   "predicate": "Jerry_Rice_fan_rank",
+   "value": "2",
+   "section_hint": "Jerry Rice (S2 W1): judge rank 5, fan rank 2—survives"
+  },
+  {
+   "predicate": "Billy_Ray_Cyrus_judge_rank",
+   "value": "6",
+   "section_hint": "Billy Ray Cyrus (S4 W2): judge rank 6"
+  },
+  {
+   "predicate": "Billy_Ray_Cyrus_fan_rank",
+   "value": "4",
+   "section_hint": "Billy Ray Cyrus (S4 W2): judge rank 6, fan rank 4—survives"
+  },
+  {
+   "predicate": "Bristol_Palin_judge_rank",
+   "value": "7",
+   "section_hint": "Bristol Palin (S11 W1): judge rank 7"
+  },
+  {
+   "predicate": "Bristol_Palin_fan_rank",
+   "value": "10",
+   "section_hint": "Bristol Palin (S11 W1): judge rank 7, fan rank 10"
+  },
+  {
+   "predicate": "Bobby_Bones_judge_rank",
+   "value": "6",
+   "section_hint": "Bobby Bones (S27 W1): judge rank 6"
+  },
+  {
+   "predicate": "Bobby_Bones_fan_rank",
+   "value": "10",
+   "section_hint": "Bobby Bones (S27 W1): judge rank 6, fan rank 10"
+  },
+  {
+   "predicate": "table1_rank_withdrawals",
+   "value": "3",
+   "section_hint": "Table 1: Rank era withdrawals 3"
+  },
+  {
+   "predicate": "table1_percent_withdrawals",
+   "value": "22",
+   "section_hint": "Table 1: Percent era withdrawals 22"
+  },
+  {
+   "predicate": "table1_rank_save_withdrawals",
+   "value": "8",
+   "section_hint": "Table 1: Rank+save era withdrawals 8"
+  },
+  {
+   "predicate": "table1_rank_final_weeks",
+   "value": "2",
+   "section_hint": "Table 1: Rank era final weeks 2"
+  },
+  {
+   "predicate": "table1_percent_final_weeks",
+   "value": "25",
+   "section_hint": "Table 1: Percent era final weeks 25"
+  },
+  {
+   "predicate": "table1_rank_save_final_weeks",
+   "value": "7",
+   "section_hint": "Table 1: Rank+save era final weeks 7"
+  }
+ ],
+ "glm": [
+  {
+   "predicate": "Route A reproduces elimination events",
+   "value": "92.05%",
+   "section_hint": "Route A reproduces 92.05% of all elimination events (243/264) across all rule eras, with a mean 95% share interval of width 0.578."
+  },
+  {
+   "predicate": "Replay rate",
+   "value": "100%",
+   "section_hint": "the 100% replay rate is constructed (the estimator lives on the feasible set), and share-point recovery is only 4.7% better than random (L1 0.6534 vs. 0.6857)."
+  },
+  {
+   "predicate": "Share-point recovery improvement",
+   "value": "4.7%",
+   "section_hint": "the 100% replay rate is constructed (the estimator lives on the feasible set), and share-point recovery is only 4.7% better than random (L1 0.6534 vs. 0.6857)."
+  },
+  {
+   "predicate": "Share recovery L1",
+   "value": "0.6534",
+   "section_hint": "the 100% replay rate is constructed (the estimator lives on the feasible set), and share-point recovery is only 4.7% better than random (L1 0.6534 vs. 0.6857)."
+  },
+  {
+   "predicate": "Random baseline L1",
+   "value": "0.6857",
+   "section_hint": "the 100% replay rate is constructed (the estimator lives on the feasible set), and share-point recovery is only 4.7% better than random (L1 0.6534 vs. 0.6857)."
+  },
+  {
+   "predicate": "Percent rule reproduction",
+   "value": "83.3%",
+   "section_hint": "Counterfactual replay on all 264 elimination weeks yields percent 83.3% and rank 84.5% exact reproduction, with only 60 (22.7%) disagreeing weeks"
+  },
+  {
+   "predicate": "Rank rule reproduction",
+   "value": "84.5%",
+   "section_hint": "Counterfactual replay on all 264 elimination weeks yields percent 83.3% and rank 84.5% exact reproduction, with only 60 (22.7%) disagreeing weeks"
+  },
+  {
+   "predicate": "Disagreeing weeks",
+   "value": "60",
+   "section_hint": "Counterfactual replay on all 264 elimination weeks yields percent 83.3% and rank 84.5% exact reproduction, with only 60 (22.7%) disagreeing weeks"
+  },
+  {
+   "predicate": "Disagreeing weeks percentage",
+   "value": "22.7%",
+   "section_hint": "Counterfactual replay on all 264 elimination weeks yields percent 83.3% and rank 84.5% exact reproduction, with only 60 (22.7%) disagreeing weeks"
+  },
+  {
+   "predicate": "Fan save weeks",
+   "value": "61.7%",
+   "section_hint": "fan support rescues the judge-worst celebrity in 61.7% (163/264) of weeks"
+  },
+  {
+   "predicate": "Fan save weeks count",
+   "value": "163/264",
+   "section_hint": "fan support rescues the judge-worst celebrity in 61.7% (163/264) of weeks"
+  },
+  {
+   "predicate": "Age penalty for judge scores",
+   "value": "-0.025 per year",
+   "section_hint": "Age penalizes judge scores (−0.025 per year, R2=0.21) far more than fan shares (≈0, R2=0.021)—judges and fans weight the same traits very differently, which is exactly the tension the show monetizes."
+  },
+  {
+   "predicate": "Judge score R-squared",
+   "value": "0.21",
+   "section_hint": "Age penalizes judge scores (−0.025 per year, R2=0.21) far more than fan shares (≈0, R2=0.021)—judges and fans weight the same traits very differently, which is exactly the tension the show monetizes."
+  },
+  {
+   "predicate": "Fan share R-squared",
+   "value": "0.021",
+   "section_hint": "Age penalizes judge scores (−0.025 per year, R2=0.21) far more than fan shares (≈0, R2=0.021)—judges and fans weight the same traits very differently, which is exactly the tension the show monetizes."
+  },
+  {
+   "predicate": "RDF alpha parameter",
+   "value": "0.5",
+   "section_hint": "We propose RDF (Robust Dual Fusion): MAD-standardized judge/fan z-scores fused with a tunable weight α; at α=0.5 it reproduces 81.8% of eliminations with a stable plateau over α ∈[0.2, 0.8], and—critically— makes the judge-fan balance an explicit, transparent dial instead of an opaque rule switch."
+  },
+  {
+   "predicate": "RDF elimination reproduction",
+   "value": "81.8%",
+   "section_hint": "We propose RDF (Robust Dual Fusion): MAD-standardized judge/fan z-scores fused with a tunable weight α; at α=0.5 it reproduces 81.8% of eliminations with a stable plateau over α ∈[0.2, 0.8], and—critically— makes the judge-fan balance an explicit, transparent dial instead of an opaque rule switch."
+  },
+  {
+   "predicate": "RDF alpha range lower bound",
+   "value": "0.2",
+   "section_hint": "We propose RDF (Robust Dual Fusion): MAD-standardized judge/fan z-scores fused with a tunable weight α; at α=0.5 it reproduces 81.8% of eliminations with a stable plateau over α ∈[0.2, 0.8], and—critically— makes the judge-fan balance an explicit, transparent dial instead of an opaque rule switch."
+  },
+  {
+   "predicate": "RDF alpha range upper bound",
+   "value": "0.8",
+   "section_hint": "We propose RDF (Robust Dual Fusion): MAD-standardized judge/fan z-scores fused with a tunable weight α; at α=0.5 it reproduces 81.8% of eliminations with a stable plateau over α ∈[0.2, 0.8], and—critically— makes the judge-fan balance an explicit, transparent dial instead of an opaque rule switch."
+  },
+  {
+   "predicate": "Number of seasons",
+   "value": "34",
+   "section_hint": "The official dataset contains 34 seasons, 421 unique celebrities, 44 judge-score columns (up to 11 weeks × 4 judges), and a results column recording each celebrity's fate"
+  },
+  {
+   "predicate": "Number of unique celebrities",
+   "value": "421",
+   "section_hint": "The official dataset contains 34 seasons, 421 unique celebrities, 44 judge-score columns (up to 11 weeks × 4 judges), and a results column recording each celebrity's fate"
+  },
+  {
+   "predicate": "Number of judge-score columns",
+   "value": "44",
+   "section_hint": "The official dataset contains 34 seasons, 421 unique celebrities, 44 judge-score columns (up to 11 weeks × 4 judges), and a results column recording each celebrity's fate"
+  },
+  {
+   "predicate": "Maximum weeks per season",
+   "value": "11",
+   "section_hint": "The official dataset contains 34 seasons, 421 unique celebrities, 44 judge-score columns (up to 11 weeks × 4 judges), and a results column recording each celebrity's fate"
+  },
+  {
+   "predicate": "Number of judges",
+   "value": "4",
+   "section_hint": "The official dataset contains 34 seasons, 421 unique celebrities, 44 judge-score columns (up to 11 weeks × 4 judges), and a results column recording each celebrity's fate"
+  },
+  {
+   "predicate": "Celebrity-week observations",
+   "value": "2777",
+   "section_hint": "From the 421 rows we build 2777 celebrity-week observations, 297 elimination events, and 34 final weeks"
+  },
+  {
+   "predicate": "Elimination events",
+   "value": "297",
+   "section_hint": "From the 421 rows we build 2777 celebrity-week observations, 297 elimination events, and 34 final weeks"
+  },
+  {
+   "predicate": "Final weeks",
+   "value": "34",
+   "section_hint": "From the 421 rows we build 2777 celebrity-week observations, 297 elimination events, and 34 final weeks"
+  },
+  {
+   "predicate": "Rank era elimination weeks",
+   "value": "14",
+   "section_hint": "The 34 seasons split into three rule eras: 14 elimination weeks under the rank rule (S1–S2), 198 under the percent rule (S3–S27), and 52 under rank-plus-judge-save (S28+), plus 33 withdrawal weeks"
+  },
+  {
+   "predicate": "Percent era elimination weeks",
+   "value": "198",
+   "section_hint": "The 34 seasons split into three rule eras: 14 elimination weeks under the rank rule (S1–S2), 198 under the percent rule (S3–S27), and 52 under rank-plus-judge-save (S28+), plus 33 withdrawal weeks"
+  },
+  {
+   "predicate": "Rank-plus-save era elimination weeks",
+   "value": "52",
+   "section_hint": "The 34 seasons split into three rule eras: 14 elimination weeks under the rank rule (S1–S2), 198 under the percent rule (S3–S27), and 52 under rank-plus-judge-save (S28+), plus 33 withdrawal weeks"
+  },
+  {
+   "predicate": "Withdrawal weeks",
+   "value": "33",
+   "section_hint": "The 34 seasons split into three rule eras: 14 elimination weeks under the rank rule (S1–S2), 198 under the percent rule (S3–S27), and 52 under rank-plus-judge-save (S28+), plus 33 withdrawal weeks"
+  },
+  {
+   "predicate": "Constraint slack",
+   "value": "10−4",
+   "section_hint": "Route A in detail: The maximum-entropy program is convex... Constraint slack is fixed at ε = 10−4 to break ties; results are insensitive to it over [10−5, 10−3]"
+  },
+  {
+   "predicate": "Constraint slack lower bound",
+   "value": "10−5",
+   "section_hint": "Route A in detail: The maximum-entropy program is convex... Constraint slack is fixed at ε = 10−4 to break ties; results are insensitive to it over [10−5, 10−3]"
+  },
+  {
+   "predicate": "Constraint slack upper bound",
+   "value": "10−3",
+   "section_hint": "Route A in detail: The maximum-entropy program is convex... Constraint slack is fixed at ε = 10−4 to break ties; results are insensitive to it over [10−5, 10−3]"
+  },
+  {
+   "predicate": "Percent era replay rate",
+   "value": "100%",
+   "section_hint": "Table 2 reports both routes. In the percent era (198 elimination weeks) both routes reproduce 100% of eliminations; Route A extends to the rank eras with 7/10 (S1–S2) and 38/56 (S28+) exact replays (92.05% overall)."
+  },
+  {
+   "predicate": "Rank era replay rate",
+   "value": "7/10",
+   "section_hint": "Table 2 reports both routes. In the percent era (198 elimination weeks) both routes reproduce 100% of eliminations; Route A extends to the rank eras with 7/10 (S1–S2) and 38/56 (S28+) exact replays (92.05% overall)."
+  },
+  {
+   "predicate": "Rank-plus-save era replay rate",
+   "value": "38/56",
+   "section_hint": "Table 2 reports both routes. In the percent era (198 elimination weeks) both routes reproduce 100% of eliminations; Route A extends to the rank eras with 7/10 (S1–S2) and 38/56 (S28+) exact replays (92.05% overall)."
+  },
+  {
+   "predicate": "Overall replay rate",
+   "value": "92.05%",
+   "section_hint": "Table 2 reports both routes. In the percent era (198 elimination weeks) both routes reproduce 100% of eliminations; Route A extends to the rank eras with 7/10 (S1–S2) and 38/56 (S28+) exact replays (92.05% overall)."
+  },
+  {
+   "predicate": "Weak identification weeks",
+   "value": "66",
+   "section_hint": "Why Route B covers only the percent era. The rank-era elimination rule is ordinal... Route B declares weak identification for those 66 weeks (14 rank-era and 52 save-era weeks)"
+  },
+  {
+   "predicate": "Rank era weak identification weeks",
+   "value": "14",
+   "section_hint": "Why Route B covers only the percent era. The rank-era elimination rule is ordinal... Route B declares weak identification for those 66 weeks (14 rank-era and 52 save-era weeks)"
+  },
+  {
+   "predicate": "Save era weak identification weeks",
+   "value": "52",
+   "section_hint": "Why Route B covers only the percent era. The rank-era elimination rule is ordinal... Route B declares weak identification for those 66 weeks (14 rank-era and 52 save-era weeks)"
+  },
+  {
+   "predicate": "Judge share range lower bound",
+   "value": "0.083",
+   "section_hint": "A worked week (S3 W2): The judge shares range from 0.083 (Jerry Springer) to 0.126 (Joey Lawrence); Shanna's judge share is 0.096. For her to be eliminated... Route A's maximum-entropy solution pins her share at 0.055"
+  },
+  {
+   "predicate": "Judge share range upper bound",
+   "value": "0.126",
+   "section_hint": "A worked week (S3 W2): The judge shares range from 0.083 (Jerry Springer) to 0.126 (Joey Lawrence); Shanna's judge share is 0.096. For her to be eliminated... Route A's maximum-entropy solution pins her share at 0.055"
+  },
+  {
+   "predicate": "Shanna's judge share",
+   "value": "0.096",
+   "section_hint": "A worked week (S3 W2): The judge shares range from 0.083 (Jerry Springer) to 0.126 (Joey Lawrence); Shanna's judge share is 0.096. For her to be eliminated... Route A's maximum-entropy solution pins her share at 0.055"
+  },
+  {
+   "predicate": "Shanna's fan share",
+   "value": "0.055",
+   "section_hint": "A worked week (S3 W2): The judge shares range from 0.083 (Jerry Springer) to 0.126 (Joey Lawrence); Shanna's judge share is 0.096. For her to be eliminated... Route A's maximum-entropy solution pins her share at 0.055"
+  },
+  {
+   "predicate": "Synthetic weeks",
+   "value": "200",
+   "section_hint": "Certainty: what the recovery experiment actually shows: A 100% replay rate can be constructed... Over 200 synthetic weeks with 8 contestants: replay rate: 100% (constructed), share recovery L1: 0.6534 vs. random-baseline 0.6857—an improvement of only 4.7%, 95th percentile L1: 0.9168"
+  },
+  {
+   "predicate": "Contestants per week",
+   "value": "8",
+   "section_hint": "Certainty: what the recovery experiment actually shows: A 100% replay rate can be constructed... Over 200 synthetic weeks with 8 contestants: replay rate: 100% (constructed), share recovery L1: 0.6534 vs. random-baseline 0.6857—an improvement of only 4.7%, 95th percentile L1: 0.9168"
+  },
+  {
+   "predicate": "95th percentile L1",
+   "value": "0.9168",
+   "section_hint": "Certainty: what the recovery experiment actually shows: A 100% replay rate can be constructed... Over 200 synthetic weeks with 8 contestants: replay rate: 100% (constructed), share recovery L1: 0.6534 vs. random-baseline 0.6857—an improvement of only 4.7%, 95th percentile L1: 0.9168"
+  },
+  {
+   "predicate": "Mean 95% interval width",
+   "value": "0.578",
+   "section_hint": "Route A's Laplace-style uncertainty (mean 95% interval width 0.578) is an approximation without coverage calibration and is systematically tighter than Route B's identification intervals (mean width 0.925)"
+  },
+  {
+   "predicate": "Mean identification interval width",
+   "value": "0.925",
+   "section_hint": "Route A's Laplace-style uncertainty (mean 95% interval width 0.578) is an approximation without coverage calibration and is systematically tighter than Route B's identification intervals (mean width 0.925)"
+  },
+  {
+   "predicate": "Number of elimination weeks",
+   "value": "264",
+   "section_hint": "Using Route A's shares as the common basis, we replay both rules on all 264 elimination weeks: percent reproduces 83.3%, rank reproduces 84.5%, and the two rules disagree on 60 weeks (22.7%)"
+  },
+  {
+   "predicate": "Reasons for recommending percent rule",
+   "value": "3",
+   "section_hint": "We recommend the percent rule as the base scoring rule, for three reasons"
+  }
+ ],
+ "kimi": [
+  {
+   "predicate": "percent_era_replay_both_routes",
+   "value": "198/198",
+   "section_hint": "agree perfectly on the percent era (198/198 eliminations reproduced by both)"
+  },
+  {
+   "predicate": "route_A_overall_replay_pct",
+   "value": "92.05%",
+   "section_hint": "Route A reproduces 92.05% of all elimination events (243/264) across all rule eras"
+  },
+  {
+   "predicate": "route_A_overall_replay_count",
+   "value": "243/264",
+   "section_hint": "Route A reproduces 92.05% of all elimination events (243/264)"
+  },
+  {
+   "predicate": "route_A_mean_95_interval_width",
+   "value": "0.578",
+   "section_hint": "with a mean 95% share interval of width 0.578"
+  },
+  {
+   "predicate": "replay_rate_constructed",
+   "value": "100%",
+   "section_hint": "the 100% replay rate is constructed (the estimator lives on the feasible set)"
+  },
+  {
+   "predicate": "share_recovery_improvement_over_random",
+   "value": "4.7%",
+   "section_hint": "share-point recovery is only 4.7% better than random (L1 0.6534 vs. 0.6857)"
+  },
+  {
+   "predicate": "share_recovery_L1",
+   "value": "0.6534",
+   "section_hint": "L1 0.6534 vs. 0.6857"
+  },
+  {
+   "predicate": "random_baseline_L1",
+   "value": "0.6857",
+   "section_hint": "L1 0.6534 vs. 0.6857"
+  },
+  {
+   "predicate": "percent_rule_replay_pct",
+   "value": "83.3%",
+   "section_hint": "Counterfactual replay on all 264 elimination weeks yields percent 83.3%"
+  },
+  {
+   "predicate": "rank_rule_replay_pct",
+   "value": "84.5%",
+   "section_hint": "percent 83.3% and rank 84.5% exact reproduction"
+  },
+  {
+   "predicate": "disagreeing_weeks_count",
+   "value": "60",
+   "section_hint": "with only 60 (22.7%) disagreeing weeks"
+  },
+  {
+   "predicate": "disagreeing_weeks_pct",
+   "value": "22.7%",
+   "section_hint": "with only 60 (22.7%) disagreeing weeks"
+  },
+  {
+   "predicate": "fan_save_rate_pct",
+   "value": "61.7%",
+   "section_hint": "fan support rescues the judge-worst celebrity in 61.7% (163/264) of weeks"
+  },
+  {
+   "predicate": "fan_save_count",
+   "value": "163/264",
+   "section_hint": "in 61.7% (163/264) of weeks"
+  },
+  {
+   "predicate": "controversy_cases_count",
+   "value": "4",
+   "section_hint": "All four controversy cases (Jerry Rice, Billy Ray Cyrus, Bristol Palin, Bobby Bones)"
+  },
+  {
+   "predicate": "age_effect_judge_scores",
+   "value": "-0.025 per year",
+   "section_hint": "Age penalizes judge scores (−0.025 per year, R2=0.21)"
+  },
+  {
+   "predicate": "age_effect_judge_R2",
+   "value": "0.21",
+   "section_hint": "(−0.025 per year, R2=0.21)"
+  },
+  {
+   "predicate": "age_effect_fan_shares",
+   "value": "≈0",
+   "section_hint": "far more than fan shares (≈0, R2=0.021)"
+  },
+  {
+   "predicate": "age_effect_fan_R2",
+   "value": "0.021",
+   "section_hint": "fan shares (≈0, R2=0.021)"
+  },
+  {
+   "predicate": "RDF_replay_at_alpha_0.5",
+   "value": "81.8%",
+   "section_hint": "at α=0.5 it reproduces 81.8% of eliminations"
+  },
+  {
+   "predicate": "RDF_plateau_alpha_range",
+   "value": "[0.2, 0.8]",
+   "section_hint": "with a stable plateau over α ∈[0.2, 0.8]"
+  },
+  {
+   "predicate": "seasons_count",
+   "value": "34",
+   "section_hint": "The official dataset contains 34 seasons"
+  },
+  {
+   "predicate": "unique_celebrities",
+   "value": "421",
+   "section_hint": "421 unique celebrities"
+  },
+  {
+   "predicate": "judge_score_columns",
+   "value": "44",
+   "section_hint": "44 judge-score columns (up to 11 weeks × 4 judges)"
+  },
+  {
+   "predicate": "max_weeks",
+   "value": "11",
+   "section_hint": "up to 11 weeks × 4 judges"
+  },
+  {
+   "predicate": "judges_count",
+   "value": "4",
+   "section_hint": "up to 11 weeks × 4 judges"
+  },
+  {
+   "predicate": "celebrity_week_observations",
+   "value": "2777",
+   "section_hint": "From the 421 rows we build 2777 celebrity-week observations"
+  },
+  {
+   "predicate": "elimination_events_built",
+   "value": "297",
+   "section_hint": "297 elimination events, and 34 final weeks"
+  },
+  {
+   "predicate": "final_weeks",
+   "value": "34",
+   "section_hint": "297 elimination events, and 34 final weeks"
+  },
+  {
+   "predicate": "rank_era_elim_weeks",
+   "value": "14",
+   "section_hint": "14 elimination weeks under the rank rule (S1–S2)"
+  },
+  {
+   "predicate": "percent_era_elim_weeks",
+   "value": "198",
+   "section_hint": "198 under the percent rule (S3–S27)"
+  },
+  {
+   "predicate": "save_era_elim_weeks",
+   "value": "52",
+   "section_hint": "52 under rank-plus-judge-save (S28+)"
+  },
+  {
+   "predicate": "withdrawal_weeks",
+   "value": "33",
+   "section_hint": "plus 33 withdrawal weeks"
+  },
+  {
+   "predicate": "rank_era_withdrawals",
+   "value": "3",
+   "section_hint": "Table 1: Rank era row — 14 elim weeks, 3 withdrawals, 2 final weeks"
+  },
+  {
+   "predicate": "rank_era_final_weeks",
+   "value": "2",
+   "section_hint": "Table 1: Rank era row — 14 elim weeks, 3 withdrawals, 2 final weeks"
+  },
+  {
+   "predicate": "percent_era_withdrawals",
+   "value": "22",
+   "section_hint": "Table 1: Percent era row — 198 elim weeks, 22 withdrawals, 25 final weeks"
+  },
+  {
+   "predicate": "percent_era_final_weeks",
+   "value": "25",
+   "section_hint": "Table 1: Percent era row — 198 elim weeks, 22 withdrawals, 25 final weeks"
+  },
+  {
+   "predicate": "save_era_withdrawals",
+   "value": "8",
+   "section_hint": "Table 1: Rank+save era row — 52 elim weeks, 8 withdrawals, 7 final weeks"
+  },
+  {
+   "predicate": "save_era_final_weeks",
+   "value": "7",
+   "section_hint": "Table 1: Rank+save era row — 52 elim weeks, 8 withdrawals, 7 final weeks"
+  },
+  {
+   "predicate": "total_elim_weeks",
+   "value": "264",
+   "section_hint": "Table 1 Total row: 264 elimination weeks, 33 withdrawals, 34 final weeks"
+  },
+  {
+   "predicate": "S1S2_judges",
+   "value": "3",
+   "section_hint": "S1–S2 weeks use only 3 judges (the fourth column is NaN)"
+  },
+  {
+   "predicate": "constraint_slack_epsilon",
+   "value": "10^-4",
+   "section_hint": "Constraint slack is fixed at ε = 10−4 to break ties"
+  },
+  {
+   "predicate": "epsilon_sensitivity_range",
+   "value": "[10^-5, 10^-3]",
+   "section_hint": "results are insensitive to it over [10−5, 10−3]"
+  },
+  {
+   "predicate": "route_B_weak_ID_weeks",
+   "value": "66",
+   "section_hint": "Route B declares weak identification for those 66 weeks (14 rank-era and 52 save-era weeks)"
+  },
+  {
+   "predicate": "route_A_rank_era_replay",
+   "value": "7/10 (70.0%)",
+   "section_hint": "Table 2: rank (S1–2) Route A 7/10 (70.0%)"
+  },
+  {
+   "predicate": "route_A_save_era_replay",
+   "value": "38/56 (67.9%)",
+   "section_hint": "Table 2: rank+save (S28+) Route A 38/56 (67.9%)"
+  },
+  {
+   "predicate": "worked_week_contestants",
+   "value": "10",
+   "section_hint": "Season 3 Week 2 (10 contestants, percent era, Shanna Moakler eliminated)"
+  },
+  {
+   "predicate": "judge_share_min_S3W2",
+   "value": "0.083",
+   "section_hint": "The judge shares range from 0.083 (Jerry Springer) to 0.126 (Joey Lawrence)"
+  },
+  {
+   "predicate": "judge_share_max_S3W2",
+   "value": "0.126",
+   "section_hint": "from 0.083 (Jerry Springer) to 0.126 (Joey Lawrence)"
+  },
+  {
+   "predicate": "shanna_judge_share",
+   "value": "0.096",
+   "section_hint": "Shanna's judge share is 0.096"
+  },
+  {
+   "predicate": "shanna_fan_share_estimate",
+   "value": "0.055",
+   "section_hint": "Route A's maximum-entropy solution pins her share at 0.055"
+  },
+  {
+   "predicate": "midtable_judge_share_range",
+   "value": "0.091–0.104",
+   "section_hint": "the mid-table contestants (judge shares 0.091–0.104) retain wide slack"
+  },
+  {
+   "predicate": "synthetic_weeks",
+   "value": "200",
+   "section_hint": "Over 200 synthetic weeks with 8 contestants"
+  },
+  {
+   "predicate": "synthetic_contestants",
+   "value": "8",
+   "section_hint": "Over 200 synthetic weeks with 8 contestants"
+  },
+  {
+   "predicate": "p95_L1",
+   "value": "0.9168",
+   "section_hint": "95th percentile L1: 0.9168"
+  },
+  {
+   "predicate": "route_B_mean_interval_width",
+   "value": "0.925",
+   "section_hint": "systematically tighter than Route B's identification intervals (mean width 0.925)"
+  },
+  {
+   "predicate": "jerry_rice_judge_rank",
+   "value": "5",
+   "section_hint": "Jerry Rice (S2 W1): judge rank 5, fan rank 2"
+  },
+  {
+   "predicate": "jerry_rice_fan_rank",
+   "value": "2",
+   "section_hint": "Jerry Rice (S2 W1): judge rank 5, fan rank 2"
+  },
+  {
+   "predicate": "billy_ray_cyrus_judge_rank",
+   "value": "6",
+   "section_hint": "Billy Ray Cyrus (S4 W2): judge rank 6, fan rank 4"
+  },
+  {
+   "predicate": "billy_ray_cyrus_fan_rank",
+   "value": "4",
+   "section_hint": "Billy Ray Cyrus (S4 W2): judge rank 6, fan rank 4"
+  },
+  {
+   "predicate": "bristol_palin_judge_rank",
+   "value": "7",
+   "section_hint": "Bristol Palin (S11 W1): judge rank 7, fan rank 10"
+  },
+  {
+   "predicate": "bristol_palin_fan_rank",
+   "value": "10",
+   "section_hint": "Bristol Palin (S11 W1): judge rank 7, fan rank 10"
+  },
+  {
+   "predicate": "bobby_bones_judge_rank",
+   "value": "6",
+   "section_hint": "Bobby Bones (S27 W1): judge rank 6, fan rank 10"
+  },
+  {
+   "predicate": "bobby_bones_fan_rank",
+   "value": "10",
+   "section_hint": "Bobby Bones (S27 W1): judge rank 6, fan rank 10"
+  }
+ ]
+}

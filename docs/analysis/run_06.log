@@ -1,0 +1,73 @@
+=== elimination-week replay accuracy by system (all 34 seasons, via qhat) ===
+system        exact     b2    n
+percent         232    242  264  (87.9% exact, 91.7% b2)
+rank            101    149  264  (38.3% exact, 56.4% b2)
+BWF-0.3         241    250  264  (91.3% exact, 94.7% b2)
+BWF-0.5         241    251  264  (91.3% exact, 95.1% b2)
+BWF-0.7         236    246  264  (89.4% exact, 93.2% b2)
+judge_only       94    145  264  (35.6% exact, 54.9% b2)
+fan_only        242    248  264  (91.7% exact, 93.9% b2)
+
+=== finals: predicted winner vs actual ===
+  percent     : winner match 22/29
+  rank        : winner match 19/29
+  BWF-0.3     : winner match 17/29
+  BWF-0.5     : winner match 17/29
+  BWF-0.7     : winner match 14/29
+  judge_only  : winner match 15/29
+  fan_only    : winner match 11/29
+
+=== controversy cases: final standing under each system ===
+  S2 Jerry Rice       percent     : pos=1 (actual 2)
+  S2 Jerry Rice       rank        : pos=2 (actual 2)
+  S2 Jerry Rice       BWF-0.3     : pos=2 (actual 2)
+  S2 Jerry Rice       BWF-0.5     : pos=3 (actual 2)
+  S2 Jerry Rice       BWF-0.7     : pos=3 (actual 2)
+  S2 Jerry Rice       judge_only  : pos=3 (actual 2)
+  S2 Jerry Rice       fan_only    : pos=1 (actual 2)
+  S4 Billy Ray Cyrus  percent     : pos=None (actual 5)
+  S4 Billy Ray Cyrus  rank        : pos=None (actual 5)
+  S4 Billy Ray Cyrus  BWF-0.3     : pos=None (actual 5)
+  S4 Billy Ray Cyrus  BWF-0.5     : pos=None (actual 5)
+  S4 Billy Ray Cyrus  BWF-0.7     : pos=None (actual 5)
+  S4 Billy Ray Cyrus  judge_only  : pos=None (actual 5)
+  S4 Billy Ray Cyrus  fan_only    : pos=None (actual 5)
+  S11 Bristol Palin    percent     : pos=3 (actual 3)
+  S11 Bristol Palin    rank        : pos=3 (actual 3)
+  S11 Bristol Palin    BWF-0.3     : pos=1 (actual 3)
+  S11 Bristol Palin    BWF-0.5     : pos=1 (actual 3)
+  S11 Bristol Palin    BWF-0.7     : pos=1 (actual 3)
+  S11 Bristol Palin    judge_only  : pos=3 (actual 3)
+  S11 Bristol Palin    fan_only    : pos=1 (actual 3)
+  S27 Bobby Bones      percent     : pos=1 (actual 1)
+  S27 Bobby Bones      rank        : pos=4 (actual 1)
+  S27 Bobby Bones      BWF-0.3     : pos=1 (actual 1)
+  S27 Bobby Bones      BWF-0.5     : pos=1 (actual 1)
+  S27 Bobby Bones      BWF-0.7     : pos=3 (actual 1)
+  S27 Bobby Bones      judge_only  : pos=4 (actual 1)
+  S27 Bobby Bones      fan_only    : pos=1 (actual 1)
+
+=== fairness & excitement metrics (finals weeks) ===
+  percent     : pred-vs-actual ρ=+0.848 | pred-vs-judge ρ=+0.076
+  rank        : pred-vs-actual ρ=+0.600 | pred-vs-judge ρ=+0.855
+  BWF-0.3     : pred-vs-actual ρ=+0.600 | pred-vs-judge ρ=-0.000
+  BWF-0.5     : pred-vs-actual ρ=+0.669 | pred-vs-judge ρ=+0.159
+  BWF-0.7     : pred-vs-actual ρ=+0.541 | pred-vs-judge ρ=+0.341
+  judge_only  : pred-vs-actual ρ=+0.472 | pred-vs-judge ρ=+1.000
+  fan_only    : pred-vs-actual ρ=+0.355 | pred-vs-judge ρ=-0.224
+
+=== excitement proxy: weeks where judge-worst couple survives (fan save) ===
+  percent     : judge-worst saved 124/264 (47.0%)
+  rank        : judge-worst saved 38/264 (14.4%)
+  BWF-0.5     : judge-worst saved 155/264 (58.7%)
+
+=== BWF weight sensitivity (elimination replay across all weeks) ===
+  w=0.2: exact 239/264 (90.5%) | b2 248/264 (93.9%)
+  w=0.3: exact 241/264 (91.3%) | b2 250/264 (94.7%)
+  w=0.4: exact 241/264 (91.3%) | b2 251/264 (95.1%)
+  w=0.5: exact 241/264 (91.3%) | b2 251/264 (95.1%)
+  w=0.6: exact 237/264 (89.8%) | b2 250/264 (94.7%)
+  w=0.7: exact 236/264 (89.4%) | b2 246/264 (93.2%)
+  w=0.8: exact 233/264 (88.3%) | b2 244/264 (92.4%)
+
+saved system_out.json

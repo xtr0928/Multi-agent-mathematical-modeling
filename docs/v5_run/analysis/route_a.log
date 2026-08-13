@@ -1,0 +1,8 @@
+{
+ "route": "A_bayes_map_laplace",
+ "n_weeks": 335,
+ "n_elim_weeks": 264,
+ "exact_count": 115,
+ "exact_rate": 0.4356
+}
+EXIT=0

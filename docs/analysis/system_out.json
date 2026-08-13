@@ -1,0 +1,150 @@
+{
+ "systems": {
+  "percent": {
+   "exact": 232,
+   "b2": 242,
+   "tot": 264
+  },
+  "rank": {
+   "exact": 101,
+   "b2": 149,
+   "tot": 264
+  },
+  "BWF-0.3": {
+   "exact": 241,
+   "b2": 250,
+   "tot": 264
+  },
+  "BWF-0.5": {
+   "exact": 241,
+   "b2": 251,
+   "tot": 264
+  },
+  "BWF-0.7": {
+   "exact": 236,
+   "b2": 246,
+   "tot": 264
+  },
+  "judge_only": {
+   "exact": 94,
+   "b2": 145,
+   "tot": 264
+  },
+  "fan_only": {
+   "exact": 242,
+   "b2": 248,
+   "tot": 264
+  }
+ },
+ "finals": {
+  "percent": [
+   22,
+   29
+  ],
+  "rank": [
+   19,
+   29
+  ],
+  "BWF-0.3": [
+   17,
+   29
+  ],
+  "BWF-0.5": [
+   17,
+   29
+  ],
+  "BWF-0.7": [
+   14,
+   29
+  ],
+  "judge_only": [
+   15,
+   29
+  ],
+  "fan_only": [
+   11,
+   29
+  ]
+ },
+ "cases": {
+  "s2_Jerry Rice": {
+   "actual_placement": 2,
+   "percent": 1,
+   "rank": 2,
+   "BWF-0.3": 2,
+   "BWF-0.5": 3,
+   "BWF-0.7": 3,
+   "judge_only": 3,
+   "fan_only": 1
+  },
+  "s4_Billy Ray Cyrus": {
+   "actual_placement": 5,
+   "percent": null,
+   "rank": null,
+   "BWF-0.3": null,
+   "BWF-0.5": null,
+   "BWF-0.7": null,
+   "judge_only": null,
+   "fan_only": null
+  },
+  "s11_Bristol Palin": {
+   "actual_placement": 3,
+   "percent": 3,
+   "rank": 3,
+   "BWF-0.3": 1,
+   "BWF-0.5": 1,
+   "BWF-0.7": 1,
+   "judge_only": 3,
+   "fan_only": 1
+  },
+  "s27_Bobby Bones": {
+   "actual_placement": 1,
+   "percent": 1,
+   "rank": 4,
+   "BWF-0.3": 1,
+   "BWF-0.5": 1,
+   "BWF-0.7": 3,
+   "judge_only": 4,
+   "fan_only": 1
+  }
+ },
+ "metrics": {
+  "percent": [
+   0.8482758620689654,
+   0.07586206896551723
+  ],
+  "rank": [
+   0.6,
+   0.8551724137931034
+  ],
+  "BWF-0.3": [
+   0.6,
+   -3.828355257328126e-18
+  ],
+  "BWF-0.5": [
+   0.6689655172413791,
+   0.1586206896551724
+  ],
+  "BWF-0.7": [
+   0.5413793103448277,
+   0.3413793103448276
+  ],
+  "judge_only": [
+   0.47241379310344817,
+   1.0
+  ],
+  "fan_only": [
+   0.3551724137931035,
+   -0.22413793103448276
+  ]
+ },
+ "sensitivity": {
+  "0.2": null,
+  "0.3": null,
+  "0.4": null,
+  "0.5": null,
+  "0.6": null,
+  "0.7": null,
+  "0.8": null
+ }
+}

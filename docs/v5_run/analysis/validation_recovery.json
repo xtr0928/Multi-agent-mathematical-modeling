@@ -1,0 +1,9 @@
+{
+ "n_weeks": 200,
+ "n_active": 8,
+ "share_l1_mean": 0.649,
+ "share_l1_p95": 0.8606,
+ "random_baseline_l1_mean": 0.69,
+ "improvement_vs_random": 0.0595,
+ "replay_rate": 1.0
+}

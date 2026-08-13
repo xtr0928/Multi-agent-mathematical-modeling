@@ -1,0 +1,49 @@
+{
+ "entries": [
+  {
+   "path": "analysis/route_a_results.json",
+   "sha256": "9a437b7f643a79ea981ad707906c5fab902d104d3b162e6c944517779035df68",
+   "bytes": 287078
+  },
+  {
+   "path": "analysis/route_b_results.json",
+   "sha256": "f4e7db0af866fce0c9723aba7db15ef2638b4ac24b53ee57b62cbd54c512660e",
+   "bytes": 293465
+  },
+  {
+   "path": "analysis/validation_recovery.json",
+   "sha256": "09f7cbb6148b3fb33b917d83463ffd641cbab553df7a740091a358fe1fbccf3a",
+   "bytes": 177
+  },
+  {
+   "path": "analysis/q2_compare.json",
+   "sha256": "7248e73e80f1543713fceec4ee6a483438f41b40d4b82226df37480e18beed77",
+   "bytes": 790
+  },
+  {
+   "path": "analysis/q3_factors.json",
+   "sha256": "fdba6aca203b7b8ec70b60df76052067e3878208d2b6ac8f0e0299b49b96531a",
+   "bytes": 974
+  },
+  {
+   "path": "analysis/q4_new_system.json",
+   "sha256": "eb6b2da26fc28bc6bc50bcc096c8f324cee15d248559b09615348b38fd9f7a9d",
+   "bytes": 585
+  },
+  {
+   "path": "analysis/claims_registry.json",
+   "sha256": "b89d383738f2143ea6033ee4acfff9f8b14cdbfa57c0677451af19695d6c7fd3",
+   "bytes": 6701
+  },
+  {
+   "path": "paper/main.pdf",
+   "sha256": "11888f02008c1fc2db1a5d628c9916ee15f6f6f19503752c2e03a5459f9c8795",
+   "bytes": 260121
+  },
+  {
+   "path": "paper/main.tex",
+   "sha256": "24afa8e8f334b1857738114b4ced7b6e320e1842e4795d0963fe0068a14eeb8b",
+   "bytes": 34353
+  }
+ ]
+}

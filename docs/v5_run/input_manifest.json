@@ -1,0 +1,31 @@
+{
+ "entries": [
+  {
+   "path": "analysis/2026_MCM_Problem_C.pdf",
+   "role": "problem_statement",
+   "sha256": "f3c31a1128b5571f392046cea0cd64320a8b6e2617c1857114fa55f6966ce681",
+   "bytes": 345621
+  },
+  {
+   "path": "analysis/2026_MCM_Problem_C_Data.csv",
+   "role": "raw_data",
+   "sha256": "ea99caec6ea243bdb450a1971a95ba8a95701a93be7ff29f0ba3c57d72ddff52",
+   "bytes": 90002
+  },
+  {
+   "path": "templates/MCM-ICM_Summary.tex",
+   "role": "result_template",
+   "sha256": "92720db379cb7255c70a56f3a5a64d3d1bdb0dce8a1c4fd016c3b85c0a39c3e5",
+   "bytes": 2733
+  }
+ ],
+ "summary": {
+  "n_entries": 3,
+  "generated_at": "2026-08-13",
+  "roles": [
+   "problem_statement",
+   "raw_data",
+   "result_template"
+  ]
+ }
+}

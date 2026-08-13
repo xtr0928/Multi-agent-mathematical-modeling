@@ -1,0 +1,83 @@
+panel rows: 2738 | contestants: 398 | partners: 54
+statsmodels 0.14.6
+
+===== JUDGE score model (n=2738, R2=0.291) =====
+  [age]
+    age                          beta=-0.026 se=0.007 p=0.0002
+    age2                         beta=-0.007 se=0.008 p=0.3816
+  [ind_]
+    ind_Other                    beta=-0.357 se=0.103 p=0.0005
+    ind_Model                    beta=-0.237 se=0.118 p=0.0445
+    ind_Musician                 beta=+0.220 se=0.057 p=0.0001
+    ind_Media/Politics           beta=-0.153 se=0.082 p=0.0604
+    ind_Entertainer              beta=+0.004 se=0.045 p=0.9267
+  [week]
+    week                         beta=-0.039 se=0.006 p=0.0000
+  [season_c]
+    season_c                     beta=+0.003 se=0.003 p=0.3595
+
+===== FAN rank model (n=2738, R2=0.107) =====
+  [age]
+    age                          beta=-0.016 se=0.008 p=0.0584
+    age2                         beta=+0.012 se=0.010 p=0.2252
+  [ind_]
+    ind_Other                    beta=+0.632 se=0.131 p=0.0000
+    ind_Model                    beta=-0.536 se=0.143 p=0.0002
+    ind_Media/Politics           beta=-0.074 se=0.102 p=0.4676
+    ind_Musician                 beta=-0.048 se=0.062 p=0.4370
+    ind_Entertainer              beta=+0.023 se=0.050 p=0.6400
+  [week]
+    week                         beta=-0.017 se=0.007 p=0.0117
+  [season_c]
+    season_c                     beta=-0.006 se=0.004 p=0.1073
+
+===== partner effects (judge-score contribution, top/bottom) =====
+partner (n>=3 seasons) sorted by judge-effect:
+  top10 by judge effect:
+    Charlotte Jorgensen        judge=+0.895 fan=-0.666 (n=6)
+    Damian Whitewood           judge=+0.687 fan=-0.313 (n=7)
+    Derek Hough                judge=+0.679 fan=-0.140 (n=164)
+    Corky Ballas               judge=+0.528 fan=-0.094 (n=11)
+    Artem Chigvintsev          judge=+0.454 fan=-0.427 (n=81)
+    Val Chmerkovskiy           judge=+0.446 fan=-0.112 (n=16)
+    Nick Kosovich              judge=+0.418 fan=-1.430 (n=6)
+    Valentin Chmerkovskiy      judge=+0.348 fan=-0.195 (n=149)
+    Pasha Pashkov              judge=+0.253 fan=-0.375 (n=37)
+    Dmitry Chaplin             judge=+0.247 fan=-0.442 (n=19)
+  bottom5 by judge effect:
+    Henry Byalikov             judge=-0.976 fan=-1.769 (n=1)
+    Tyne Stecklein             judge=-1.352 fan=+0.351 (n=3)
+    Andrea Hale                judge=-1.389 fan=-1.868 (n=1)
+    Elena Grinenko             judge=-1.429 fan=+0.151 (n=6)
+    Koko Iwasaki               judge=-1.500 fan=-0.317 (n=9)
+
+===== industry effects (model-based) =====
+  Entertainer        judge=+0.004 fan=+0.023
+  Media/Politics     judge=-0.153 fan=-0.074
+  Model              judge=-0.237 fan=-0.536
+  Musician           judge=+0.220 fan=-0.048
+  Other              judge=-0.357 fan=+0.632
+
+===== raw means by industry =====
+                   n  judge    fan  placement     rj
+industry                                            
+Musician         411  0.206 -0.034      5.136  4.876
+Media/Politics   129  0.103 -0.047      5.295  5.147
+Athlete          653  0.040  0.072      4.617  4.914
+Model             80 -0.046 -0.637      7.325  5.938
+Entertainer     1398 -0.062 -0.017      5.373  5.257
+Other             67 -0.493  0.716      5.075  6.642
+
+===== age effect (marginal at mean) =====
+  judge: dY/dAge = -0.0262 + 2*-0.0071*Age/100  -> at 30: -0.031, at 50: -0.033
+  fan: dY/dAge = -0.0157 + 2*0.0121*Age/100  -> at 30: -0.008, at 50: -0.004
+
+===== week & season trend coefficients =====
+  judge: week=-0.0393 (p=0.0000), season=+0.0028 (p=0.3595)
+  fan: week=-0.0173 (p=0.0117), season=-0.0059 (p=0.1073)
+
+===== learning curve (judge z-score slope over weeks) =====
+  mean slope: -0.1342  (positive = improving)
+  n with 3+ weeks: 355
+
+saved factors_out.json

@@ -1,0 +1,10 @@
+
+===== season 11 =====
+  delta=None: mean width=0.8675 median=1.0000 p90=1.0000 n=75
+  delta=0.2: mean width=0.7273 median=0.8986 p90=1.0000 n=75
+  delta=0.1: mean width=0.6006 median=0.6073 p90=1.0000 n=75
+
+===== season 27 =====
+  delta=None: mean width=0.8455 median=0.9815 p90=0.9996 n=82
+  delta=0.2: mean width=0.7016 median=0.8607 p90=0.9963 n=82
+  delta=0.1: mean width=0.5568 median=0.5407 p90=0.9800 n=82

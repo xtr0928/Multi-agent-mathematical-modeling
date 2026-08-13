@@ -1,0 +1,40 @@
+{
+  "mode": "autopilot",
+  "competition": "MCM 2026 Problem C",
+  "time_window_hours": 72,
+  "time_allocation": {
+    "phase0_1_intake_structuring": {"hours": 3, "pct": 4},
+    "phase2_deliberation": {"hours": 10, "pct": 14},
+    "phase3_dual_track": {"hours": 30, "pct": 42},
+    "phase4_product_review": {"hours": 4, "pct": 6},
+    "phase5_writing": {"hours": 18, "pct": 25},
+    "phase6_7_consistency": {"hours": 7, "pct": 10}
+  },
+  "time_state_machine": {
+    "remaining_gt_48h": "全探索：商议可加轮，双轨全速",
+    "remaining_24_48h": "进入执行：停止新路线，弃弱轨",
+    "remaining_lt_24h": "成文锁定：只改评审指出的问题"
+  },
+  "content_quotas": {
+    "pages_min": 15,
+    "figures": "每个主结果必须有可视化",
+    "independent_routes": 2,
+    "validation_artifacts_per_route": "运行输出级，非文字声称"
+  },
+  "deliberation": {
+    "models": ["deepseek", "glm", "kimi"],
+    "rounds": "2-3 轮，自由推理不设硬上限",
+    "convergence_policy": "分歧不强制收敛，写 divergence_report",
+    "route_selection": "从三方案选最强两条 A/B"
+  },
+  "reasoning": {
+    "deepseek_reasoning_effort": "ultra",
+    "principle": "预算给深度推理，不给纠错循环；纠错循环 ≤20% 超限带风险交付"
+  },
+  "gates": {
+    "gate0": "模板就位 + manifest 锁定",
+    "gate1": "方法论闸：验证方案声明存在（形式审查）",
+    "gate2": "确定性产物闸：基线/验证产物/灵敏度矩阵存在",
+    "gate6": "造假类阻断；其余 risk_report 非阻断"
+  }
+}

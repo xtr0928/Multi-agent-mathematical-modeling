@@ -1,0 +1,88 @@
+{
+ "claims": [
+  {
+   "section": "2.3",
+   "predicate": "elimination_weeks",
+   "value": 264,
+   "value_display": "264 elimination weeks",
+   "scope": {
+    "population": "含退赛周",
+    "era": "all"
+   },
+   "provenance": {
+    "file": "results/panel.json",
+    "key": "n_elim_weeks"
+   },
+   "caveats": [],
+   "depends_on": [],
+   "claim_id": "C0001"
+  },
+  {
+   "section": "3.5",
+   "predicate": "elimination_weeks",
+   "value": 259,
+   "value_display": "259 elimination weeks",
+   "scope": {
+    "population": "不含退赛周",
+    "era": "all"
+   },
+   "provenance": {
+    "file": "results/panel.json",
+    "key": "n_elim_clean"
+   },
+   "caveats": [],
+   "depends_on": [],
+   "claim_id": "C0002"
+  },
+  {
+   "section": "5.2",
+   "predicate": "fan_save_rate",
+   "value": 0.575,
+   "value_display": "57.5% (149/259)",
+   "scope": {
+    "population": "all",
+    "era": "percent"
+   },
+   "provenance": {
+    "file": "results/rule_compare.json",
+    "key": "fan_save_rate"
+   },
+   "caveats": [],
+   "depends_on": [],
+   "claim_id": "C0003"
+  },
+  {
+   "section": "6.1",
+   "predicate": "fan_save_rate",
+   "value": 0.575,
+   "value_display": "57.5% (149/259)",
+   "scope": {
+    "population": "all",
+    "era": "percent"
+   },
+   "provenance": {
+    "file": "results/rule_compare.json",
+    "key": "fan_save_rate"
+   },
+   "caveats": [],
+   "depends_on": [],
+   "claim_id": "C0004"
+  },
+  {
+   "section": "2.2",
+   "predicate": "elim_events",
+   "value": 264,
+   "value_display": "232 + 31 + 1 = 264 elimination events",
+   "scope": {
+    "population": "all"
+   },
+   "provenance": {
+    "file": "results/panel.json",
+    "key": "n_events"
+   },
+   "caveats": [],
+   "depends_on": [],
+   "claim_id": "C0005"
+  }
+ ]
+}

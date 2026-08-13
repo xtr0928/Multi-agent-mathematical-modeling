@@ -1,0 +1,30 @@
+{
+ "generated_at": "2026-08-13T01:02:54.912694",
+ "files": {
+  "factors_out.json": {
+   "sha256": "8ebb52bd6a49cbee6e03ba347f0be663d6eeac267d5ce6464f85f0cda6c0cc77",
+   "mtime": "2026-08-13T01:02:34.062462",
+   "size": 4770
+  },
+  "fan_est.json": {
+   "sha256": "8f1d2807bcf37d4c431b594e47776fea23061e7f1f3102c767a4f543af42e571",
+   "mtime": "2026-08-13T01:02:31.425312",
+   "size": 338089
+  },
+  "methods_out.json": {
+   "sha256": "e208d34bfcae70129fb0a9f8a16af6cb8b645d0a3132c1a9352a3564a8a8df62",
+   "mtime": "2026-08-13T01:02:32.311327",
+   "size": 30142
+  },
+  "panel.json": {
+   "sha256": "89c7c6234185bba4b67a52682a4a12c3b6d234ee939776c543f5d71b4e5bf059",
+   "mtime": "2026-08-13T01:02:04.976135",
+   "size": 288965
+  },
+  "system_out.json": {
+   "sha256": "3e742aa4415690d5217d2013b76e6992dec4f6fff3f2eae193a7d0c46b86f424",
+   "mtime": "2026-08-13T01:02:35.440494",
+   "size": 2015
+  }
+ }
+}

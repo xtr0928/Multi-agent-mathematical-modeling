@@ -1,0 +1,44 @@
+{
+  "title": "2026 MCM Problem C: Data With The Stars (DWTS)",
+  "questions": [
+    {
+      "id": "Q1",
+      "text": "估计粉丝投票（未知量，制作组保密），并回答：一致性（估计能否复现历史淘汰结果）+ 确定性（估计的置信度）",
+      "decision_vars": ["每周每位活跃选手的粉丝票份额/数量"],
+      "constraints": ["评委分已知", "淘汰规则已知（S1-2 rank、S3-27 percent、S28-34 rank+底二裁决）", "淘汰结果已知（谁被淘汰）"],
+      "metrics": ["回代精确率（预测淘汰者=实际淘汰者）", "置信区间宽度", "不确定性度量"],
+      "data_map": "judge_1..11 列 → 每周评委分；results 列 → 淘汰/存活/名次；week 列 → 时间"
+    },
+    {
+      "id": "Q2",
+      "text": "用估计的粉丝票对比两种投票方法（rank vs percent）：跨季差异、争议名人案例（Jerry Rice S2/Billy Ray Cyrus S4/Bristol Palin S11/Bobby Bones S27）、底二裁决的影响、推荐哪种方法",
+      "decision_vars": ["规则选择（rank/percent）"],
+      "constraints": ["同一份份额回放两种规则", "4 个指定案例必须分析"],
+      "metrics": ["两规则淘汰结果分歧周数", "judge-worst 被粉丝拯救率", "争议案例的实际份额排名"],
+      "data_map": "面板数据 + 规则定义（题面附录）"
+    },
+    {
+      "id": "Q3",
+      "text": "舞者/名人特征（年龄、行业等）如何影响表现：对评委分和粉丝票的影响是否一致",
+      "decision_vars": ["特征系数"],
+      "constraints": ["双重因变量（评委分、粉丝份额）", "控制舞者/周/赛季效应"],
+      "metrics": ["系数方向与显著性的评委 vs 粉丝对比"],
+      "data_map": "age/industry/judge_分列/估计的粉丝份额"
+    },
+    {
+      "id": "Q4",
+      "text": "为制片人设计更公平/更好的新投票系统 + 1-2 页 Memo",
+      "decision_vars": ["新系统参数（权重等）"],
+      "constraints": ["用历史数据验证", "考虑公平性/戏剧性/可实施性"],
+      "metrics": ["新系统回放的历史一致性与公平性指标"],
+      "data_map": "历史面板 + 新系统仿真"
+    }
+  ],
+  "data_columns_note": "44 个 judge 分列（judge_1_week1..judge_11_week11 或类似命名）× 4 评委；results 列含淘汰记录；characteristics 列含行业/年龄；无粉丝票列（粉丝票是待估计的潜变量）",
+  "requirements_checklist": [
+    "Q1a 估计粉丝票模型", "Q1b 一致性（复现淘汰）", "Q1c 确定性（置信度）",
+    "Q2a 两方法对比", "Q2b 4 个争议案例", "Q2c 底二裁决影响", "Q2d 推荐+理由",
+    "Q3a 特征对评委分影响", "Q3b 特征对粉丝票影响", "Q3c 两者对比",
+    "Q4a 新系统设计", "Q4b Memo 1-2 页", "Summary Sheet", "TOC", "References", "AI Use Report", "≤25 页"
+  ]
+}

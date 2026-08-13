@@ -1,0 +1,149 @@
+shape: (421, 53)
+
+--- columns ---
+['celebrity_name', 'ballroom_partner', 'celebrity_industry', 'celebrity_homestate', 'celebrity_homecountry/region', 'celebrity_age_during_season', 'season', 'results', 'placement', 'week1_judge1_score', 'week1_judge2_score', 'week1_judge3_score', 'week1_judge4_score', 'week2_judge1_score', 'week2_judge2_score', 'week2_judge3_score', 'week2_judge4_score', 'week3_judge1_score', 'week3_judge2_score', 'week3_judge3_score', 'week3_judge4_score', 'week4_judge1_score', 'week4_judge2_score', 'week4_judge3_score', 'week4_judge4_score', 'week5_judge1_score', 'week5_judge2_score', 'week5_judge3_score', 'week5_judge4_score', 'week6_judge1_score', 'week6_judge2_score', 'week6_judge3_score', 'week6_judge4_score', 'week7_judge1_score', 'week7_judge2_score', 'week7_judge3_score', 'week7_judge4_score', 'week8_judge1_score', 'week8_judge2_score', 'week8_judge3_score', 'week8_judge4_score', 'week9_judge1_score', 'week9_judge2_score', 'week9_judge3_score', 'week9_judge4_score', 'week10_judge1_score', 'week10_judge2_score', 'week10_judge3_score', 'week10_judge4_score', 'week11_judge1_score', 'week11_judge2_score', 'week11_judge3_score', 'week11_judge4_score']
+
+--- dtypes / missing ---
+float64    44
+str         6
+int64       3
+Name: count, dtype: int64
+rows with any N/A (raw): 410
+
+--- results value counts (top 15) ---
+results
+Eliminated Week 2     40
+Eliminated Week 7     36
+Eliminated Week 8     36
+Eliminated Week 4     35
+2nd Place             34
+1st Place             34
+3rd Place             34
+Eliminated Week 3     33
+Eliminated Week 9     32
+Eliminated Week 6     31
+Eliminated Week 5     24
+Eliminated Week 1     16
+Eliminated Week 10    11
+Withdrew              10
+4th Place              8
+Name: count, dtype: int64
+
+--- placement stats ---
+count    421.000000
+mean       6.814727
+std        3.758656
+min        1.000000
+25%        4.000000
+50%        7.000000
+75%       10.000000
+max       16.000000
+Name: placement, dtype: float64
+unique placements: [np.int64(1), np.int64(2), np.int64(3), np.int64(4), np.int64(5), np.int64(6), np.int64(7), np.int64(8), np.int64(9), np.int64(10), np.int64(11), np.int64(12), np.int64(13), np.int64(14), np.int64(15), np.int64(16)]
+
+--- per-season contestant counts ---
+    season   n       ages  max_week  n_active_final
+0        1   6  36.666667       6.0             0.0
+1        2  10  41.200000       8.0             0.0
+2        3  11  37.272727      10.0             0.0
+3        4  11  39.181818      10.0             0.0
+4        5  12  38.166667      10.0             0.0
+5        6  12  39.666667      10.0             0.0
+6        7  13  40.615385      10.0             0.0
+7        8  13  37.692308      11.0            13.0
+8        9  16  37.000000      10.0             0.0
+9       10  11  38.000000      10.0             0.0
+10      11  12  40.333333      10.0             0.0
+11      12  11  37.727273      10.0             0.0
+12      13  12  35.750000      10.0             0.0
+13      14  12  40.583333      10.0             0.0
+14      15  13  35.153846      10.0             0.0
+15      16  12  36.416667      10.0             0.0
+16      17  12  39.333333      11.0            12.0
+17      18  12  39.750000      10.0             0.0
+18      19  13  43.230769      11.0            13.0
+19      20  12  35.750000      10.0             0.0
+20      21  13  37.846154      11.0            13.0
+21      22  12  38.833333      10.0             0.0
+22      23  13  40.230769      11.0            13.0
+23      24  12  39.583333      10.0             0.0
+24      25  13  36.923077      10.0             0.0
+25      26  10  35.900000       4.0             0.0
+26      27  13  36.538462       9.0             0.0
+27      28  12  39.750000      11.0            12.0
+28      29  15  42.000000      11.0            15.0
+29      30  15  38.533333      10.0             0.0
+30      31  16  41.687500      10.0             0.0
+31      32  14  41.857143      11.0            14.0
+32      33  13  39.538462       9.0             0.0
+33      34  14  37.357143      11.0            14.0
+
+--- industry counts ---
+celebrity_industry
+Actor/Actress               128
+Athlete                      95
+TV Personality               67
+Singer/Rapper                61
+Model                        17
+Comedian                     12
+Social Media Personality      8
+Racing Driver                 4
+Radio Personality             4
+Entrepreneur                  4
+News Anchor                   3
+Politician                    3
+Sports Broadcaster            2
+Beauty Pagent                 1
+Magician                      1
+Astronaut                     1
+Fashion Designer              1
+Motivational Speaker          1
+Military                      1
+Journalist                    1
+Musician                      1
+Producer                      1
+Fitness Instructor            1
+Con artist                    1
+Conservationist               1
+Social media personality      1
+Name: count, dtype: int64
+
+--- home country counts (top 10) ---
+celebrity_homecountry/region
+United States     365
+England            11
+Canada              9
+Australia           4
+Mexico              3
+Czechoslovakia      3
+Italy               3
+Brazil              2
+Chile               2
+France              2
+Name: count, dtype: int64
+
+--- week coverage (fraction non-N/A of contestants) ---
+week1: any-score coverage 100.00%, judge4 present 19.24%
+week2: any-score coverage 100.00%, judge4 present 21.62%
+week3: any-score coverage 100.00%, judge4 present 30.40%
+week4: any-score coverage 100.00%, judge4 present 30.88%
+week5: any-score coverage 97.62%, judge4 present 28.27%
+week6: any-score coverage 97.62%, judge4 present 34.92%
+week7: any-score coverage 96.20%, judge4 present 34.20%
+week8: any-score coverage 96.20%, judge4 present 25.65%
+week9: any-score coverage 93.82%, judge4 present 31.59%
+week10: any-score coverage 87.65%, judge4 present 22.09%
+week11: any-score coverage 28.27%, judge4 present 6.18%
+
+total zero score cells (eliminated-after weeks): 4671
+
+unique pro dancers: 60
+top partners: {'Cheryl Burke': 25, 'Tony Dovolani': 21, 'Mark Ballas': 21, 'Valentin Chmerkovskiy': 19, 'Karina Smirnoff': 18, 'Maksim Chmerkoskiy': 17, 'Derek Hough': 17, 'Emma Slater': 16, 'Peta Murgatroyd': 15, 'Kym Johnson': 14}
+Kelly S1 W1 scores [np.float64(5.0), np.float64(4.0), np.float64(4.0)] mean 4.33
+Kelly S1 W2 scores [np.float64(5.0), np.float64(6.0), np.float64(6.0)] mean 5.67
+Kelly S1 W3 scores [np.float64(6.0), np.float64(7.0), np.float64(8.0)] mean 7.00
+Kelly S1 W4 scores [np.float64(9.0), np.float64(9.0), np.float64(8.0)] mean 8.67
+Kelly S1 W5 scores [np.float64(8.5), np.float64(7.5), np.float64(7.5)] mean 7.83
+Kelly S1 W6 scores [np.float64(8.5), np.float64(9.5), np.float64(9.5)] mean 9.17
+
+age range: 14 - 82

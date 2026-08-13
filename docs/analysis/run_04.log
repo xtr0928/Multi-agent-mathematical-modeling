@@ -1,0 +1,137 @@
+=== replay consistency by era (own rule) ===
+  S1-2 rank: exact 10/10 (100.0%), bottom2 10/10 (100.0%)
+  S3-27 percent: exact 198/198 (100.0%), bottom2 197/198 (99.5%)
+  S28-34 rank+save: exact 19/56 (33.9%), bottom2 31/56 (55.4%)
+
+=== counterfactual replay: both rules on all seasons (own-rule eras only matter) ===
+--- S1-2 ---
+  rank    : exact 10/10 (100.0%) b2 10/10 (100.0%) | fan_saves 6 | fan_kills 6
+  percent : exact 10/10 (100.0%) b2 10/10 (100.0%) | fan_saves 6 | fan_kills 6
+--- S3-27 ---
+  rank    : exact 72/198 (36.4%) b2 108/198 (54.5%) | fan_saves 110 | fan_kills 126
+  percent : exact 198/198 (100.0%) b2 197/198 (99.5%) | fan_saves 110 | fan_kills 126
+--- S28-34 ---
+  rank    : exact 19/56 (33.9%) b2 31/56 (55.4%) | fan_saves 34 | fan_kills 40
+  percent : exact 24/56 (42.9%) b2 35/56 (62.5%) | fan_saves 34 | fan_kills 40
+
+=== judge-fan share agreement (Spearman) ===
+  S1-2: mean rho=0.221 (n=14)
+  S28-34: mean rho=0.009 (n=73)
+  S3-27: mean rho=0.032 (n=248)
+
+=== controversy case studies ===
+  S2 W 1 Jerry Rice: judge_rank=5 fan_rank=2 comb(rank)=5 comb(pct)=5 elim=False
+  S2 W 2 Jerry Rice: judge_rank=4 fan_rank=2 comb(rank)=4 comb(pct)=6 elim=False
+  S2 W 3 Jerry Rice: judge_rank=7 fan_rank=2 comb(rank)=6 comb(pct)=5 elim=False
+  S2 W 4 Jerry Rice: judge_rank=5 fan_rank=2 comb(rank)=5 comb(pct)=4 elim=False
+  S2 W 5 Jerry Rice: judge_rank=5 fan_rank=1 comb(rank)=5 comb(pct)=4 elim=False
+  S2 W 6 Jerry Rice: judge_rank=5 fan_rank=1 comb(rank)=4 comb(pct)=5 elim=False
+  S2 W 7 Jerry Rice: judge_rank=4 fan_rank=1 comb(rank)=3 comb(pct)=4 elim=False
+  S2 W 8 Jerry Rice: judge_rank=3 fan_rank=1 comb(rank)=2 comb(pct)=3 elim=False
+  S4 W 1 Billy Ray Cyrus: judge_rank=11 fan_rank=2 comb(rank)=11 comb(pct)=1 elim=False
+  S4 W 2 Billy Ray Cyrus: judge_rank=8 fan_rank=3 comb(rank)=8 comb(pct)=5 elim=False
+  S4 W 3 Billy Ray Cyrus: judge_rank=8 fan_rank=3 comb(rank)=8 comb(pct)=5 elim=False
+  S4 W 4 Billy Ray Cyrus: judge_rank=6 fan_rank=3 comb(rank)=6 comb(pct)=5 elim=False
+  S4 W 5 Billy Ray Cyrus: judge_rank=7 fan_rank=2 comb(rank)=7 comb(pct)=2 elim=False
+  S4 W 6 Billy Ray Cyrus: judge_rank=6 fan_rank=2 comb(rank)=6 comb(pct)=3 elim=False
+  S4 W 7 Billy Ray Cyrus: judge_rank=6 fan_rank=1 comb(rank)=6 comb(pct)=2 elim=False
+  S4 W 8 Billy Ray Cyrus: judge_rank=5 fan_rank=5 comb(rank)=5 comb(pct)=1 elim=True
+  S11 W 1 Bristol Palin: judge_rank=8 fan_rank=1 comb(rank)=8 comb(pct)=6 elim=False
+  S11 W 2 Bristol Palin: judge_rank=4 fan_rank=1 comb(rank)=4 comb(pct)=9 elim=False
+  S11 W 3 Bristol Palin: judge_rank=9 fan_rank=1 comb(rank)=9 comb(pct)=2 elim=False
+  S11 W 4 Bristol Palin: judge_rank=8 fan_rank=1 comb(rank)=8 comb(pct)=2 elim=False
+  S11 W 5 Bristol Palin: judge_rank=8 fan_rank=1 comb(rank)=8 comb(pct)=2 elim=False
+  S11 W 6 Bristol Palin: judge_rank=6 fan_rank=2 comb(rank)=6 comb(pct)=3 elim=False
+  S11 W 7 Bristol Palin: judge_rank=6 fan_rank=1 comb(rank)=6 comb(pct)=2 elim=False
+  S11 W 8 Bristol Palin: judge_rank=5 fan_rank=1 comb(rank)=5 comb(pct)=2 elim=False
+  S11 W 9 Bristol Palin: judge_rank=4 fan_rank=1 comb(rank)=4 comb(pct)=2 elim=False
+  S11 W10 Bristol Palin: judge_rank=3 fan_rank=1 comb(rank)=3 comb(pct)=1 elim=False
+  S27 W 1 Bobby Bones: judge_rank=7 fan_rank=2 comb(rank)=7 comb(pct)=9 elim=False
+  S27 W 2 Bobby Bones: judge_rank=10 fan_rank=2 comb(rank)=10 comb(pct)=3 elim=False
+  S27 W 3 Bobby Bones: judge_rank=8 fan_rank=2 comb(rank)=8 comb(pct)=4 elim=False
+  S27 W 4 Bobby Bones: judge_rank=9 fan_rank=2 comb(rank)=9 comb(pct)=3 elim=False
+  S27 W 5 Bobby Bones: judge_rank=8 fan_rank=3 comb(rank)=8 comb(pct)=2 elim=False
+  S27 W 6 Bobby Bones: judge_rank=7 fan_rank=3 comb(rank)=7 comb(pct)=3 elim=False
+  S27 W 7 Bobby Bones: judge_rank=7 fan_rank=2 comb(rank)=7 comb(pct)=4 elim=False
+  S27 W 8 Bobby Bones: judge_rank=6 fan_rank=1 comb(rank)=6 comb(pct)=3 elim=False
+  S27 W 9 Bobby Bones: judge_rank=4 fan_rank=1 comb(rank)=4 comb(pct)=4 elim=False
+
+=== S28+ judge-save evidence (predicted bottom2 survivors) ===
+couples predicted in bottom-2 but surviving (multi-week consistency):
+  S32 Harry Jowsey: 6 weeks
+  S34 Andy Richter: 6 weeks
+  S31 Vinny Guadagnino: 5 weeks
+  S28 Sean Spicer: 4 weeks
+  S29 Nelly: 4 weeks
+  S32 Alyson Hannigan: 4 weeks
+  S29 Skai Jackson: 3 weeks
+  S30 Iman Shumpert: 3 weeks
+  S30 Cody Rigsby: 3 weeks
+  S28 Hannah Brown: 2 weeks
+  S28 Lauren Alaina: 2 weeks
+  S32 Barry Williams: 2 weeks
+  S33 Stephen Nedoroscik: 2 weeks
+  S34 Elaine Hendrix: 2 weeks
+  S28 Lamar Odom: 1 weeks
+
+=== finals replay ===
+  S1 rank   : ['Kelly Monaco', "John O'Hurley", 'Joey McIntyre']  (actual: {"John O'Hurley": 2, 'Kelly Monaco': 1, 'Joey McIntyre': 3})
+  S1 percent: ['Kelly Monaco', 'Joey McIntyre', "John O'Hurley"]  (actual: {"John O'Hurley": 2, 'Kelly Monaco': 1, 'Joey McIntyre': 3})
+  S2 rank   : ['Drew Lachey', 'Jerry Rice', 'Stacy Keibler']  (actual: {'Stacy Keibler': 3, 'Jerry Rice': 2, 'Drew Lachey': 1})
+  S2 percent: ['Jerry Rice', 'Drew Lachey', 'Stacy Keibler']  (actual: {'Stacy Keibler': 3, 'Jerry Rice': 2, 'Drew Lachey': 1})
+  S3 rank   : ['Joey Lawrence', 'Mario Lopez', 'Emmitt Smith']  (actual: {'Joey Lawrence': 3, 'Mario Lopez': 2, 'Emmitt Smith': 1})
+  S3 percent: ['Emmitt Smith', 'Mario Lopez', 'Joey Lawrence']  (actual: {'Joey Lawrence': 3, 'Mario Lopez': 2, 'Emmitt Smith': 1})
+  S4 rank   : ['Apolo Anton Ohno', 'Joey Fatone', 'Laila Ali']  (actual: {'Laila Ali': 3, 'Apolo Anton Ohno': 1, 'Joey Fatone': 2})
+  S4 percent: ['Apolo Anton Ohno', 'Joey Fatone', 'Laila Ali']  (actual: {'Laila Ali': 3, 'Apolo Anton Ohno': 1, 'Joey Fatone': 2})
+  S5 rank   : ['Mel B', 'Helio Castroneves', 'Marie Osmond']  (actual: {'Helio Castroneves': 1, 'Mel B': 2, 'Marie Osmond': 3})
+  S5 percent: ['Helio Castroneves', 'Mel B', 'Marie Osmond']  (actual: {'Helio Castroneves': 1, 'Mel B': 2, 'Marie Osmond': 3})
+  S6 rank   : ['Kristi Yamaguchi', 'Jason Taylor', 'Cristian de la Fuente']  (actual: {'Cristian de la Fuente': 3, 'Jason Taylor': 2, 'Kristi Yamaguchi': 1})
+  S6 percent: ['Kristi Yamaguchi', 'Jason Taylor', 'Cristian de la Fuente']  (actual: {'Cristian de la Fuente': 3, 'Jason Taylor': 2, 'Kristi Yamaguchi': 1})
+  S7 rank   : ['Brooke Burke', 'Warren Sapp', 'Lance Bass']  (actual: {'Warren Sapp': 2, 'Lance Bass': 3, 'Brooke Burke': 1})
+  S7 percent: ['Brooke Burke', 'Warren Sapp', 'Lance Bass']  (actual: {'Warren Sapp': 2, 'Lance Bass': 3, 'Brooke Burke': 1})
+  S8 rank   : ['Shawn Johnson', 'Gilles Marini', 'Melissa Rycroft']  (actual: {'Gilles Marini': 2, 'Shawn Johnson': 1, 'Melissa Rycroft': 3})
+  S8 percent: ['Shawn Johnson', 'Gilles Marini', 'Melissa Rycroft']  (actual: {'Gilles Marini': 2, 'Shawn Johnson': 1, 'Melissa Rycroft': 3})
+  S9 rank   : ['Donny Osmond', 'Mya', 'Kelly Osbourne']  (actual: {'Mya': 2, 'Donny Osmond': 1, 'Kelly Osbourne': 3})
+  S9 percent: ['Donny Osmond', 'Mya', 'Kelly Osbourne']  (actual: {'Mya': 2, 'Donny Osmond': 1, 'Kelly Osbourne': 3})
+  S10 rank   : ['Nicole Scherzinger', 'Erin Andrews', 'Evan Lysacek']  (actual: {'Evan Lysacek': 2, 'Nicole Scherzinger': 1, 'Erin Andrews': 3})
+  S10 percent: ['Nicole Scherzinger', 'Evan Lysacek', 'Erin Andrews']  (actual: {'Evan Lysacek': 2, 'Nicole Scherzinger': 1, 'Erin Andrews': 3})
+  S11 rank   : ['Jennifer Grey', 'Kyle Massey', 'Bristol Palin']  (actual: {'Kyle Massey': 2, 'Jennifer Grey': 1, 'Bristol Palin': 3})
+  S11 percent: ['Jennifer Grey', 'Kyle Massey', 'Bristol Palin']  (actual: {'Kyle Massey': 2, 'Jennifer Grey': 1, 'Bristol Palin': 3})
+  S12 rank   : ['Chelsea Kane', 'Hines Ward', 'Kirstie Alley']  (actual: {'Chelsea Kane': 3, 'Kirstie Alley': 2, 'Hines Ward': 1})
+  S12 percent: ['Hines Ward', 'Kirstie Alley', 'Chelsea Kane']  (actual: {'Chelsea Kane': 3, 'Kirstie Alley': 2, 'Hines Ward': 1})
+  S13 rank   : ['Rob Kardashian', 'J.R. Martinez', 'Ricki Lake']  (actual: {'Ricki Lake': 3, 'J.R. Martinez': 1, 'Rob Kardashian': 2})
+  S13 percent: ['J.R. Martinez', 'Rob Kardashian', 'Ricki Lake']  (actual: {'Ricki Lake': 3, 'J.R. Martinez': 1, 'Rob Kardashian': 2})
+  S14 rank   : ['Katherine Jenkins', 'William Levy', 'Donald Driver']  (actual: {'William Levy': 3, 'Donald Driver': 1, 'Katherine Jenkins': 2})
+  S14 percent: ['Donald Driver', 'Katherine Jenkins', 'William Levy']  (actual: {'William Levy': 3, 'Donald Driver': 1, 'Katherine Jenkins': 2})
+  S15 rank   : ['Melissa Rycroft', 'Kelly Monaco', 'Shawn Johnson']  (actual: {'Kelly Monaco': 3, 'Shawn Johnson': 2, 'Melissa Rycroft': 1})
+  S15 percent: ['Melissa Rycroft', 'Shawn Johnson', 'Kelly Monaco']  (actual: {'Kelly Monaco': 3, 'Shawn Johnson': 2, 'Melissa Rycroft': 1})
+  S20 rank   : ['Riker Lynch', 'Rumer Willis', 'Noah Galloway']  (actual: {'Riker Lynch': 2, 'Rumer Willis': 1, 'Noah Galloway': 3})
+  S20 percent: ['Rumer Willis', 'Riker Lynch', 'Noah Galloway']  (actual: {'Riker Lynch': 2, 'Rumer Willis': 1, 'Noah Galloway': 3})
+  S22 rank   : ['Paige VanZant', 'Nyle DiMarco', 'Ginger Zee']  (actual: {'Paige VanZant': 2, 'Nyle DiMarco': 1, 'Ginger Zee': 3})
+  S22 percent: ['Nyle DiMarco', 'Paige VanZant', 'Ginger Zee']  (actual: {'Paige VanZant': 2, 'Nyle DiMarco': 1, 'Ginger Zee': 3})
+  S24 rank   : ['Rashad Jennings', 'Normani', 'David Ross']  (actual: {'David Ross': 2, 'Rashad Jennings': 1, 'Normani': 3})
+  S24 percent: ['Rashad Jennings', 'David Ross', 'Normani']  (actual: {'David Ross': 2, 'Rashad Jennings': 1, 'Normani': 3})
+  S26 rank   : ['Adam Rippon', 'Josh Norman', 'Tonya Harding']  (actual: {'Tonya Harding': 3, 'Josh Norman': 2, 'Adam Rippon': 1})
+  S26 percent: ['Adam Rippon', 'Josh Norman', 'Tonya Harding']  (actual: {'Tonya Harding': 3, 'Josh Norman': 2, 'Adam Rippon': 1})
+  S27 rank   : ['Evanna Lynch', 'Milo Manheim', 'Alexis Ren', 'Bobby Bones']  (actual: {'Evanna Lynch': 3, 'Milo Manheim': 2, 'Bobby Bones': 1, 'Alexis Ren': 4})
+  S27 percent: ['Bobby Bones', 'Milo Manheim', 'Evanna Lynch', 'Alexis Ren']  (actual: {'Evanna Lynch': 3, 'Milo Manheim': 2, 'Bobby Bones': 1, 'Alexis Ren': 4})
+  S28 rank   : ['Hannah Brown', 'Kel Mitchell', 'Ally Brooke', 'Lauren Alaina']  (actual: {'Kel Mitchell': 2, 'Lauren Alaina': 4, 'Ally Brooke': 3, 'Hannah Brown': 1})
+  S28 percent: ['Hannah Brown', 'Kel Mitchell', 'Lauren Alaina', 'Ally Brooke']  (actual: {'Kel Mitchell': 2, 'Lauren Alaina': 4, 'Ally Brooke': 3, 'Hannah Brown': 1})
+  S29 rank   : ['Justina Machado', 'Nev Schulman', 'Kaitlyn Bristowe', 'Nelly']  (actual: {'Justina Machado': 4, 'Nev Schulman': 2, 'Nelly': 3, 'Kaitlyn Bristowe': 1})
+  S29 percent: ['Nev Schulman', 'Kaitlyn Bristowe', 'Justina Machado', 'Nelly']  (actual: {'Justina Machado': 4, 'Nev Schulman': 2, 'Nelly': 3, 'Kaitlyn Bristowe': 1})
+  S30 rank   : ['Iman Shumpert', 'JoJo Siwa', 'Cody Rigsby', 'Amanda Kloots']  (actual: {'Iman Shumpert': 1, 'Cody Rigsby': 3, 'JoJo Siwa': 2, 'Amanda Kloots': 4})
+  S30 percent: ['Cody Rigsby', 'JoJo Siwa', 'Iman Shumpert', 'Amanda Kloots']  (actual: {'Iman Shumpert': 1, 'Cody Rigsby': 3, 'JoJo Siwa': 2, 'Amanda Kloots': 4})
+  S31 rank   : ["Charli D'Amelio", 'Gabby Windey', 'Wayne Brady', 'Shangela']  (actual: {'Wayne Brady': 3, "Charli D'Amelio": 1, 'Shangela': 4, 'Gabby Windey': 2})
+  S31 percent: ["Charli D'Amelio", 'Gabby Windey', 'Shangela', 'Wayne Brady']  (actual: {'Wayne Brady': 3, "Charli D'Amelio": 1, 'Shangela': 4, 'Gabby Windey': 2})
+  S32 rank   : ['Xochitl Gomez', 'Jason Mraz', 'Ariana Madix', 'Charity Lawson', 'Alyson Hannigan']  (actual: {'Alyson Hannigan': 5, 'Xochitl Gomez': 1, 'Jason Mraz': 2, 'Charity Lawson': 4, 'Ariana Madix': 3})
+  S32 percent: ['Jason Mraz', 'Ariana Madix', 'Xochitl Gomez', 'Alyson Hannigan', 'Charity Lawson']  (actual: {'Alyson Hannigan': 5, 'Xochitl Gomez': 1, 'Jason Mraz': 2, 'Charity Lawson': 4, 'Ariana Madix': 3})
+  S32 rank   : ['Xochitl Gomez', 'Jason Mraz', 'Ariana Madix', 'Charity Lawson', 'Alyson Hannigan']  (actual: {'Alyson Hannigan': 5, 'Xochitl Gomez': 1, 'Jason Mraz': 2, 'Charity Lawson': 4, 'Ariana Madix': 3})
+  S32 percent: ['Ariana Madix', 'Jason Mraz', 'Xochitl Gomez', 'Alyson Hannigan', 'Charity Lawson']  (actual: {'Alyson Hannigan': 5, 'Xochitl Gomez': 1, 'Jason Mraz': 2, 'Charity Lawson': 4, 'Ariana Madix': 3})
+  S33 rank   : ['Joey Graziadei', 'Ilona Maher', 'Chandler Kinney', 'Stephen Nedoroscik', 'Danny Amendola']  (actual: {'Chandler Kinney': 3, 'Danny Amendola': 5, 'Stephen Nedoroscik': 4, 'Ilona Maher': 2, 'Joey Graziadei': 1})
+  S33 percent: ['Ilona Maher', 'Joey Graziadei', 'Stephen Nedoroscik', 'Chandler Kinney', 'Danny Amendola']  (actual: {'Chandler Kinney': 3, 'Danny Amendola': 5, 'Stephen Nedoroscik': 4, 'Ilona Maher': 2, 'Joey Graziadei': 1})
+  S33 rank   : ['Chandler Kinney', 'Joey Graziadei', 'Ilona Maher', 'Stephen Nedoroscik', 'Danny Amendola']  (actual: {'Chandler Kinney': 3, 'Danny Amendola': 5, 'Stephen Nedoroscik': 4, 'Ilona Maher': 2, 'Joey Graziadei': 1})
+  S33 percent: ['Ilona Maher', 'Joey Graziadei', 'Chandler Kinney', 'Stephen Nedoroscik', 'Danny Amendola']  (actual: {'Chandler Kinney': 3, 'Danny Amendola': 5, 'Stephen Nedoroscik': 4, 'Ilona Maher': 2, 'Joey Graziadei': 1})
+  S34 rank   : ['Robert Irwin', 'Alix Earle', 'Jordan Chiles', 'Dylan Efron', 'Elaine Hendrix']  (actual: {'Elaine Hendrix': 5, 'Jordan Chiles': 3, 'Robert Irwin': 1, 'Alix Earle': 2, 'Dylan Efron': 4})
+  S34 percent: ['Robert Irwin', 'Jordan Chiles', 'Dylan Efron', 'Elaine Hendrix', 'Alix Earle']  (actual: {'Elaine Hendrix': 5, 'Jordan Chiles': 3, 'Robert Irwin': 1, 'Alix Earle': 2, 'Dylan Efron': 4})
+
+saved /home/zhenjinchao/projects/mcm-2026/analysis/methods_out.json
