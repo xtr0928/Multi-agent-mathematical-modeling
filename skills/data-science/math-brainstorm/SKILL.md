@@ -1,7 +1,7 @@
 ---
 name: math-brainstorm
 description: >
-  数模三人脑暴架构：GLM 5.2 + DeepSeek V4 + Kimi K2.6 三 Agent 并行构思数学建模解题思路，
+  数模三人脑暴架构：GLM 5.3 + DeepSeek V4 + Kimi K2.6 三 Agent 并行构思数学建模解题思路，
   汇总 Agent 合并去重补漏，输出统一方案。适用于数学建模竞赛（CUMCM、MCM/ICM）的
   思路发散和方案设计阶段。
 triggers:
@@ -22,7 +22,7 @@ triggers:
 ## 架构
 
 ```
-                     ┌─ ① glm-review (GLM 5.2)  ─┐
+                     ┌─ ① glm-review (GLM 5.3)  ─┐
 一道数模题  →         ├─ ② default (DeepSeek V4)  ─┼→ ④ 汇总 Agent → 统一方案
                      └─ ③ kimi-ocr (Kimi K2.6)  ─┘
 ```
@@ -33,7 +33,7 @@ triggers:
 
 | Agent | Profile | 模型 | 角色 |
 |-------|---------|------|------|
-| ① | glm-review | GLM 5.2 | 数学理论派，擅长公式推导、模型选择 |
+| ① | glm-review | GLM 5.3 | 数学理论派，擅长公式推导、模型选择 |
 | ② | default | DeepSeek V4 Pro | 综合推理派，擅长全局把握、可行性分析 |
 | ③ | kimi-ocr | Kimi K2.6 | 创新发散派，擅长另辟蹊径、非常规思路 |
 
@@ -79,7 +79,7 @@ hermes -p kimi-ocr chat -q "..."
 hermes -p default chat -q "
 以下是三个 AI 对同一道数模题的独立解题思路，请汇总：
 
-=== GLM 5.2 的思路 ===
+=== GLM 5.3 的思路 ===
 [粘贴 GLM 输出]
 
 === DeepSeek V4 的思路 ===
@@ -110,10 +110,10 @@ hermes -p default chat -q "
 
 ```
 ━━━ [Phase 1/3] 三方并行构思 ━━━
-📤 GLM 5.2 正在构思...
+📤 GLM 5.3 正在构思...
 📤 DeepSeek V4 正在构思...
 📤 Kimi K2.6 正在构思...
-✅ GLM 5.2 返回 (3 条思路)
+✅ GLM 5.3 返回 (3 条思路)
 ✅ DeepSeek V4 返回 (4 条思路)
 ⏳ 等待 Kimi K2.6...
 

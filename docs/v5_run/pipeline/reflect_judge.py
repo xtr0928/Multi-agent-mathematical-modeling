@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """协同编码管线：反思评委 skill 不足
-GLM 5.2 → 架构层分析（评委 skill 为什么系统性高估）
+GLM 5.3 → 架构层分析（评委 skill 为什么系统性高估）
 Kimi K3 → 内容层审查（题目原文逐句对照找论文缺失）
 DeepSeek（本会话）→ 汇总 + 修订评委 skill
 """
