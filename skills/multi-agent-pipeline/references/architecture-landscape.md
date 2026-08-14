@@ -67,8 +67,10 @@
 | glm-review | GLM 5.2 | ✅ | ✅ | - | ✅ | ✅ | - |
 | kimi-ocr | Kimi K3 | ✅ | ✅ | - | ✅ | ✅ | - |
 | kimi-coder | Kimi K2.7 | ❌ | ❌ | ✅ | - | - | - |
+| qwen-coder（新） | Qwen3.8-Max | ❌ | ❌ | ✅ T3 长任务 | - | - | - |
 
 > ⚠️ Kimi K3 视觉审查 / K2.7 编码，不能混用。
+> 🆕 Qwen3.8-Max（2026-08-14 接入）：coder-executor 位，承接 T3 复杂/长时程编码（从零实现多文件模块）；T1/T2 快速修复仍走 kimi-coder。写评分离不变——Qwen 产物过确定性门禁 + glm-review；准入三测（API/质量 A-B 对照/成本）通过才挂正式 T3 路由；永不进评委三评。
 
 ## 6 阶段论文流水线
 
