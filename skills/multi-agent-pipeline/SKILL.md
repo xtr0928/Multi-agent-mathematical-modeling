@@ -30,13 +30,13 @@ triggers:
 ```
 default (DeepSeek V4 Pro)  ← Orchestrator — dispatches, integrates, verifies
     │
-    ├─ ① GLM 5.3   ─┬─ 代码/后端架构分析 ────────────────┐
+    ├─ ① GLM 5.2   ─┬─ 代码/后端架构分析 ────────────────┐
     │               │                                      │
     │               └─ (并行) Kimi K3 → UI/视觉架构分析 ──┤
     │                                                      │
     ├─ ② Kimi K2.7 → 编写代码                              │
     │                                                      │
-    ├─ ③ 并行审查 ─┬─ 3a: GLM 5.3  → 代码逻辑/安全审查 ──┤
+    ├─ ③ 并行审查 ─┬─ 3a: GLM 5.2  → 代码逻辑/安全审查 ──┤
     │              │                                       │
     │              └─ 3b: Kimi K3  → 可视化产出审查 ──────┤
     │                                                      │
@@ -57,7 +57,7 @@ hermes profile list
 Expected output should include: `default`, `glm-review`, `kimi-coder`, `kimi-ocr`.
 
 **Verified working**:
-- `glm-review` → GLM 5.3 ✅ — 代码架构分析、代码审查
+- `glm-review` → GLM 5.2 ✅ — 代码架构分析、代码审查
 - `kimi-coder` → Kimi K2.7 Coder ✅ — 代码编写（仅编码，禁用推理）
 - `kimi-ocr` → Kimi K3 ✅ — UI/视觉架构分析、可视化产出审查、截图对比
 - `default` → DeepSeek V4 Pro ✅ — 编排、集成、验证、最终交付
@@ -66,7 +66,7 @@ Expected output should include: `default`, `glm-review`, `kimi-coder`, `kimi-ocr
 
 ### Phase 1: Architecture Analysis (GLM + optional Kimi K3)
 
-**1a — GLM 5.3: 代码/后端架构分析**（始终执行）
+**1a — GLM 5.2: 代码/后端架构分析**（始终执行）
 
 Send the project spec to GLM:
 
@@ -123,7 +123,7 @@ hermes -p kimi-coder chat -q "修改文件: /path/to/file.js
 
 As Kimi produces each file, route it to the appropriate reviewer. Both reviewers run in parallel.
 
-#### 3a — GLM 5.3: Code Review（代码逻辑/安全/风格）
+#### 3a — GLM 5.2: Code Review（代码逻辑/安全/风格）
 
 适用于所有代码文件（.js/.py/.ts/.go 等）。每个文件完成后立即送入 GLM 审查：
 
@@ -326,8 +326,8 @@ Kimi K2.7 固定产出以下 bug，Phase 3 审查不如 Phase 4 直接 grep 修�
 详见 `references/prisma-utf8-encoding.md`。
 - **Delegation 验证死循环**: `hermes -p` 子进程经常卡在验证阶段（装依赖、跑测试）但文件其实已写对且 `node --check` 通过。看到文件已写入就 kill 子进程。
 - **GLM 长 prompt 分裂法（2026-07-02 新增）**: 单 prompt >500 words 时 GLM 频繁卡 Initializing agent 超过 3 分钟不出内容。**做法**：将复杂问题拆成 4-5 个子问题，每个 ≤300 words，用 `terminal(background=true)` 并行派发。实测：MCM Problem C 拆成 T1-T4 四个 prompt, T3 2m47s 完成, T4 2m15s 完成，而合并版 prompt 3 分钟仍无输出。**注意**：子 prompt 之间不要引入依赖（不要写"基于 T1 的结果..."），让它们完全独立。
-- **GLM 长 prompt 超时**: GLM 5.3 对含代码库探索的 prompt 频繁超时。解决方案：(a) Prompt 中写明"不要探索代码库"；(b) 所有上下文内联到 prompt；(c) Prompt 控制在 300 words 内。详见 `references/glm-agent-notes.md`。
-- **GLM 天然慢**：GLM 5.3 处理速度比 DeepSeek/Kimi 慢 40-80%（实测 ~4.5min vs ~2.5min）。并行派发时设置 ≥300s timeout，每条 prompt 控制在 300 words 以内时完成时间可降至 2-3min。不要误判为卡住。
+- **GLM 长 prompt 超时**: GLM 5.2 对含代码库探索的 prompt 频繁超时。解决方案：(a) Prompt 中写明"不要探索代码库"；(b) 所有上下文内联到 prompt；(c) Prompt 控制在 300 words 内。详见 `references/glm-agent-notes.md`。
+- **GLM 天然慢**：GLM 5.2 处理速度比 DeepSeek/Kimi 慢 40-80%（实测 ~4.5min vs ~2.5min）。并行派发时设置 ≥300s timeout，每条 prompt 控制在 300 words 以内时完成时间可降至 2-3min。不要误判为卡住。
 - **default 可并行派发**：即使当前会话就是 default，也可 `hermes chat`（无 -p）启动新 default 实例做并行工作。
 - **Zombie 端口占用**: `hermes -p` 后台进程 kill 后残留 node.exe 占端口。每次启动前 `netstat -ano | grep ':PORT '` 检查并用 `taskkill //F //PID <pid>` 清除。
 - **Context cost ceiling**: For rewrites touching 10+ files that share state (auth, DB schema, API contracts), each sub-agent in Phase 2 would need ALL files as context (~2000+ lines). The paste-cost exceeds the parallelism benefit. Fall back to Phase 1 only, then code solo.
