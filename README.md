@@ -1,45 +1,48 @@
 # Multi-agent Mathematical Modeling（数模管线）
 
-MCM / 数模竞赛的多智能体解题管线独立仓库。2026-08-15 起与**协同编码管线**（[xtr0928/Multi-Agent](https://github.com/xtr0928/Multi-Agent)）分仓库演进，本仓库承载数模专属的 skills、设计文档与实战产物。
+> **一句话：为数学建模竞赛（MCM/ICM、华数杯等）打造的 72 小时多智能体解题管线——三个模型商议建模、双轨迹并行求解、声明注册表保证论文里每个数字都可溯源，评委视角终评把关后交付论文。**
 
-## 仓库结构
+输入一道竞赛题（官方题目 PDF + 数据包），输出一篇可直接提交的论文（MCM 25 页 LaTeX / 华数杯官方模板版）。全流程覆盖：**审题 → 建模商议 → 求解 → 成文 → 一致性核验 → 末端对抗评审**。
+
+## 一张图看懂（V5 管线）
+
+![V5 管线流程图](docs/flowchart_v5_final.png)
+
+## 完整工作流（V5 管线，Stage 0–7）
 
 ```
-skills/
-  data-science/
-    1start-mathmodel … 6verity/     # 6 阶段论文流水线（审题→建模→编码→图→写作→验收）
-    math-brainstorm/                # 思路脑暴
-    brute-force-think/              # 暴力求解
-    mathmodel-v2-pipeline/          # 融合架构 v2.2（模式选择/建模辩论/门禁/评审团）
-    mathmodel-pipeline-v3/          # 管线 v3.0 全题型执行手册（六路线判别/铁律/门禁）
-    mathmodel-judge-perspective/    # 评委视角 skill v2.6（扣分记录制/四组14项机制）
-    mathmodel-figure-templates/     # 图表模板
-    typst-author/ · doctor/         # 论文写作支持
-  multi-agent-pipeline/             # 6 阶段编排 + 架构全景
-docs/
-  V5_pipeline_design.md             # V5 管线设计（三 Agent 商议/claims registry/双轨迹/72h）
-  judge_skill_v2{5,6}_design.md     # 评委 skill v2.5/v2.6 设计文档
-  pipeline_4model_design.md         # 四模型化设计（存档，待拆分重做）
-  2026_MCM-ICM_Problems/            # 2026 官方题目包
-  DWTS_2026C_v5.pdf                 # 2026 C 题首战论文（15 页 LaTeX）
-  v5_run/                           # V5 管线首战代码与全部运行产物
+Stage 0 进气       题目/数据/官方模板快照（SHA-256），模板未就位不进下一步
+Stage 1 题目结构化  Q1..Qn × {决策变量/约束/评价指标/数据映射} + 赛题要求逐条对照
+Stage 2 三 Agent 商议  三个建模手独立深推 → 交换批评 → 各自修订（2-3 轮自然停止，分歧不强制收敛）
+Stage 3 双轨迹执行  最强两条路线 A/B 并行真实求解（含验证产物、基线对照、灵敏度矩阵）
+Stage 4 产物级评审  三模型独立评审 + 投票选主线（LLM 只做相对排序，不做绝对打分）
+Stage 5 成文        注册表驱动写作：数字全部动态读自结果仓；终稿单作者全量重写
+Stage 6 一致性层    hash → manifest → 渲染 → 四方核对 → 格式断言（门禁挂 build 钩子）
+Stage 7 末端对抗    按题型加载攻击清单（循环性/可识别性/泄漏/约束真实性/下界）
 ```
 
-## 版本时间线（git tag）
+### 72 小时竞赛时间窗
 
-| tag | 内容 |
-|---|---|
-| `v2.2` | 融合架构 v2.2（mathmodel-v2-pipeline 初版） |
-| `pipeline-v2.3` `pipeline-v2.4` | 管线 v2.3/v2.4（C 题 O 奖精读驱动迭代） |
-| `pipeline-v3.0` `pipeline-v3.1` | 全题型版（437 篇精读 → 4 条 100% 铁律 + 8 条高票规则；55 题批测） |
-| `v5-pipeline` | V5 管线全链路并入（商议引擎/claims registry/双轨迹/首战产物） |
-| `judge-v1.0` … `judge-v1.6` | 评委 skill 依据审计时代（官方 Triage 指南 → 84 篇 C 题精读） |
-| `judge-v2.0` `judge-v2.1` | 437 篇全题型校准（HARD FAIL 扩 10 项） |
-| `judge-v2.3` | 两段式评审（确定性审计前置） |
-| `judge-v2.5` `judge-v2.5.1` | 六阶段架构 + 视觉评审层（三评仲裁/冷启动五层参照系） |
-| `judge-v2.6` | 终版：四方数字 diff + 名实审查 + 扣分记录制评分引擎 |
+| 阶段 | 时间 | 占比 | 说明 |
+|---|--:|:--:|---|
+| 0 进气 + 1 结构化 | 3h | 4% | 快，不纠结 |
+| 2 三 Agent 商议 | 10h | 14% | **深度的主场**：reasoning 拉满、轮次不设硬上限 |
+| 3 双轨迹执行 | 30h | 42% | 计算主体（含验证产物） |
+| 4 产物级评审 | 4h | 6% | 有产物可看，高效 |
+| 5 成文 | 18h | **25% 硬保底** | 纠错循环永远不得侵蚀 |
+| 6-7 一致性+对抗 | 7h | 10% | 超限带风险交付，不消内容保平安 |
 
-## 模型角色矩阵（as-is）
+## 核心机制（它凭什么保证质量）
+
+1. **三 Agent 商议 Deliberation**：DeepSeek/GLM/Kimi 三个不同模型家族的建模手独立深推 → 交换批评 → 各自修订，修订说明逐条引用被采纳/拒绝的批评。**分歧不强制收敛**——多样性是资产，不是 bug。
+2. **双轨迹 A/B 并行**：从商议方案中选最强两条独立路线并行执行，产出后投票选主线。不把鸡蛋放在一个模型的一条思路上。
+3. **声明注册表（claims registry）**：散文不是主产物，注册表才是。每条数值/结论声明带 scope 四元组（口径/群体/时代/规则）、provenance（结果仓路径+key）、依赖关系——①同名同口径不同值 = 脚本阻断；②派生量必须能反算（149/259=57.53% ✓）；③caveat 沿依赖图强制传播（§5 承认的局限不许在 §7 被静默丢弃）；④强度分级（descriptive/associational/causal/validated）与证据类型（replay/holdout/simulation/external）的越级规则表。
+4. **检测层三模型独立抽取 + 作者回避**：三个不同家族独立抽取全文声明取并集（漏抽模式不相关）；写 §N 的实例不得参与 §N 的抽取裁决；种子矛盾库注入式回归测试（召回率是硬指标，漏检自动入库归因）。
+5. **验证产物强制**：每条路线立项时必须声明配套验证——反演→模拟恢复实验；预测→holdout；优化→约束审计+下界。哈希链只防篡改不防错跑，**验证产物才是「跑对了」的证据**。
+6. **确定性一致性层**：hash/manifest/四方核对/格式断言全部脚本化并挂 build 钩子（不靠 Agent 自觉）。否决权只留给造假类（编造数据/文献/版本号/漏问）；其余问题降级为 risk_report 随交付附出。
+7. **评委 skill v2.6 终评**：GLM/Kimi/新开 DeepSeek 三个**零撰写上下文**实例独立评审（隔离撰写方偏见）+ 扣分记录制评分引擎 + 真人常模分位映射 + 四方数字 diff（正文/表格/图内/摘要全局比对）。
+
+## 模型角色矩阵
 
 | 角色 | 模型 |
 |---|---|
@@ -47,11 +50,69 @@ docs/
 | 检测层抽取 ×3（作者回避） | DeepSeek / GLM / Kimi |
 | Stage 4 评审 ×3（相对排序） | DeepSeek / GLM / Kimi |
 | 评委终评 v2.6 三评（零撰写上下文） | GLM / Kimi / DeepSeek |
-| 视觉核查（渲染检查/图内文字提取） | Qwen3.8-Max（K3 视觉已退役） |
-| 编码执行 | → 协同编码管线（T1/T2/T3 路由，见 Multi-Agent 仓库） |
+| 视觉核查（渲染检查/图内文字提取） | Qwen3.8-Max（Kimi K3 视觉位已退役，成本指令） |
+| 编码执行 | → 协同编码管线（T1/T2/T3 路由） |
 
-## 与协同编码管线的边界
+## 实战记录（产物全部在 docs/，可追溯）
 
-- 本仓库**不依赖**任何编码管线 skill；Stage 3 的编码需求作为任务派发给协同编码管线执行。
-- 铁律（两仓库通用）：写评分离、确定性门禁不认模型、72h 竞赛时间窗、评审零撰写上下文实例隔离、旧进程不杀并行对照。
-- 分家说明：`docs/pipelines-split-2026-08.md`。
+| 场次 | 产物 | 要点 |
+|---|---|---|
+| 2026 MCM C（DWTS 淘汰预测） | `docs/DWTS_2026C_v5.pdf`（15 页 LaTeX）+ `docs/v5_run/` 全部运行产物 | V5 首战：registry 种子回归 5/5、四方核对 34/34、模拟恢复实验证伪「回代 100%」并如实写进论文 |
+| 华数杯 2026C（算电协同调度） | 12 页官方模板版 | 调度贪心三原则、C++ OpenMP 重写、消融归因 |
+| 55 题真题批测 | 技能库基准文档 | 平均 80.4（⚠️ 子代理自评口径，见下） |
+
+## 仓库结构
+
+```
+skills/
+  data-science/
+    1start-mathmodel … 6verity/     # 6 阶段论文流水线
+    math-brainstorm/  brute-force-think/   # 思路脑暴 / 暴力求解
+    mathmodel-v2-pipeline/          # 融合架构 v2.2
+    mathmodel-pipeline-v3/          # 管线 v3.0 全题型执行手册
+    mathmodel-judge-perspective/    # 评委视角 skill v2.6
+    mathmodel-figure-templates/  typst-author/  doctor/  _references/
+  multi-agent-pipeline/             # 6 阶段编排 + 架构全景
+docs/
+  V5_pipeline_design.md             # V5 管线完整设计（含设计决策溯源表）
+  judge_skill_v2{5,6}_design.md     # 评委 skill v2.5/v2.6 设计文档
+  pipeline_4model_design.md         # 四模型化设计（存档，待批准）
+  flowchart_v5*.png                 # V5 管线流程图（纸墨风）
+  2026_MCM-ICM_Problems/            # 2026 官方题目包
+  v5_run/                           # V5 首战代码与全部运行产物
+```
+
+## 版本时间线（git tag，完整演进）
+
+| tag | 里程碑 |
+|---|---|
+| `v2.2` | 融合架构 v2.2（mathmodel-v2-pipeline 初版：模式选择/建模辩论/数值验证门禁/五人评审团） |
+| `pipeline-v2.3` `pipeline-v2.4` | C 题 O 奖论文精读驱动的迭代（优缺点强制/灵敏度标配/多模型对比） |
+| `pipeline-v3.0` | 全题型版：437 篇 O 奖精读 → 4 条 100% 全票铁律 + 8 条高票规则 |
+| `pipeline-v3.1` | 55 题批测驱动升级（交付优先序/图密度/灵敏度矩阵/数据辩护模板） |
+| `v5-pipeline` | V5 管线全链路并入：三 Agent 商议引擎 / claims registry / 双轨迹实战 / 15 页论文 |
+| `judge-v1.0` … `judge-v1.6` | 评委 skill 依据审计时代：官方 Triage 指南 → 84 篇 C 题逐篇精读 |
+| `judge-v2.0` `judge-v2.1` | 437 篇全题型校准（HARD FAIL 扩至 10 项） |
+| `judge-v2.3` | 两段式评审（确定性审计前置） |
+| `judge-v2.5` `judge-v2.5.1` | 六阶段架构 + 三评仲裁 + 视觉评审层（冷启动五层参照系） |
+| `judge-v2.6` | 终版：四方数字 diff + 名实审查 E1-E4 + 扣分记录制评分引擎 |
+| `pipeline-4model-design` | 四模型化设计存档（Qwen 第四全权模型，待批准后实施） |
+
+## 诚实边界（重要，引用本仓库数字前请读）
+
+1. **55 题批测平均 80.4 是子代理自评口径**，非外部评审——两者必须分开标注，不可混用。
+2. 评委 v2.6 首战：三评中位数与真人 80 分锚偏差 +3.5（达标）；**分位映射层尚未在评审管线中完全接线**，绝对分校准仍在进行。
+3. 「多模型互证 16/16」等铁律来自 437 篇 **O 奖正样本**精读——正样本无对照组，属待验证假设（M/H 奖对照扫描是计划项）。
+4. 四模型化设计（Qwen 进入建模手/检测/评审链）已定稿存档于 `docs/pipeline_4model_design.md`，**未实施**。
+5. 论文语料库（437 篇 O 奖 PDF 全量精读笔记）在本地技能库中，不在本仓库。
+
+## 与协同编码管线的接口
+
+- 本仓库**不依赖**任何编码管线 skill；Stage 3 的计算需求（调度器/扫描器/管线脚本等）作为任务派发给协同编码管线执行。
+- 通用铁律：写评分离、确定性门禁不认模型、72h 时间窗、评审零撰写上下文实例隔离、旧进程不杀并行对照。
+- 三仓库分家说明：`docs/pipelines-split-2026-08.md`。
+
+## 相关仓库
+
+- 协同编码管线 → [Multi-agent-programming-pipeline](https://github.com/xtr0928/Multi-agent-programming-pipeline)
+- 通用工具与编排 → [Multi-Agent](https://github.com/xtr0928/Multi-Agent)
