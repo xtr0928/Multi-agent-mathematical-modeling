@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>数模管线 V5 升级 · 架构图（2026-08-15）</title>
+<style>
+:root{
+  --paper:#faf8f3; --ink:#1c1a16; --accent:#a63a2a;
+  --c-model:#b3562e; --c-code:#2f6b5e; --c-write:#3a5a8c; --c-judge:#6b4a8c;
+  --c-gate:#a63a2a; --c-data:#8a8578; --hairline:#d9d4c8; --muted:#6b655a;
+  --serif:"Noto Serif SC","Source Han Serif SC","Songti SC","STSong","SimSun",serif;
+  --sans:"Noto Sans SC","Source Han Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
+  --mono:"JetBrains Mono","SFMono-Regular",Consolas,"Liberation Mono",monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.6}
+#sheet{width:1200px;margin:0 auto;padding:48px 56px 60px}
+#h h1{font-family:var(--serif);font-size:30px;font-weight:700;letter-spacing:.04em}
+#h .sub{font-family:var(--serif);font-size:15px;color:var(--muted);margin-top:8px}
+#h .meta{font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-top:12px;letter-spacing:.04em}
+#legend{display:flex;gap:18px;flex-wrap:wrap;margin:18px 0 30px;padding:12px 16px;border:1px solid var(--hairline)}
+#legend .li{display:flex;align-items:center;gap:6px;font-size:12px}
+#legend .sw{width:14px;height:14px;border-radius:2px}
+#legend .sw.new{background:var(--c-gate)} #legend .sw.enh{background:var(--c-model)}
+#legend .sw.keep{background:var(--c-data)} #legend .sw.flow{background:var(--c-write)}
+#legend .sw.judge{background:var(--c-judge)}
+.lane{margin:0 0 26px}
+.lane-row{display:flex;align-items:stretch}
+.lane-label{width:148px;min-width:148px;border:1px solid var(--hairline);border-right:none;
+  padding:14px 12px;display:flex;flex-direction:column;justify-content:center}
+.lane-label .lnum{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:.1em}
+.lane-label .lname{font-family:var(--serif);font-size:16px;font-weight:700;margin-top:4px}
+.lane-label .lgoal{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.5}
+.lane-body{flex:1;border:1px solid var(--hairline);padding:12px;display:flex;flex-wrap:wrap;gap:10px;align-content:flex-start}
+.agent{position:relative;border:1px solid var(--hairline);padding:10px 12px 9px;min-width:150px;max-width:230px;flex:1 1 150px;background:transparent}
+.agent::before{content:"";position:absolute;top:-1px;left:-1px;right:-1px;height:3px}
+.agent.t-new::before{background:var(--c-gate)} .agent.t-enh::before{background:var(--c-model)}
+.agent.t-keep::before{background:var(--c-data)} .agent.t-flow::before{background:var(--c-write)}
+.agent.t-judge::before{background:var(--c-judge)}
+.agent-name{font-family:var(--serif);font-size:14px;font-weight:700}
+.agent-name .tag{font-family:var(--mono);font-size:9.5px;color:var(--accent);margin-left:6px;letter-spacing:.08em}
+.agent-role{font-size:11.5px;color:var(--muted);margin-top:3px;line-height:1.45}
+.agent-io{font-family:var(--mono);font-size:10px;color:var(--ink);margin-top:5px;line-height:1.5}
+.agent-src{font-family:var(--mono);font-size:9.5px;color:var(--c-write);margin-top:5px}
+.flow{display:flex;align-items:center;gap:6px;margin:14px 0 14px 160px;flex-wrap:wrap}
+.flow .step{border:1px solid var(--hairline);padding:5px 12px;font-size:12px;background:transparent}
+.flow .step b{font-family:var(--serif)}
+.flow .arrow{color:var(--accent);font-family:var(--mono)}
+.gate{border:2px solid var(--c-gate);padding:8px 12px;font-size:12px;background:transparent}
+.gate b{font-family:var(--serif)}
+.gate .pass{font-family:var(--mono);font-size:10px;color:var(--muted)}
+#foot{margin-top:30px;border-top:2px solid var(--ink);padding-top:14px;font-size:12px;color:var(--muted);line-height:1.9}
+#foot b{color:var(--ink)}
+</style>
+</head>
+<body>
+<div id="sheet">
+  <div id="h">
+    <h1>数模管线 V5 升级 · 架构总览</h1>
+    <div class="sub">作废重算引擎 × C++ OpenMP 执行器 × 假设官 × 数值验证门禁 × 排版层 —— 2026-08-15 开发文档配套图</div>
+    <div class="meta">DESIGN DOC: docs/V5_upgrade_dev_doc_2026-08-15.md · 混合编码管线产出（GLM 骨架 × Kimi 审查 × DS 编排）</div>
+  </div>
+
+  <div id="legend">
+    <div class="li"><span class="sw new"></span>新增模块</div>
+    <div class="li"><span class="sw enh"></span>增强模块</div>
+    <div class="li"><span class="sw keep"></span>保持模块</div>
+    <div class="li"><span class="sw flow"></span>数据流</div>
+    <div class="li"><span class="sw judge"></span>评审/校准</div>
+  </div>
+
+  <!-- 泳道1：数据层 -->
+  <div class="lane">
+    <div class="lane-row">
+      <div class="lane-label"><span class="lnum">LANE 01</span><span class="lname">数据层</span><span class="lgoal">四层节点 · SHA-512 哈希 · 原子发布 · 不可变</span></div>
+      <div class="lane-body">
+        <div class="agent t-keep"><div class="agent-name">param 参数<span class="tag">DATA</span></div>
+          <div class="agent-role">脚本参数，语义化哈希</div>
+          <div class="agent-io">SHA-512(canonical_json 分作用域 data/model/plot)</div>
+          <div class="agent-src">作废传播只走受影响作用域（A5）</div></div>
+        <div class="agent t-keep"><div class="agent-name">input 输入<span class="tag">DATA</span></div>
+          <div class="agent-role">原始/清洗数据，字节级一致</div>
+          <div class="agent-io">SHA-512(file_content)</div>
+          <div class="agent-src">禁止归一化，保证唯一性</div></div>
+        <div class="agent t-keep"><div class="agent-name">script 脚本<span class="tag">DATA</span></div>
+          <div class="agent-role">py / cpp+hpp 全依赖</div>
+          <div class="agent-io">SHA-512(source) · -MMD 头文件清单纳入</div>
+          <div class="agent-src">C++ 编译缓存 key 同源（A10）</div></div>
+        <div class="agent t-keep"><div class="agent-name">result 结果<span class="tag">DATA</span></div>
+          <div class="agent-role">数值产物，版本化路径</div>
+          <div class="agent-io">SHA-512(output) · tmp+rename 原子发布</div>
+          <div class="agent-src">%.17g/%a 精度 · 禁止原地覆盖（D3）</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 泳道2：作废重算引擎 -->
+  <div class="lane">
+    <div class="lane-row">
+      <div class="lane-label"><span class="lnum">LANE 02</span><span class="lname">作废重算引擎</span><span class="lgoal">本次核心 · 传递闭包 · 防脏数据复用</span></div>
+      <div class="lane-body">
+        <div class="agent t-new"><div class="agent-name">依赖 DAG<span class="tag">NEW</span></div>
+          <div class="agent-role">六类节点 param→input→script→result→claim→paragraph</div>
+          <div class="agent-io">SQLite 持久化 · 环检测启动前强制</div>
+          <div class="agent-src">传递闭包是强制规则（D1/A1）</div></div>
+        <div class="agent t-new"><div class="agent-name">作废传播<span class="tag">NEW</span></div>
+          <div class="agent-role">任一哈希变 → 全下游作废，禁止只标直接下游</div>
+          <div class="agent-io">stale 标记沿边传播 · 写回生成新版本节点</div>
+          <div class="agent-src">防 A→B→A 死循环（D2/A2）</div></div>
+        <div class="agent t-new"><div class="agent-name">SHA-512 三级新鲜度<span class="tag">NEW</span></div>
+          <div class="agent-role">L1 input / L2 script / L3 组合哈希+env</div>
+          <div class="agent-io">claim 访问前 + build 钩子触发校验</div>
+          <div class="agent-src">用户指令：防漂移 SHA-512（2026-08-15）</div></div>
+        <div class="agent t-new"><div class="agent-name">重算调度<span class="tag">NEW</span></div>
+          <div class="agent-role">拓扑序 · 默认全量 · 增量白名单制</div>
+          <div class="agent-io">6 任务×16 OMP=96 核 · 关键路径优先</div>
+          <div class="agent-src">影响评估 >30% 挤占触发预授权降级（D8/D9）</div></div>
+        <div class="agent t-new"><div class="agent-name">写入门卫<span class="tag">NEW</span></div>
+          <div class="agent-role">registry 写入侧新鲜度校验</div>
+          <div class="agent-io">过期输入 → 拒绝入库 / 标记 superseded</div>
+          <div class="agent-src">堵「旧进程不杀」的脏数据回灌（D4/A4）</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 泳道3：C++ 执行器 -->
+  <div class="lane">
+    <div class="lane-row">
+      <div class="lane-label"><span class="lnum">LANE 03</span><span class="lname">C++ 执行器</span><span class="lgoal">128 核 · OpenMP 确定性 · 与旧进程对照</span></div>
+      <div class="lane-body">
+        <div class="agent t-new"><div class="agent-name">文件队列<span class="tag">NEW</span></div>
+          <div class="agent-role">pending/running/done/failed 四态</div>
+          <div class="agent-io">任务 JSON 含完整哈希链 + thread_count</div>
+          <div class="agent-src">崩溃后任务不丢（D10/A11）</div></div>
+        <div class="agent t-new"><div class="agent-name">确定性归约<span class="tag">NEW</span></div>
+          <div class="agent-role">固定分块 + pairwise/Kahan + 末级单线程</div>
+          <div class="agent-io">同任务 10 连跑 SHA-512 全等</div>
+          <div class="agent-src">OpenMP 非确定 vs 可复现断言的正解（D11/A8）</div></div>
+        <div class="agent t-new"><div class="agent-name">编译缓存<span class="tag">NEW</span></div>
+          <div class="agent-role">key=源+头文件+flags+编译器+env</div>
+          <div class="agent-io">1GB LRU · 命中即省时</div>
+          <div class="agent-src">头文件漏哈希是上古 bug（D13/A10）</div></div>
+        <div class="agent t-new"><div class="agent-name">Python 回退<span class="tag">NEW</span></div>
+          <div class="agent-role">每 C++ 任务必须有 Python 实现</div>
+          <div class="agent-io">失败 ≤2 次自动回退 · 主控停摆=0</div>
+          <div class="agent-src">跨语言对照：预生成 RNG + KS 检验（D14/D15）</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 泳道4：主流程 -->
+  <div class="lane">
+    <div class="lane-row">
+      <div class="lane-label"><span class="lnum">LANE 04</span><span class="lname">Stage 主流程</span><span class="lgoal">S0-S6 · 四模型 · 写评分离</span></div>
+      <div class="lane-body">
+        <div class="flow">
+          <span class="step"><b>S0</b> 问题解析</span><span class="arrow">→</span>
+          <span class="step"><b>S1</b> 假设生成/审查</span><span class="arrow">→</span>
+          <span class="step"><b>S2</b> 建模×4</span><span class="arrow">→</span>
+          <span class="step"><b>S3</b> 评审×4</span><span class="arrow">→</span>
+          <span class="step"><b>S4</b> 数值门禁</span><span class="arrow">→</span>
+          <span class="step"><b>S5</b> 排版层</span><span class="arrow">→</span>
+          <span class="step"><b>S6</b> 交付</span>
+        </div>
+        <div class="agent t-enh"><div class="agent-name">stage0_parser<span class="tag">ENH</span></div>
+          <div class="agent-role">问题分类学接入 + 题型模板指针</div>
+          <div class="agent-io">problem_profile.json · problem_id 全管线 trace 根</div>
+          <div class="agent-src">评价类自动挂验证模板</div></div>
+        <div class="agent t-new"><div class="agent-name">假设官<span class="tag">NEW</span></div>
+          <div class="agent-role">四步：登记→必要性→挑战→敏感度</div>
+          <div class="agent-io">assumption_registry.json · 三级分类</div>
+          <div class="agent-src">隐式假设映射表 + 登记挂 build 钩子（D19/D20）</div></div>
+        <div class="agent t-new"><div class="agent-name">Devil's Advocate<span class="tag">NEW</span></div>
+          <div class="agent-role">专职挑刺：反事实+实验设计强制</div>
+          <div class="agent-io">实质挑战 ≥2 · 关键假设全覆盖</div>
+          <div class="agent-src">防挑战形式化（D21/A18）</div></div>
+        <div class="agent t-enh"><div class="agent-name">建模手 A/B/C/D<span class="tag">ENH</span></div>
+          <div class="agent-role">DS/GLM/Kimi K3/Qwen3.8-Max · hot_loop 声明</div>
+          <div class="agent-io">双轨迹 · frozen 假设约束 · C++ 重写对接</div>
+          <div class="agent-src">四模型化已落地（2026-08-15）</div></div>
+        <div class="agent t-judge"><div class="agent-name">评审四重奏<span class="tag">KEEP</span></div>
+          <div class="agent-role">四评校准阶梯 · 零上下文隔离</div>
+          <div class="agent-io">相对排序 · 投票选主线</div>
+          <div class="agent-src">评委 v2.7 四评版</div></div>
+        <div class="agent t-enh"><div class="agent-name">数值门禁<span class="tag">ENH</span></div>
+          <div class="agent-role">四断言 + 可复现性断言</div>
+          <div class="agent-io">采样代入/量纲/边界/sympy + SHA-512 重跑还原</div>
+          <div class="agent-src">挂 build 钩子不靠 Agent 自觉（A32）</div></div>
+        <div class="agent t-new"><div class="agent-name">排版层<span class="tag">NEW</span></div>
+          <div class="agent-role">图清单/公式清单/四维密度/直观性</div>
+          <div class="agent-io">O 奖语料 IQR 基线 · Qwen 3 秒理解度</div>
+          <div class="agent-src">数量标准不硬编码（D23/A20）</div></div>
+        <div class="agent t-keep"><div class="agent-name">claims_registry<span class="tag">KEEP</span></div>
+          <div class="agent-role">数字五元组绑定 · 作废传播中枢</div>
+          <div class="agent-io">predicate 词汇表状态词 · 段落数字焊接</div>
+          <div class="agent-src">正文数字必须引用条目 ID（D6/A6）</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 泳道5：状态机 -->
+  <div class="lane">
+    <div class="lane-row">
+      <div class="lane-label"><span class="lnum">LANE 05</span><span class="lname">双状态机</span><span class="lgoal">断点恢复 × 72h 时间窗</span></div>
+      <div class="lane-body">
+        <div class="agent t-new"><div class="agent-name">进度状态机<span class="tag">NEW</span></div>
+          <div class="agent-role">唯一事实源 · checkpoint + append-only 日志</div>
+          <div class="agent-io">恢复=重放日志重建 dirty 全集，不信完成标记</div>
+          <div class="agent-src">幂等任务，hash 全绿才推进（D16/A13-A15）</div></div>
+        <div class="agent t-new"><div class="agent-name">时间窗状态机<span class="tag">NEW</span></div>
+          <div class="agent-role">只读不拥有 · 消费进度数据做降级</div>
+          <div class="agent-io">商议14%/双轨迹42%/成文25%硬保底/纠错≤20%</div>
+          <div class="agent-src">正确性 > 完整性 > 时间窗（D17/D18）</div></div>
+        <div class="gate"><b>预授权降级</b><span class="pass">重算挤占成文>30% → 双轨迹→单轨迹 · 跳敏感度 · 排版降级</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="foot">
+    <b>关键数字：</b>作废传播召回 100%（A1）· C++ 连跑 10 次 SHA-512 全等（A8）· JSON 精度 ULP=0（A9）· 加速比 ≥5×（A12）· 数字重跑还原率 100%（A25）· 挑战空话率 0%（A18）· 排版缺陷召回 ≥8/10（A21）· 离线全流程可跑（A29）<br>
+    <b>铁律：</b>写评分离 · 评审零上下文隔离 · 作者回避 · 门禁不认模型挂 build 钩子 · 成文 25% 硬保底 · 旧进程不杀并行对照 · T5 窗口内权重 0 · 正确性 &gt; 完整性 &gt; 时间窗
+  </div>
+</div>
+</body>
+</html>
