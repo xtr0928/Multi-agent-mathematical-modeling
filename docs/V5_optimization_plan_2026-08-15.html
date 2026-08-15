@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>数模管线 V5 · 优化清单（2026-08-15）</title>
+<style>
+:root{
+  --paper:#faf8f3; --ink:#1c1a16; --accent:#a63a2a; --fatal:#a63a2a;
+  --major:#b3562e; --minor:#3a5a8c; --hairline:#d9d4c8; --muted:#6b655a;
+  --serif:"Noto Serif SC","Source Han Serif SC","Songti SC","STSong","SimSun",serif;
+  --sans:"Noto Sans SC","Source Han Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
+  --mono:"JetBrains Mono","SFMono-Regular",Consolas,"Liberation Mono",monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.75;
+  -webkit-font-smoothing:antialiased}
+#wrap{max-width:860px;margin:0 auto;padding:64px 40px 120px}
+/* ---------- header ---------- */
+#doc-header{border-bottom:2px solid var(--ink);padding-bottom:28px;margin-bottom:12px}
+#doc-header h1{font-family:var(--serif);font-size:34px;font-weight:700;letter-spacing:.04em;line-height:1.4}
+#doc-header .sub{font-family:var(--serif);font-size:17px;color:var(--muted);margin-top:10px}
+#doc-meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+#doc-meta span{font-family:var(--mono);font-size:12px;color:var(--muted);
+  border:1px solid var(--hairline);padding:3px 10px;border-radius:2px}
+#doc-meta span b{color:var(--ink)}
+/* ---------- summary strip ---------- */
+#summary-strip{display:flex;gap:0;margin:18px 0 8px;flex-wrap:wrap}
+#summary-strip div{flex:1;min-width:150px;padding:12px 16px;border:1px solid var(--hairline);border-left-width:4px}
+#summary-strip .f{border-left-color:var(--fatal)}
+#summary-strip .m{border-left-color:var(--major)}
+#summary-strip .e{border-left-color:var(--minor)}
+#summary-strip b{font-family:var(--serif);font-size:22px;display:block}
+#summary-strip span{font-size:12.5px;color:var(--muted)}
+/* ---------- group ---------- */
+#toc-note{font-family:var(--mono);font-size:12px;color:var(--muted);margin:26px 0 6px}
+.group{margin:44px 0 0}
+.group-head{display:flex;align-items:baseline;gap:12px;border-bottom:1px solid var(--ink);padding-bottom:8px;margin-bottom:4px}
+.group-head .gnum{font-family:var(--mono);font-size:13px;color:var(--accent)}
+.group-head h2{font-family:var(--serif);font-size:23px;font-weight:700;letter-spacing:.03em}
+.group-head .gstage{font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-left:auto}
+.group-desc{font-size:13.5px;color:var(--muted);margin:6px 0 16px}
+/* ---------- card ---------- */
+.card{position:relative;background:transparent;border:1px solid var(--hairline);
+  margin:0 0 26px;padding:22px 26px 20px;border-radius:2px;break-inside:avoid}
+.card::before{content:"";position:absolute;top:-1px;left:-1px;right:-1px;height:4px;
+  border-radius:2px 2px 0 0}
+.card.f::before{background:var(--fatal)}
+.card.m::before{background:var(--major)}
+.card.e::before{background:var(--minor)}
+.card-top{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+.card-num{font-family:var(--mono);font-size:13px;color:var(--accent)}
+.card h3{font-family:var(--serif);font-size:19px;font-weight:700;letter-spacing:.02em}
+.badge{font-family:var(--mono);font-size:11px;color:#fff;padding:1px 9px;border-radius:2px;letter-spacing:.06em}
+.badge.f{background:var(--fatal)} .badge.m{background:var(--major)} .badge.e{background:var(--minor)}
+.card-tags{font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+.card-tags a{color:var(--minor);text-decoration:none;border-bottom:1px dotted var(--minor)}
+.evidence{margin:8px 0 14px;font-size:12.5px;color:var(--muted);
+  border-left:2px solid var(--hairline);padding:4px 0 4px 12px}
+.evidence b{color:var(--ink)}
+.evidence .src{font-family:var(--mono);font-size:11px;color:var(--minor)}
+.q{margin:13px 0 0}
+.q .qhead{display:flex;gap:10px;align-items:baseline}
+.q .qnum{font-family:var(--serif);font-size:14px;font-weight:700;color:var(--accent);min-width:92px}
+.q .qtitle{font-family:var(--serif);font-size:15px;font-weight:700}
+.q .qbody{font-size:14px;color:#2e2a24;margin:4px 0 0 102px;text-wrap:pretty}
+@media(max-width:640px){.q .qbody{margin-left:0;margin-top:6px}#wrap{padding:40px 20px 80px}}
+/* ---------- footer ---------- */
+#footer{margin-top:56px;border-top:2px solid var(--ink);padding-top:18px}
+#footer h2{font-family:var(--serif);font-size:20px;margin-bottom:10px}
+#footer table{width:100%;border-collapse:collapse;font-size:13px;margin:10px 0 20px}
+#footer th,#footer td{border:1px solid var(--hairline);padding:7px 10px;text-align:left;vertical-align:top}
+#footer th{font-family:var(--serif);background:#f0ece2}
+#footer .note{font-size:12.5px;color:var(--muted);line-height:1.8}
+/* ---------- FAB + drawer ---------- */
+#fab{position:fixed;right:26px;bottom:26px;z-index:200;width:52px;height:52px;
+  background:var(--ink);color:var(--paper);border:none;border-radius:2px;cursor:pointer;
+  font-family:var(--mono);font-size:20px;box-shadow:0 2px 10px rgba(28,26,22,.3)}
+#fab:hover{background:var(--accent)}
+#mask{position:fixed;inset:0;z-index:300;background:rgba(28,26,22,.35);
+  opacity:0;pointer-events:none;transition:.3s}
+#mask.open{opacity:1;pointer-events:auto}
+#drawer{position:fixed;right:0;top:0;bottom:0;z-index:400;width:300px;max-width:88vw;
+  background:var(--paper);border-left:1px solid var(--hairline);transform:translateX(102%);
+  transition:transform .38s;overflow-y:auto;padding:20px 0 30px}
+#drawer.open{transform:none}
+#drawer .dhead{display:flex;justify-content:space-between;align-items:center;
+  padding:0 22px 14px;border-bottom:1px solid var(--ink)}
+#drawer .dhead span{font-family:var(--serif);font-size:16px;font-weight:700}
+#drawer .dclose{background:none;border:none;font-size:22px;cursor:pointer;color:var(--ink);padding:4px 8px}
+#drawer ol{list-style:none;padding:10px 22px}
+#drawer li{margin:2px 0}
+#drawer a{display:block;padding:7px 10px;font-size:13.5px;color:var(--ink);
+  text-decoration:none;border-left:2px solid transparent;transition:.15s}
+#drawer a:hover{background:#f0ece2}
+#drawer a.active{color:var(--accent);border-left-color:var(--accent);background:#f0ece2}
+#drawer .dg{font-family:var(--mono);font-size:11px;color:var(--muted);padding:12px 22px 2px}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div id="wrap">
+
+  <header id="doc-header">
+    <h1>数模管线 V5 · 优化清单</h1>
+    <div class="sub">55 题批测问题 × 开源项目对照 × 归档会话回顾 —— 每一项给出「为什么需要 / 加进去的原因 / 工作原理」</div>
+    <div id="doc-meta">
+      <span>日期 <b>2026-08-15</b></span>
+      <span>对象 <b>V5 管线（Stage 0–7 + 评委 skill v2.7）</b></span>
+      <span>依据 <b>34 题实测 · 55 题批测 · 28+12 开源项目 · 2 场实战打回</b></span>
+    </div>
+  </header>
+
+  <div id="summary-strip">
+    <div class="f"><b>5</b><span>致命级 · 不补则管线结论不可信</span></div>
+    <div class="m"><b>8</b><span>重要级 · 实测高频问题的直接解法</span></div>
+    <div class="e"><b>3</b><span>增强级 · 提升上限的机制</span></div>
+  </div>
+  <div id="toc-note">点击右下角 ☰ 打开目录 · 16 项 · 按管线阶段分组</div>
+
+  <!-- ============ 组 A ============ -->
+  <section class="group" id="grp-a">
+    <div class="group-head"><span class="gnum">GROUP A</span><h2>选题与假设管理</h2><span class="gstage">插入点 Stage 0–2</span></div>
+    <div class="group-desc">竞赛的第一个决策（选哪道题）和模型的第一个决策（信哪些假设），是 72 小时里杠杆最高、V5 目前完全空白的两个环节。</div>
+
+    <div class="card f" data-card id="opt-01">
+      <div class="card-top"><span class="card-num">01</span><h3>六维选题评估 + 一票否决</h3><span class="badge f">致命</span></div>
+      <div class="card-tags">插入：Stage 0 之前（新增 Stage -1）｜出处：xuec699/math-modeling-skills · problem-triage</div>
+      <div class="evidence"><b>证据：</b>34 题实测，有数据题验证维度 12–14/15，无数据题 10–11/15——<b>选题本身决定 3–4 分的验证上限</b>；MCM 一场 6 题可选，V5 从 Stage 0 起假设题目已定。<span class="src">[34 题批测实测]</span></div>
+      <div class="q"><div class="qhead"><span class="qnum">① 为什么需要</span><span class="qtitle">选题是第一个不可逆决策</span></div>
+      <div class="qbody">题目选错（选了无数据题但团队不擅长合成数据），后续所有管线机制都救不回来。V5 把「题目已定」当默认前提，等于把竞赛的第一个高杠杆决策点跳过了。</div></div>
+      <div class="q"><div class="qhead"><span class="qnum">② 加进去的原因</span><span class="qtitle">把「拍脑袋选题」变成可审计决策</span></div>
+      <div class="qbody">批测数据证明题目类型与分数上限强相关（数据可得性是第一主因）。选题评估用 15 分钟把最坏情况前置排除，代价极低，收益是整场竞赛的上限。</div></div>
+      <div class="q"><div class="qhead"><span class="qnum">③ 工作原理</span><span class="qtitle">六维加权 + 硬否决</span></div>
+      <div class="qbody">数学类型 ×0.15 / 数据可得性 ×0.20 / 算法复杂度 ×0.15 / 评价清晰度 ×0.20 / 写作难度 ×0.15 / 团队匹配度 ×0.15 加权打分；<b>一票否决</b>：数据可得性=1 或团队匹配度=1 直接剔除该题。全部题目打分后选最高分，评估记录落盘供赛后复盘。</div></div>
+    </div>
+
+    <div class="card m" data-card id="opt-02">
+      <div class="card-top"><span class="card-num">02</span><h3>假设官（假设生命周期管理）</h3><span class="badge m">重要</span></div>
+      <div class="card-tags">插入：Stage 2 商议（建模手并列角色）｜出处：v2.2 融合架构 · DiscoveryWorld Hypothesizer</div>
+      <div class="evidence"><b>证据：</b>55 题批测「假设辩护弱 87%」居高频不足前列；「机理题参数靠文献无实测校准」是题型级扣分规律；14/16 组精读投票「灵敏度流于形式」为最大通病。<span class="src">[55 题批测 + 16 组投票]</span></div>
+      <div class="q"><div class="qhead"><span class="qnum">① 为什么需要</span><span class="qtitle">灵敏度分析 ≠ 假设管理</span></div>
+      <div class="qbody">V5 有灵敏度矩阵（事后调参），但没有任何机制在<b>事前挑战假设本身</b>。87% 的题假设辩护弱——假设错了，灵敏度再漂亮也是精致地错。</div></div>
+      <div class="q"><div class="qhead"><span class="qnum">② 加进去的原因</span><span class="qtitle">外部打回案例里假设问题反复出现</span></div>
+      <div class="qbody">华数杯外部打回与 55 题自评的交叉证据一致：假设未经挑战是丢分主线之一。需要一个<b>专职角色</b>，否则「假设审查」永远是建模手自己审自己（自洽偏差）。</div></div>
+      <div class="q"><div class="qhead"><span class="qnum">③ 工作原理</span><span class="qtitle">假设生命周期四步</span></div>
+      <div class="qbody">①生成：每条假设编号登记进假设表（取值/依据/来源）②必要性：这条假设能移除或简化吗？③主动挑战：假设官逐条攻击（违背则模型结论如何变化）④敏感度实验：关键假设强制做，结果写回论文。假设官与建模手零重叠（作者回避）。</div></div>
+    </div>
+
+    <div class="card m" data-card id="opt-03">
+      <div class="card-top"><span class="card-num">03</span><h3>无数据题解法路由（数据铁律）</h3><span class="badge m">重要</span></div>
+      <div class="card-tags">插入：Stage 1 题目结构化 + Stage 3 执行｜出处：Ruoyu-Tianyi/MathModeling + 2021C 实战模板</div>
+      <div class="evidence"><b>证据：</b>34 题实测「无真实数据」20+/34 稳居不足首位；无数据题验证维度系统性 10–11/15 是<b>降档主因</b>。V5 有数据辩护规则，但没有无数据题的替代解法模板。<span class="src">[34 题批测实测]</span></div>
+      <div class="q"><div class="qhead"><span class="qnum">① 为什么需要</span><span class="qtitle">无数据题的验证死结至今未解</span></div>
+      <div class="qbody">V5 的验证产物模板（模拟恢复/holdout/约束审计）全部依赖数据；无数据题没有对应物，验证维度天然被扣 3–4 分。这是批测数据与 V5 设计之间最直接的断裂之一。</div></div>
+      <div class="q"><div class="qhead"><span class="qnum">② 加进去的原因</span><span class="qtitle">把「没有办法」变成「有标准打法」</span></div>
+      <div class="qbody">无数据不是无解——2021C（大黄蜂）实战证明合成数据+显式辩护可以拿高分。缺的是把这条路线固化成路由规则，而不是每题现场想。</div></div>
+      <div class="q"><div class="qhead"><span class="qnum">③ 工作原理</span><span class="qtitle">数据铁律路由表</span></div>
+      <div class="qbody">三级路由：①题面目录搜 <span style="font-family:var(--mono);font-size:13px">*_DATA.zip/*.xlsx</span>（真实数据永远优先，2022C 数据就藏在 PDF 旁）②取不到真实数据→可复现仿真：参数全部来自文献并显式标注「假设值」，禁止编造真实统计数字 ③论文显式声明数据来源与局限（数据辩护节强制）。合成数据刻意保留分布重叠，防 AUC 假高分。</div></div>
+    </div>
+  </section>
+
+  <!-- ============ 组 B ============ -->
+  <section class="group" id="grp-b">
+    <div class="group-head"><span class="gnum">GROUP B</span><h2>验证体系</h2><span class="gstage">插入点 Stage 3 / Stage 6</span></div>
+    <div class="group-desc">「跑对了」之外，V5 还缺三种便宜而关键的验证：零成本的确定性检查、不确定性量化、以及评价类题型的验证模板。</div>
+
+    <div class="card m" data-card id="opt-04">
+      <div class="card-top"><span class="card-num">04</span><h3>数值验证门禁（量纲 / 边界 / 符号）</h3><span class="badge m">重要</span></div>
+      <div class="card-tags">插入：Stage 3 卡 2 验证产物闸｜出处：v2.2 数值验证门禁 · AlphaMath 风格</div>
+      <div class="evidence"><b>证据：</b>华数杯实战门禁复跑抓到「替换脚本量纲错（/1e6 vs /1e4 错 100 倍）」——LLM 自查全漏。V5 验证产物全是重跑类（花钱花时间），零成本确定性验证一条都没纳。<span class="src">[华数杯实战]</span></div>
+      <div class="q"><div class="qhead"><span class="qnum">① 为什么需要</span><span class="qtitle">「跑对了但模型错了」的便宜抓法</span></div>
+      <div class="qbody">量纲错、符号错、边界违是重算也不一定能暴露的错误（重算用同一套错误代码还是错）。确定性检查不依赖 LLM 也不依赖重跑，成本最低、可复现性最强。</div></div>
+      <div class="q"><div class="qhead"><span class="qnum">② 加进去的原因</span><span class="qtitle">验证成本分级：零成本的先做</span></div>
+      <div class="qbody">V5 的验证体系是「全部贵验证」——模拟恢复和 holdout 都要真跑。把确定性检查放在最前面，能拦截的错误最多、单价最便宜，符合「确定性优先于概率性」的既有原则。</div></div>
+      <div class="q"><div class="qhead"><span class="qnum">③ 工作原理</span><span class="qtitle">四类确定性断言</span></div>
+      <div class="qbody">①随机采样代入：方程两端数值一致性 ②量纲维度分析：单位链全程可约分 ③边界条件：端点/极端值代入模型看输出是否合理 ④sympy 符号比对：推导式与实现代码的符号形式一致性。全部脚本化，挂 build 钩子。</div></div>
+    </div>
+
+    <div class="card f" data-card id="opt-05">
+      <div class="card-top"><span class="card-num">05</span><h3>不确定性量化强制（bootstrap 区间）</h3><span class="badge f">致命</span></div>
+      <div class="card-tags">插入：Stage 3 验证产物模板 + Stage 5 写作渲染｜出处：55 题批测规律 + O 奖标配</div>
+      <div class="evidence"><b>证据：</b>55 题实测<b>近半题目没有 bootstrap 区间</b>，而它是近年 O 奖标配；「无区间=验证维度扣分」是批测稳定规律。<b>批测数据与 V5 门禁清单之间最直接的断裂</b>——高频问题没有对应强制项。<span class="src">[55 题批测实测]</span></div>
+      <div class="q"><div class="qhead"><span class="qnum">① 为什么需要</span><span class="qtitle">点估计不可证伪，区间才暴露不确定性</span></div>
+      <div class="qbody">「预测 172 枚」和「预测 172 [155,190]」是两种论文——后者才让评审看见模型的不确定性。批测里近半题目没有区间，直接反映在验证维度扣分上。</div></div>
+      <div class="q"><div class="qhead"><span class="qnum">② 加进去的原因</span><span class="qtitle">批测做了但没有反哺设计</span></div>
+      <div class="qbody">这是 V5 设计流程的教训本身：55 题发现的高频问题，有 4 条（区间/图密度/假设辩护/中断恢复）没进 V5 强制项。补上它同时就是补上「批测→设计」的反馈闭环。</div></div>
+      <div class="q"><div class="qhead"><span class="qnum">③ 工作原理</span><span class="qtitle">按题型强制区间类型</span></div>
+      <div class="qbody">预测类：bootstrap/分位数回归强制区间（2021C 的 AUC 置信带、2025C 的预测区间均为先例）；参数类：置信区间；模拟类：多次运行集合给出分布而非单次结果。论文每个主结果数字必须带不确定性表述，注册表声明加 <span style="font-family:var(--mono);font-size:13px">uncertainty</span> 字段。</div></div>
+    </div>
+
+    <div class="card m" data-card id="opt-06">
+      <div class="card-top"><span class="card-num">06</span><h3>评价类题型验证模板</h3><span class="badge m">重要</span></div>
+      <div class="card-tags">插入：Stage 3 验证产物模板（第四类）｜出处：2018C 实战熵权教训 + OPEN-MCM</div>
+      <div class="evidence"><b>证据：</b>34 题实测「权重主观（AHP/专家设定）」是题型级扣分规律；V5 验证模板只覆盖反演/预测/优化三类（自我批判第 8 条至今未解）。评价类题在 MCM 高频出现。<span class="src">[34 题批测 + 自我批判十条]</span></div>
+      <div class="q"><div class="qhead"><span class="qnum">① 为什么需要</span><span class="qtitle">评价类题没有验证产物，卡 2 形同虚设</span></div>
+      <div class="qbody">反演→模拟恢复、预测→holdout、优化→约束审计；评价题没有对应物，验证产物闸对这类题无法检查任何东西。AHP 权重拍脑袋是评委视角的第一反感项。</div></div>
+      <div class="q"><div class="qhead"><span class="qnum">② 加进去的原因</span><span class="qtitle">覆盖 MCM 题型全集</span></div>
+      <div class="qbody">2016E 水资源、2017E 可持续发展、2018B 语言——评价类题占真题比例不低。模板空缺=这类题在 V5 里天然低人一等。</div></div>
+      <div class="q"><div class="qhead"><span class="qnum">③ 工作原理</span><span class="qtitle">权重敏感性实验 + 交叉验证</span></div>
+      <div class="qbody">①权重敏感性：权重 ±50% 扰动后重算排名，排序稳定性=稳健性证据 ②熵权/等权/专家权三套权重交叉验证排名一致率 ③指标体系对齐题目措辞（2018C 教训：权重语义必须匹配题目问法）。输出 rank-stability 指标入注册表。</div></div>
+    </div>
+
+    <div class="card m" data-card id="opt-07">
+      <div class="card-top"><span class="card-num">07</span><h3>图密度对标 O 奖（图清单登记）</h3><span class="badge m">重要</span></div>
+      <div class="card-tags">插入：Stage 5 写作 + Stage 6 门禁｜出处：Hjdd14 图六要素登记 + 437 篇语料统计</div>
+      <div class="evidence"><b>证据：</b>批测实测 3 图 vs O 奖 21 图（437 篇语料密度 6–38 图）；图密度是 O/M 分水岭之一。V5 配额「每主结果有图」是防下限的水准，不是对标上沿的水准。<span class="src">[34 题批测 + 437 篇语料]</span></div>
+      <div class="q"><div class="qhead"><span class="qnum">① 为什么需要</span><span class="qtitle">防下限的配额 ≠ 冲上限的对标</span></div>
+      <div class="qbody">V5 的图配额是为防「12 页 0 图」设计的底线，按它执行出来的 3-4 图离 O 奖的 21 图差一个数量级。图是「图内数字飞地」问题的高发区，也需要管理。</div></div>
+      <div class="q"><div class="qhead"><span class="qnum">② 加进去的原因</span><span class="qtitle">图是注册表外最后一块飞地</span></div>
+      <div class="qbody">V5 已识别「图是注册表外飞地」但没有登记机制。图清单登记同时解决两个问题：密度对标（数得出缺几张）+ 图内数字可核查（图与声明绑定）。</div></div>
+      <div class="q"><div class="qhead"><span class="qnum">③ 工作原理</span><span class="qtitle">图六要素登记 + 升级配额</span></div>
+      <div class="qbody">每张图登记六要素：file / claim / source_data / x_unit / y_unit / supports_question。配额从「每主结果有图」升级为「每问 ≥1 机制图 + 每主结果 ≥1 结果图 + 全文 ≥8 图」。图内数字与注册表声明自动 diff（Qwen 视觉官抽取图内文字）。</div></div>
+    </div>
+  </section>
+
+  <!-- ============ 组 C ============ -->
+  <section class="group" id="grp-c">
+    <div class="group-head"><span class="gnum">GROUP C</span><h2>执行可靠性</h2><span class="gstage">插入点 Stage 3</span></div>
+    <div class="group-desc">20% 的稳定中断率证明：V5 假设「管线一口气跑完」不成立。执行层需要反思、恢复、回环三件套。</div>
+
+    <div class="card f" data-card id="opt-08">
+      <div class="card-top"><span class="card-num">08</span><h3>代码手反思循环 + 结构化完成度检查</h3><span class="badge f">致命</span></div>
+      <div class="card-tags">插入：Stage 3 执行器内置｜出处：jihe520/MathModelAgent</div>
+      <div class="evidence"><b>证据：</b>34 题实测 <b>7/34 子代理中断需父代理补完（~20% 稳定比例）</b>；补完版自评比完整产出低 3–5 分。V5 卡 2 只查文件存在，不查「原始任务 vs 执行结果」是否对照。<span class="src">[34 题批测实测]</span></div>
+      <div class="q"><div class="qhead"><span class="qnum">① 为什么需要</span><span class="qtitle">中断和跑偏是执行层的头号损耗</span></div>
+      <div class="qbody">20% 的题需要人工补完，补完的题系统性降分——执行可靠性直接决定交付率。V5 的产物存在性闸抓不到「跑完了但跑偏了」的情况。</div></div>
+      <div class="q"><div class="qhead"><span class="qnum">② 加进去的原因</span><span class="qtitle">完成度判定不能靠「不再调用工具」</span></div>
+      <div class="qbody">MathModelAgent 的反面教材：完成度判定「不再调用工具即完成」被证明失效。必须结构化——任务清单逐项对照执行产物，缺一项就继续。</div></div>
+      <div class="q"><div class="qhead"><span class="qnum">③ 工作原理</span><span class="qtitle">反思三件套 + 完成度检查器</span></div>
+      <div class="qbody">报错时结构化反思：报错信息+原代码+5 类排查（语法/缺 import/变量类型/路径/其他）+强制输出「原因+修正」。每个子任务结束时跑完成度检查器：数据处理完成？文件保存？剩余步骤？输出质量？task_completed=True 才放行；死循环防护：任务反复失败→切换路径或简化，禁止无限重试。</div></div>
+    </div>
+
+    <div class="card m" data-card id="opt-09">
+      <div class="card-top"><span class="card-num">09</span><h3>断点恢复状态机（不信任内存只信文件）</h3><span class="badge m">重要</span></div>
+      <div class="card-tags">插入：全 Stage（骨架层）｜出处：yushui2022/MathModel-Skill · workflow_guard</div>
+      <div class="evidence"><b>证据：</b>72h 竞赛中进程/网络/API 限流中断是常态；20% 中断率证明不能假设一口气跑完。V5 有三级新鲜度链（防漂移）但<b>没有断点恢复（防丢失）——两个问题不同</b>。<span class="src">[34 题批测 + 华数杯实战]</span></div>
+      <div class="q"><div class="qhead"><span class="qnum">① 为什么需要</span><span class="qtitle">72 小时竞赛必然发生中断</span></div>
+      <div class="qbody">三天的竞赛里 API 限流、网络抖动、进程崩溃都会发生。没有断点恢复，中断=进度归零或人工救火，这正是批测里 20% 补完率的根因之一。</div></div>
+      <div class="q"><div class="qhead"><span class="qnum">② 加进去的原因</span><span class="qtitle">防漂移和防丢失是两个独立问题</span></div>
+      <div class="qbody">V5 的新鲜度链保证「用对的数据」，但假设了管线一直活着。恢复机制要解决的是「死过之后怎么活过来而且不重复劳动」。</div></div>
+      <div class="q"><div class="qhead"><span class="qnum">③ 工作原理</span><span class="qtitle">阶段标记 + 落盘即真</span></div>
+      <div class="qbody">每阶段产物落盘后写阶段标记文件（含 SHA-256）；重启时扫描标记文件，已完成阶段直接跳过；不信任内存状态只信文件状态；三模式：中断续跑 / 单阶段重跑 / 全量重跑（区分度在标记文件）。</div></div>
+    </div>
+
+    <div class="card e" data-card id="opt-10">
+      <div class="card-top"><span class="card-num">10</span><h3>内部基准反馈环（回环 ≠ 收敛）</h3><span class="badge e">增强</span></div>
+      <div class="card-tags">插入：Stage 3 结束后（Phase 3.5 式回环）｜出处：v2.2 内部基准反馈环</div>
+      <div class="evidence"><b>证据：</b>双轨迹互证若都弱于基线，说明建模方向本身有问题。V5 砍收敛门时把回环一起砍了——但「不达标→补建模证据」和「谈判到共识」是两回事。<span class="src">[v2.2 融合架构]</span></div>
+      <div class="q"><div class="qhead"><span class="qnum">① 为什么需要</span><span class="qtitle">双轨迹都差时缺一个「回炉」路径</span></div>
+      <div class="qbody">如果 A/B 两条路线都不如朴素基线，正确动作是回到建模阶段补强，而不是硬着头皮成文。V5 目前没有这个回环。</div></div>
+      <div class="q"><div class="qhead"><span class="qnum">② 加进去的原因</span><span class="qtitle">砍收敛门的误伤</span></div>
+      <div class="qbody">v4 的收敛门消灭多样性（批判成立），但 V5 修正时把「不达标回环」连同「强制收敛」一起删了。回环可以保留——关键是回环只补证据，不消灭分歧。</div></div>
+      <div class="q"><div class="qhead"><span class="qnum">③ 工作原理</span><span class="qtitle">基线对照 + 有条件回环</span></div>
+      <div class="qbody">Stage 3 末尾强制交叉验证 vs 基线；主模型不显著优于基线→回环建模辩论 ≤2 轮（补充证据/改进方法）；回环后仍分歧→分歧写进 divergence_report 随交付，不强制选边。时间预算从纠错池出，不侵占成文 25% 硬保底。</div></div>
+    </div>
+  </section>
+
+  <!-- ============ 组 D ============ -->
+  <section class="group" id="grp-d">
+    <div class="group-head"><span class="gnum">GROUP D</span><h2>评审与校准</h2><span class="gstage">插入点 Stage 4/7 + 评委 skill</span></div>
+    <div class="group-desc">AI 评审曾系统性漏掉致命问题（外部打回 56–65 分 vs AI 评 81–86 分）。挑刺位、校准链、种子库是三个补丁。</div>
+
+    <div class="card e" data-card id="opt-11">
+      <div class="card-top"><span class="card-num">11</span><h3>Devil's Advocate 专职挑刺位</h3><span class="badge e">增强</span></div>
+      <div class="card-tags">插入：Stage 4 评审团 + 评委 skill 四评｜出处：xuec699 review_gate · devils_advocate</div>
+      <div class="evidence"><b>证据：</b>华数杯外部打回三个致命问题（9 页零编号公式/摘要正文因果相反/消融自毁未回应）AI 评审全漏。V5 相对排序取代打分时，把「专职挑刺者」角色一起丢了。<span class="src">[华数杯外部打回 56–65 分]</span></div>
+      <div class="q"><div class="qhead"><span class="qnum">① 为什么需要</span><span class="qtitle">评审团缺「预设论文有错」立场的角色</span></div>
+      <div class="qbody">常规评审是「找错」而非「证明有错」——遇到看起来自洽的论文就会放过。外部打回证明：需要一个立场相反的角色主动构造攻击。</div></div>
+      <div class="q"><div class="qhead"><span class="qnum">② 加进去的原因</span><span class="qtitle">相对排序保住了，挑刺位误删了</span></div>
+      <div class="qbody">V5 用锦标赛排序替代打分是正确的，但原设计里 devil's advocate 的角色价值与打分制无关——它是态度设计，不是分数设计。</div></div>
+      <div class="q"><div class="qhead"><span class="qnum">③ 工作原理</span><span class="qtitle">专职攻击 + 他人核实</span></div>
+      <div class="qbody">评审团中一个实例以「这篇论文最弱处是什么」为唯一任务，输出攻击清单（含证据定位）；其他评审只负责核实攻击是否成立。攻击与核实分离，防「攻击方自证」。</div></div>
+    </div>
+
+    <div class="card f" data-card id="opt-12">
+      <div class="card-top"><span class="card-num">12</span><h3>校准链四步（盲打分 / 端到端对照 / 对照组 / 映射接线）</h3><span class="badge f">致命</span></div>
+      <div class="card-tags">插入：评委 skill 校准回路 + 管线级实验｜出处：2026-08-12 修正方案（四步至今只完成一步）</div>
+      <div class="evidence"><b>证据：</b>华数杯早期版本：AI 三评 81–86 时外部打回 56–65——<b>20 分落差</b>；v2.6 首战分位映射未接线。修正方案 4 步（盲打分/端到端对照/口径整改/M-H 对照组）2026-08-12 定稿，<b>至今只完成口径整改一步</b>。<span class="src">[两场实战 + 修正方案]</span></div>
+      <div class="q"><div class="qhead"><span class="qnum">① 为什么需要</span><span class="qtitle">「管线有效」至今是假设不是结论</span></div>
+      <div class="qbody">没有端到端对照实验，就没有证据证明 V5 管线比单 agent 直解强——这是最大的诚实赤字。评审 skill 也从未用真实获奖论文盲打分校准过。</div></div>
+      <div class="q"><div class="qhead"><span class="qnum">② 加进去的原因</span><span class="qtitle">AI 评审的 20 分系统性虚高有真案例</span></div>
+      <div class="qbody">分位映射未接线=扣分制的相对序没有映射到真实分数水位的桥。不校准，四评仲裁收敛得再好也是四个模型一起偏。</div></div>
+      <div class="q"><div class="qhead"><span class="qnum">③ 工作原理</span><span class="qtitle">四步校准闭环</span></div>
+      <div class="qbody">①<b>评审盲打分校准</b>：30 篇真实获奖论文（O/M/H 各 10）盲打分，分数分布必须区分档位，否则重调权重 ②<b>端到端对照</b>：3 题 ×（管线全流程 vs 单 agent 直解）×3 次取均值，A 显著 &gt; B 才保留管线 ③<b>M/H 对照组</b>：30–50 篇 M/H 奖特征扫描，「铁律」若在 M 奖同样高频则降级为底线要求 ④<b>分位映射接线</b>：把 F3 映射层接进四评仲裁流程（v2.6 首战暴露的断点）。</div></div>
+    </div>
+
+    <div class="card m" data-card id="opt-13">
+      <div class="card-top"><span class="card-num">13</span><h3>种子库扩展：非数字类种子</h3><span class="badge m">重要</span></div>
+      <div class="card-tags">插入：检测层种子库｜出处：OPT-MCM（ECNU+蚂蚁）34 个真实 MCM 优化任务 + 漏检自动扩充</div>
+      <div class="evidence"><b>证据：</b>种子库 ~15 例<b>全是数字类</b>（①②③类冲突），④⑤类（caveat 断裂/强度失配）种子为零——「④类接近归零」的宣称没有测量基础：没种子当然测不出漏检。<span class="src">[自我批判十条 第 3 条]</span></div>
+      <div class="q"><div class="qhead"><span class="qnum">① 为什么需要</span><span class="qtitle">召回率指标现在是无意义的</span></div>
+      <div class="qbody">种子回归测试的召回率只在种子覆盖的类别上有效。全数字类种子=只能证明「数字冲突抓得住」，④⑤类能力完全没被测试。</div></div>
+      <div class="q"><div class="qhead"><span class="qnum">② 加进去的原因</span><span class="qtitle">华数杯实战恰好贡献了第一批非数字种子</span></div>
+      <div class="qbody">外部打回 17 条教训里（摘要正文因果相反/消融自毁/迁移未归因）全是④⑤类——它们已经被抓到过一次，做成种子就是免费的回归资产。</div></div>
+      <div class="q"><div class="qhead"><span class="qnum">③ 工作原理</span><span class="qtitle">双源扩充</span></div>
+      <div class="qbody">冷启动：OPT-MCM 34 个真实优化任务（含标注缺陷）+ 华数杯 17 条外部打回教训入库带归因。运行期：真实使用中被外部评审抓到的缺陷自动入库（已有机制），每次升级跑全量回归测召回率，漏检自动归因。</div></div>
+    </div>
+  </section>
+
+  <!-- ============ 组 E ============ -->
+  <section class="group" id="grp-e">
+    <div class="group-head"><span class="gnum">GROUP E</span><h2>Registry 工程</h2><span class="gstage">插入点 Stage 5/6（registry 本身）</span></div>
+    <div class="group-desc">registry 是 V5 最大的单项工程，也是唯一从未测量过净收益的核心机制。这两项是它上生产前必须补的账。</div>
+
+    <div class="card f" data-card id="opt-14">
+      <div class="card-top"><span class="card-num">14</span><h3>Registry 原型实验（净收益测量）</h3><span class="badge f">致命</span></div>
+      <div class="card-tags">插入：落地前｜出处：自我批判第 1 条 + 三先例收敛分析</div>
+      <div class="evidence"><b>证据：</b>三个开源先例（cumcm-skill / MathModel-Agent / data-to-paper）独立收敛证明机制成立，<b>但无一报告过净收益</b>。V5 落地时同样没测。若收益 &lt; 成本，应砍 registry 保留双轨迹+验证产物。<span class="src">[开源先例审计]</span></div>
+      <div class="q"><div class="qhead"><span class="qnum">① 为什么需要</span><span class="qtitle">最贵的机制没有账单</span></div>
+      <div class="qbody">registry 占 V5 落地优先级第 1 位、工程成本最高，但「它能带来多少收益」没有任何数据。用没有证据的机制压 72h 时间窗，本身违反 V5 自己的证据纪律。</div></div>
+      <div class="q"><div class="qhead"><span class="qnum">② 加进去的原因</span><span class="qtitle">失败案例就在眼前</span></div>
+      <div class="qbody">三个先例都是个人项目、都没活到测量收益的阶段——这本身是警示。V5 有现成的对照实验资源（已做过的真题），测一次的成本远低于盲上生产。</div></div>
+      <div class="q"><div class="qhead"><span class="qnum">③ 工作原理</span><span class="qtitle">A/B 小实验 + 预设判据</span></div>
+      <div class="qbody">同一题跑「registry 版 vs 无 registry 版」：测矛盾抓取数、修复耗时、最终分差。判据预先定义（如：矛盾召回 ≥80% 且修复时间 −30% 才保留），不达判据就砍——防止上线后「舍不得砍」的沉没成本谬误。</div></div>
+    </div>
+
+    <div class="card m" data-card id="opt-15">
+      <div class="card-top"><span class="card-num">15</span><h3>Predicate 词汇表（实体消解）</h3><span class="badge m">重要</span></div>
+      <div class="card-tags">插入：registry 数据结构前置设计｜出处：自我批判第 2 条</div>
+      <div class="evidence"><b>证据：</b>自我批判第 2 条：做不好实体消解，registry 退化成「每个量只有一个名字所以永远没冲突」的摆设。实体消解是信息抽取领域的老大难问题，需要前置设计。<span class="src">[自我批判十条 第 2 条]</span></div>
+      <div class="q"><div class="qhead"><span class="qnum">① 为什么需要</span><span class="qtitle">同名不同指、同指不同名会静默架空冲突检测</span></div>
+      <div class="qbody">「完成率」和「完成比例」是同一个量两个名字——不对齐，冲突检测永远找不到它们的矛盾，registry 白做。这是 registry 的隐藏核心工程。</div></div>
+      <div class="q"><div class="qhead"><span class="qnum">② 加进去的原因</span><span class="qtitle">现在不做，冲突检测上线即失效</span></div>
+      <div class="qbody">词汇表必须在注册数据结构设计时就位，后补的代价是重构全部已注册声明（26C 20 条、华数杯 30 条已有先例数据）。</div></div>
+      <div class="q"><div class="qhead"><span class="qnum">③ 工作原理</span><span class="qtitle">标准名映射 + 别名捕获</span></div>
+      <div class="qbody">predicate 词汇表：实体名 → 标准名映射表；声明注册时实体名强制归一化到标准名；未识别的实体名自动入「待审别名」队列（同一实体两处不同写法=冲突信号）；检测层抽取时对同指标别名做聚类预合并。</div></div>
+    </div>
+  </section>
+
+  <!-- ============ 组 F ============ -->
+  <section class="group" id="grp-f">
+    <div class="group-head"><span class="gnum">GROUP F</span><h2>三项小改进</h2><span class="gstage">插入点 分散</span></div>
+    <div class="group-desc">不单独立项，随对应阶段顺手做。</div>
+
+    <div class="card e" data-card id="opt-16">
+      <div class="card-top"><span class="card-num">16</span><h3>微单元写作模板 / DAG 可视化 / 分类学接入</h3><span class="badge e">增强</span></div>
+      <div class="card-tags">插入：Stage 5 / Stage 6 / Stage 1｜出处：十大差距点 #10 / #8 / #5</div>
+      <div class="evidence"><b>证据：</b>三项均为差距清单里未在 V5 显式落位的历史资产：微单元写作（章节/段落/句级模板）、模型依赖 DAG 可视化（评审看图比读 JSON 快）、8 类型分类决策树（与 A-F 六路线判别对齐）。<span class="src">[十大差距点]</span></div>
+      <div class="q"><div class="qhead"><span class="qnum">① 为什么需要</span><span class="qtitle">写作质量与评审效率的末段提升</span></div>
+      <div class="qbody">微单元模板直接抬写作维度；DAG 图让评审和用户秒懂依赖结构；分类学让 Stage 1 结构化有据可依。三者都是低成本高可读性收益。</div></div>
+      <div class="q"><div class="qhead"><span class="qnum">② 加进去的原因</span><span class="qtitle">已有资产不利用是浪费</span></div>
+      <div class="qbody">这三项都已在历史设计中沉淀，只是 V5 定稿时没有显式引用——补上引用即完成 80% 工作。</div></div>
+      <div class="q"><div class="qhead"><span class="qnum">③ 工作原理</span><span class="qtitle">资产显式接线</span></div>
+      <div class="qbody">写作渲染层挂微单元模板；caveat 依赖图输出 Graphviz DAG 随交付附出；Stage 1 题目结构化显式调用 8 类型决策树判定题型，与 pipeline-v3 六路线判别对齐。</div></div>
+    </div>
+  </section>
+
+  <!-- ============ footer ============ -->
+  <footer id="footer">
+    <h2>实施优先级与顺序</h2>
+    <table>
+      <tr><th style="width:60px">序</th><th>项</th><th style="width:70px">级别</th><th>先决条件 / 说明</th></tr>
+      <tr><td>1</td><td>12 校准链四步</td><td>致命</td><td>纯实验，无代码依赖，先证明管线值得跑再谈别的</td></tr>
+      <tr><td>2</td><td>14 Registry 原型实验</td><td>致命</td><td>与 15（词汇表）联动；判据预设，不达标就砍</td></tr>
+      <tr><td>3</td><td>01 六维选题评估</td><td>致命</td><td>Stage -1 纯文本机制，可直接落</td></tr>
+      <tr><td>4</td><td>08 反思循环+完成度检查</td><td>致命</td><td>执行器改造，与 09 断点恢复同批做</td></tr>
+      <tr><td>5</td><td>05 不确定性量化强制</td><td>致命</td><td>验证模板扩展 + 注册表加字段</td></tr>
+      <tr><td>6</td><td>09 断点恢复状态机</td><td>重要</td><td>骨架层，与 08 同批</td></tr>
+      <tr><td>7</td><td>04 数值验证门禁</td><td>重要</td><td>纯脚本，零模型成本</td></tr>
+      <tr><td>8</td><td>02 假设官 + 03 无数据路由</td><td>重要</td><td>Stage 1-2 角色与规则，可同批</td></tr>
+      <tr><td>9</td><td>06 评价类模板 + 07 图清单</td><td>重要</td><td>Stage 3/5 扩展，可同批</td></tr>
+      <tr><td>10</td><td>13 种子库扩展 + 11 挑刺位</td><td>重要/增强</td><td>华数杯 17 条教训直接入库</td></tr>
+      <tr><td>11</td><td>10 反馈环 + 16 小项</td><td>增强</td><td>顺手做</td></tr>
+    </table>
+    <div class="note">
+      <b>诚实声明：</b>①本清单全部依据为 34 题/55 题批测（子代理自评口径）、两场实战（MCM 26C / 华数杯 26C）、28+12 个开源项目审计与归档会话回顾——自评口径的引用处已标注；②「致命」判定的标准是「不补则管线的结论/分数不可信」，不是「论文一定失败」；③实施前建议先做第 1、2 项（校准与原型实验），它们的结论可能改变后续所有项的优先级。
+    </div>
+  </footer>
+</div>
+
+<!-- FAB + drawer -->
+<button id="fab" aria-label="打开目录">☰</button>
+<div id="mask"></div>
+<div id="drawer" role="navigation" aria-label="目录">
+  <div class="dhead"><span>目录</span><button class="dclose" aria-label="关闭">×</button></div>
+  <ol id="drawer-list"></ol>
+</div>
+
+<script>
+(function(){
+  var list=document.getElementById('drawer-list');
+  document.querySelectorAll('.group').forEach(function(g){
+    var li=document.createElement('li');
+    li.className='dg';li.textContent=g.querySelector('.gnum').textContent+' · '+g.querySelector('h2').textContent;
+    list.appendChild(li);
+    g.querySelectorAll('.card').forEach(function(c){
+      var item=document.createElement('li');
+      var a=document.createElement('a');
+      a.href='#'+c.id;
+      a.textContent=c.querySelector('.card-num').textContent+' '+c.querySelector('h3').textContent;
+      item.appendChild(a);list.appendChild(item);
+    });
+  });
+  var fab=document.getElementById('fab'),drawer=document.getElementById('drawer'),mask=document.getElementById('mask');
+  function open(){drawer.classList.add('open');mask.classList.add('open');document.body.style.overflow='hidden';}
+  function close(){drawer.classList.remove('open');mask.classList.remove('open');document.body.style.overflow='';}
+  fab.addEventListener('click',open);
+  mask.addEventListener('click',close);
+  drawer.querySelector('.dclose').addEventListener('click',close);
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')close();});
+  drawer.querySelectorAll('a').forEach(function(a){a.addEventListener('click',close);});
+  if('IntersectionObserver' in window){
+    var links={};drawer.querySelectorAll('a').forEach(function(a){links[a.getAttribute('href').slice(1)]=a;});
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){if(e.isIntersecting){drawer.querySelectorAll('a').forEach(function(a){a.classList.remove('active');});var l=links[e.target.id];if(l)l.classList.add('active');}});
+    },{rootMargin:'-25% 0px -65% 0px'});
+    document.querySelectorAll('.card').forEach(function(c){io.observe(c);});
+  }
+})();
+</script>
+</body>
+</html>
