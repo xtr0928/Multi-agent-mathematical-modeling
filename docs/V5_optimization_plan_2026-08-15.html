@@ -112,27 +112,21 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-heigh
   </header>
 
   <div id="summary-strip">
-    <div class="f"><b>5</b><span>致命级 · 不补则管线结论不可信</span></div>
+    <div class="f"><b>4</b><span>致命级 · 不补则管线结论不可信</span></div>
     <div class="m"><b>8</b><span>重要级 · 实测高频问题的直接解法</span></div>
     <div class="e"><b>3</b><span>增强级 · 提升上限的机制</span></div>
   </div>
-  <div id="toc-note">点击右下角 ☰ 打开目录 · 16 项 · 按管线阶段分组</div>
+  <div id="toc-note">点击右下角 ☰ 打开目录 · 15 项（选题已转人工）+ 3 项用户指令｜2026-08-15 更新：数值验证+可复现=必须项 · 防漂移用 SHA-512 · 其余获批实施</div>
 
   <!-- ============ 组 A ============ -->
   <section class="group" id="grp-a">
     <div class="group-head"><span class="gnum">GROUP A</span><h2>选题与假设管理</h2><span class="gstage">插入点 Stage 0–2</span></div>
     <div class="group-desc">竞赛的第一个决策（选哪道题）和模型的第一个决策（信哪些假设），是 72 小时里杠杆最高、V5 目前完全空白的两个环节。</div>
 
-    <div class="card f" data-card id="opt-01">
-      <div class="card-top"><span class="card-num">01</span><h3>六维选题评估 + 一票否决</h3><span class="badge f">致命</span></div>
-      <div class="card-tags">插入：Stage 0 之前（新增 Stage -1）｜出处：xuec699/math-modeling-skills · problem-triage</div>
-      <div class="evidence"><b>证据：</b>34 题实测，有数据题验证维度 12–14/15，无数据题 10–11/15——<b>选题本身决定 3–4 分的验证上限</b>；MCM 一场 6 题可选，V5 从 Stage 0 起假设题目已定。<span class="src">[34 题批测实测]</span></div>
-      <div class="q"><div class="qhead"><span class="qnum">① 为什么需要</span><span class="qtitle">选题是第一个不可逆决策</span></div>
-      <div class="qbody">题目选错（选了无数据题但团队不擅长合成数据），后续所有管线机制都救不回来。V5 把「题目已定」当默认前提，等于把竞赛的第一个高杠杆决策点跳过了。</div></div>
-      <div class="q"><div class="qhead"><span class="qnum">② 加进去的原因</span><span class="qtitle">把「拍脑袋选题」变成可审计决策</span></div>
-      <div class="qbody">批测数据证明题目类型与分数上限强相关（数据可得性是第一主因）。选题评估用 15 分钟把最坏情况前置排除，代价极低，收益是整场竞赛的上限。</div></div>
-      <div class="q"><div class="qhead"><span class="qnum">③ 工作原理</span><span class="qtitle">六维加权 + 硬否决</span></div>
-      <div class="qbody">数学类型 ×0.15 / 数据可得性 ×0.20 / 算法复杂度 ×0.15 / 评价清晰度 ×0.20 / 写作难度 ×0.15 / 团队匹配度 ×0.15 加权打分；<b>一票否决</b>：数据可得性=1 或团队匹配度=1 直接剔除该题。全部题目打分后选最高分，评估记录落盘供赛后复盘。</div></div>
+    <div class="card e" data-card id="opt-01">
+      <div class="card-top"><span class="card-num">01</span><h3>六维选题评估 —— 已取消</h3><span class="badge e">人工决策</span></div>
+      <div class="card-tags">状态：2026-08-15 用户指令 —— 选题由用户本人决定，不纳入管线</div>
+      <div class="evidence"><b>决策记录：</b>「选题问题不需要考虑了，我会自己选」。管线从 Stage 0 起假设题目已定（与 V5 原设计一致），此项不再实施。<span class="src">[用户 2026-08-15]</span></div>
     </div>
 
     <div class="card m" data-card id="opt-02">
@@ -165,16 +159,16 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-heigh
     <div class="group-head"><span class="gnum">GROUP B</span><h2>验证体系</h2><span class="gstage">插入点 Stage 3 / Stage 6</span></div>
     <div class="group-desc">「跑对了」之外，V5 还缺三种便宜而关键的验证：零成本的确定性检查、不确定性量化、以及评价类题型的验证模板。</div>
 
-    <div class="card m" data-card id="opt-04">
-      <div class="card-top"><span class="card-num">04</span><h3>数值验证门禁（量纲 / 边界 / 符号）</h3><span class="badge m">重要</span></div>
-      <div class="card-tags">插入：Stage 3 卡 2 验证产物闸｜出处：v2.2 数值验证门禁 · AlphaMath 风格</div>
-      <div class="evidence"><b>证据：</b>华数杯实战门禁复跑抓到「替换脚本量纲错（/1e6 vs /1e4 错 100 倍）」——LLM 自查全漏。V5 验证产物全是重跑类（花钱花时间），零成本确定性验证一条都没纳。<span class="src">[华数杯实战]</span></div>
-      <div class="q"><div class="qhead"><span class="qnum">① 为什么需要</span><span class="qtitle">「跑对了但模型错了」的便宜抓法</span></div>
+    <div class="card f" data-card id="opt-04">
+      <div class="card-top"><span class="card-num">04</span><h3>数值验证门禁（量纲 / 边界 / 符号 / 可复现）</h3><span class="badge f">必须项</span></div>
+      <div class="card-tags">插入：Stage 3 卡 2.5（已写入 V5 设计文档）｜出处：v2.2 数值验证门禁 · 2026-08-15 用户指令</div>
+      <div class="evidence"><b>证据：</b>华数杯实战门禁复跑抓到「替换脚本量纲错（/1e6 vs /1e4 错 100 倍）」——LLM 自查全漏。<b>用户指令（2026-08-15）：数值验证是必须的，你要保证所有数据可以复现。</b><span class="src">[华数杯实战 + 用户指令]</span></div>
+      <div class="q"><div class="qhead"><span class="qnum">① 为什么需要</span><span class="qtitle">「跑对了但模型错了」的便宜抓法 + 可复现是数据可信的底线</span></div>
       <div class="qbody">量纲错、符号错、边界违是重算也不一定能暴露的错误（重算用同一套错误代码还是错）。确定性检查不依赖 LLM 也不依赖重跑，成本最低、可复现性最强。</div></div>
-      <div class="q"><div class="qhead"><span class="qnum">② 加进去的原因</span><span class="qtitle">验证成本分级：零成本的先做</span></div>
-      <div class="qbody">V5 的验证体系是「全部贵验证」——模拟恢复和 holdout 都要真跑。把确定性检查放在最前面，能拦截的错误最多、单价最便宜，符合「确定性优先于概率性」的既有原则。</div></div>
-      <div class="q"><div class="qhead"><span class="qnum">③ 工作原理</span><span class="qtitle">四类确定性断言</span></div>
-      <div class="qbody">①随机采样代入：方程两端数值一致性 ②量纲维度分析：单位链全程可约分 ③边界条件：端点/极端值代入模型看输出是否合理 ④sympy 符号比对：推导式与实现代码的符号形式一致性。全部脚本化，挂 build 钩子。</div></div>
+      <div class="q"><div class="qhead"><span class="qnum">② 加进去的原因</span><span class="qtitle">验证成本分级：零成本的先做，且复现性断言进 registry</span></div>
+      <div class="qbody">V5 的验证体系是「全部贵验证」——模拟恢复和 holdout 都要真跑。把确定性检查放在最前面，能拦截的错误最多、单价最便宜。</div></div>
+      <div class="q"><div class="qhead"><span class="qnum">③ 工作原理</span><span class="qtitle">四类确定性断言 + 可复现性断言</span></div>
+      <div class="qbody">①随机采样代入：方程两端数值一致性 ②量纲维度分析：单位链全程可约分 ③边界条件：端点/极端值代入模型看输出是否合理 ④sympy 符号比对：推导式与实现代码的符号形式一致性。⑤<b>可复现性断言（必须）</b>：results 每个数字必须能由「脚本 + 输入哈希(SHA-512) + 参数」重跑还原，重跑产物哈希一致才登记入 registry。全部脚本化，挂 build 钩子。</div></div>
     </div>
 
     <div class="card f" data-card id="opt-05">
@@ -232,15 +226,15 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-heigh
     </div>
 
     <div class="card m" data-card id="opt-09">
-      <div class="card-top"><span class="card-num">09</span><h3>断点恢复状态机（不信任内存只信文件）</h3><span class="badge m">重要</span></div>
-      <div class="card-tags">插入：全 Stage（骨架层）｜出处：yushui2022/MathModel-Skill · workflow_guard</div>
-      <div class="evidence"><b>证据：</b>72h 竞赛中进程/网络/API 限流中断是常态；20% 中断率证明不能假设一口气跑完。V5 有三级新鲜度链（防漂移）但<b>没有断点恢复（防丢失）——两个问题不同</b>。<span class="src">[34 题批测 + 华数杯实战]</span></div>
-      <div class="q"><div class="qhead"><span class="qnum">① 为什么需要</span><span class="qtitle">72 小时竞赛必然发生中断</span></div>
-      <div class="qbody">三天的竞赛里 API 限流、网络抖动、进程崩溃都会发生。没有断点恢复，中断=进度归零或人工救火，这正是批测里 20% 补完率的根因之一。</div></div>
-      <div class="q"><div class="qhead"><span class="qnum">② 加进去的原因</span><span class="qtitle">防漂移和防丢失是两个独立问题</span></div>
-      <div class="qbody">V5 的新鲜度链保证「用对的数据」，但假设了管线一直活着。恢复机制要解决的是「死过之后怎么活过来而且不重复劳动」。</div></div>
-      <div class="q"><div class="qhead"><span class="qnum">③ 工作原理</span><span class="qtitle">阶段标记 + 落盘即真</span></div>
-      <div class="qbody">每阶段产物落盘后写阶段标记文件（含 SHA-256）；重启时扫描标记文件，已完成阶段直接跳过；不信任内存状态只信文件状态；三模式：中断续跑 / 单阶段重跑 / 全量重跑（区分度在标记文件）。</div></div>
+      <div class="card-top"><span class="card-num">09</span><h3>断点恢复状态机 + 新鲜度链 SHA-512 升级</h3><span class="badge m">重要</span></div>
+      <div class="card-tags">插入：全 Stage（骨架层）｜出处：MathModel-Skill workflow_guard · 2026-08-15 用户指令</div>
+      <div class="evidence"><b>证据：</b>72h 竞赛中进程/网络/API 限流中断是常态；20% 中断率证明不能假设一口气跑完。<b>用户指令（2026-08-15）：防漂移借鉴 SHA-512，防止错误数据被复用，保证数据正确且唯一。</b>（三级新鲜度链已从 SHA-256 升级 SHA-512 写入 V5 设计文档）<span class="src">[34 题批测 + 用户指令]</span></div>
+      <div class="q"><div class="qhead"><span class="qnum">① 为什么需要</span><span class="qtitle">72 小时竞赛必然发生中断 + 防错误数据复用</span></div>
+      <div class="qbody">没有断点恢复，中断=进度归零或人工救火（批测 20% 补完率的根因之一）；哈希不升级则改数据后用旧结果的现象无强保证拦截——SHA-512 抗碰撞性优于 SHA-256，数据「正确且唯一」由哈希链强保证。</div></div>
+      <div class="q"><div class="qhead"><span class="qnum">② 加进去的原因</span><span class="qtitle">防漂移和防丢失是两个独立问题，都要堵</span></div>
+      <div class="qbody">新鲜度链保证「用对的数据」，断点恢复保证「死过之后活过来且不重复劳动」。用户明确要求两者都做，且哈希标准升级。</div></div>
+      <div class="q"><div class="qhead"><span class="qnum">③ 工作原理</span><span class="qtitle">SHA-512 三级链 + 阶段标记 + 落盘即真</span></div>
+      <div class="qbody">①<b>SHA-512 新鲜度链</b>：input_manifest↔清洗报告、run_manifest↔建模脚本/产物、门禁报告↔输入哈希——任一环节输入哈希不匹配=下游复用错误数据，阻断 ②<b>断点恢复</b>：每阶段产物落盘后写阶段标记文件（含 SHA-512），重启扫描标记直接跳过已完成阶段；不信任内存状态只信文件；三模式：中断续跑/单阶段重跑/全量重跑。</div></div>
     </div>
 
     <div class="card e" data-card id="opt-10">
@@ -351,20 +345,19 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-heigh
     <h2>实施优先级与顺序</h2>
     <table>
       <tr><th style="width:60px">序</th><th>项</th><th style="width:70px">级别</th><th>先决条件 / 说明</th></tr>
+      <tr><td>0</td><td>04 数值验证门禁 + 09 SHA-512 链</td><td>必须项</td><td><b>用户指令已定</b>，已写入 V5 设计文档（卡 2.5 + 三级新鲜度链 SHA-512）</td></tr>
       <tr><td>1</td><td>12 校准链四步</td><td>致命</td><td>纯实验，无代码依赖，先证明管线值得跑再谈别的</td></tr>
       <tr><td>2</td><td>14 Registry 原型实验</td><td>致命</td><td>与 15（词汇表）联动；判据预设，不达标就砍</td></tr>
-      <tr><td>3</td><td>01 六维选题评估</td><td>致命</td><td>Stage -1 纯文本机制，可直接落</td></tr>
-      <tr><td>4</td><td>08 反思循环+完成度检查</td><td>致命</td><td>执行器改造，与 09 断点恢复同批做</td></tr>
-      <tr><td>5</td><td>05 不确定性量化强制</td><td>致命</td><td>验证模板扩展 + 注册表加字段</td></tr>
-      <tr><td>6</td><td>09 断点恢复状态机</td><td>重要</td><td>骨架层，与 08 同批</td></tr>
-      <tr><td>7</td><td>04 数值验证门禁</td><td>重要</td><td>纯脚本，零模型成本</td></tr>
-      <tr><td>8</td><td>02 假设官 + 03 无数据路由</td><td>重要</td><td>Stage 1-2 角色与规则，可同批</td></tr>
-      <tr><td>9</td><td>06 评价类模板 + 07 图清单</td><td>重要</td><td>Stage 3/5 扩展，可同批</td></tr>
-      <tr><td>10</td><td>13 种子库扩展 + 11 挑刺位</td><td>重要/增强</td><td>华数杯 17 条教训直接入库</td></tr>
-      <tr><td>11</td><td>10 反馈环 + 16 小项</td><td>增强</td><td>顺手做</td></tr>
+      <tr><td>3</td><td>08 反思循环+完成度检查</td><td>致命</td><td>执行器改造，与 09 断点恢复同批做</td></tr>
+      <tr><td>4</td><td>05 不确定性量化强制</td><td>致命</td><td>验证模板扩展 + 注册表加字段</td></tr>
+      <tr><td>5</td><td>02 假设官 + 03 无数据路由</td><td>重要</td><td>Stage 1-2 角色与规则，可同批</td></tr>
+      <tr><td>6</td><td>06 评价类模板 + 07 图清单</td><td>重要</td><td>Stage 3/5 扩展，可同批</td></tr>
+      <tr><td>7</td><td>13 种子库扩展 + 11 挑刺位</td><td>重要/增强</td><td>华数杯 17 条教训直接入库</td></tr>
+      <tr><td>8</td><td>10 反馈环 + 16 小项</td><td>增强</td><td>顺手做</td></tr>
     </table>
     <div class="note">
-      <b>诚实声明：</b>①本清单全部依据为 34 题/55 题批测（子代理自评口径）、两场实战（MCM 26C / 华数杯 26C）、28+12 个开源项目审计与归档会话回顾——自评口径的引用处已标注；②「致命」判定的标准是「不补则管线的结论/分数不可信」，不是「论文一定失败」；③实施前建议先做第 1、2 项（校准与原型实验），它们的结论可能改变后续所有项的优先级。
+      <b>决策记录（2026-08-15 用户指令）：</b>①选题由用户人工决定，管线不做选题评估（原 01 项取消）②数值验证 + 全数据可复现 = <b>必须项</b>（原 04 项，已写入 V5 设计文档卡 2.5）③防漂移新鲜度链升级 <b>SHA-512</b>（防错误数据复用、保证数据正确且唯一，已写入 V5 设计文档）④其余 12 项获批实施。<br>
+      <b>诚实声明：</b>本清单全部依据为 34 题/55 题批测（子代理自评口径）、两场实战（MCM 26C / 华数杯 26C）、28+12 个开源项目审计与归档会话回顾——自评口径的引用处已标注；「致命」判定的标准是「不补则管线的结论/分数不可信」；实施前建议先做第 1、2 项（校准与原型实验），它们的结论可能改变后续所有项的优先级。
     </div>
   </footer>
 </div>
