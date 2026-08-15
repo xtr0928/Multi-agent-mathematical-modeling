@@ -35,9 +35,15 @@ pipeline/
 │   ├── corpus_baseline.py      #   PDF 语料图/公式/表密度 IQR 统计（A20：≥30 篇）
 │   └── baseline.json           #   统计产物（本仓库以默认值先验启动，跑语料后覆盖）
 ├── visual/dag_visualizer.py    # 阶段8：DAG 可视化（registry 依赖自动生成，A24 禁止手绘）
+├── writing/template.py         # 阶段8：微单元写作模板（段落绑定 claim_id，stale 引用阻断 A6/A19）
+├── audit/role_audit.py         # 阶段8：角色隔离审计（写评分离/作者回避/零上下文，A28）
+├── seed/seed_library.py        # 阶段9：种子库（华数杯 17 条结构化 + 检出器，A23）
+├── bench/internal_benchmark.py # 阶段9：内部基准反馈环（C++ 收益/假设官失职/predicate 覆盖率）
+├── orchestrator.py             # LLM 编排层（S0-S6 四模型角色调度；DryRun 零成本测试）
 └── tests/
     ├── test_engine.py          #   核心引擎验收（A1/A2/A4/A5/A14/A16）
-    └── test_stages.py          #   阶段3-8 验收（A13/A16/A17/A18/A22/A26/时间窗）
+    ├── test_stages.py          #   阶段3-8 验收（A13/A16/A17/A18/A22/A26/时间窗）
+    └── test_remaining.py       #   剩余验收（A3/A14/A15/A19/A23/A24/A28/编排层/基准）
 ```
 
 ## 核心机制速览
@@ -112,8 +118,15 @@ param → input → script → result → claim → paragraph（六类节点 DAG
 | A26 四断言正误判定 | ✅ | 正确用例 pass / 错误用例 fail |
 | A32 build 钩子 | ✅ | 门禁纯脚本执行 |
 | A20 语料基线 | ✅ | 35 篇 O 奖论文实测：页中位 26 / 图 16（q1-q3 13-19）/ 表 5；公式轴启发式低估已标注 |
+| A23 种子库 | ✅ | 华数杯 17 条结构化入库；因果冲突/占位符/灵敏度不量化等文本层检出实测 |
+| A24 DAG 可视化一致性 | ✅ | 自动 diff 一致率 100% |
+| A28 角色隔离审计 | ✅ | 四类违规（写评/假设自审/零上下文污染/视觉自审）全检出 |
+| A19 敏感度产物隔离 | ✅ | experiment 状态引用被写作模板阻断 |
+| A14 幂等性 | ✅ | 组合哈希确定性验证 |
+| A15 恢复顺序 | ✅ | dirty 未清空前 stage3 不推进 |
+| 编排层 dry-run | ✅ | 16 次调用预估正确，S0-S6 全流程零 API 成本跑通 |
 
-其余判据（A3/A7/A9-A12/A14/A15/A19/A21/A23-A25/A27-A31）依赖真实竞赛运行或语料产物，随实战累积。
+其余判据（A3/A7/A9-A12/A21/A25/A27/A29-A31）依赖真实竞赛运行或多模型 API 实战，随实战累积。**真实 API 运行前必须先报预估调用次数**（花钱纪律）。
 
 ## 铁律（本目录所有代码遵守）
 
