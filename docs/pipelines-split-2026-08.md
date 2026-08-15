@@ -1,38 +1,35 @@
-# 项目分家说明：数模管线 vs 协同编码管线
+# 项目分家说明：数模管线 / 协同编码管线 / 通用工具（三仓库格局）
 
-> 2026-08-14 用户决定。整个体系拆成**两个独立管线、两个 GitHub 仓库**。
-> 明天（2026-08-15）新建独立 MCM GitHub 仓库，此后两个仓库分开演进。
-> 本文件是拆分执行的唯一依据；迁移动作明天做，今天不做。
+> 2026-08-14 初定两仓库 → 2026-08-15 用户最终定局：**三仓库**。
+> 本文档是拆分执行的唯一依据，三仓库各存一份（Multi-Agent / MCM / Programming-Pipeline）。
 
 ---
 
 ## 0. 一句话分界
 
-| | 协同编码管线 | 数模管线 |
-|---|---|---|
-| 是什么 | **通用编程执行管线**：任务分级路由 → 编码 → 门禁 → 评审 → 视觉/UI/OCR | **MCM 竞赛解题管线**：审题 → 商议建模 → 求解 → 成文 → 评审 |
-| 服务对象 | 一切编码任务（含数模的重计算模块） | 数学建模竞赛（72h 窗口） |
-| 依赖关系 | 不依赖数模 | **消费协同编码管线作为执行资源**（Stage 3 编码需求走 T 分级路由） |
-| 仓库 | 留 Multi-Agent | 明天新建独立 MCM 仓库 |
+| | 协同编码管线 | 数模管线 | 通用工具 |
+|---|---|---|---|
+| 仓库 | **xtr0928/Multi-agent-programming-pipeline** | **xtr0928/Multi-agent-mathematical-modeling** | **xtr0928/Multi-Agent**（原地保留） |
+| 是什么 | 通用编程执行管线：T1/T2/T3 路由 → 编码 → 门禁 → 评审 → 视觉/UI/OCR | MCM 竞赛解题管线：审题 → 商议建模 → 求解 → 成文 → 评审 | Hermes 多智能体体系的通用 skills 与编排（SOUL/README） |
+| 依赖关系 | 不依赖数模 | Stage 3 编码需求 → 调用协同编码管线 | 宿主仓库，承载其余通用资产 |
 
-**唯一耦合点**：数模 Stage 3 的编码需求 → 协同编码管线执行。除此之外零耦合，文档、skill、设计、角色矩阵全部分开。
+**唯一耦合点**：数模 Stage 3 的编码需求 → 协同编码管线执行。除此之外零耦合。
 
 ---
 
-## 1. 协同编码管线（留 Multi-Agent）
+## 1. 协同编码管线（Multi-agent-programming-pipeline）
 
-### 资产清单（现状位置 → 归属）
+### 资产清单（已迁移 2026-08-15）
 
-| 资产 | 现状位置 | 归属 |
-|---|---|---|
-| multi-model-orchestration SKILL（T1/T2/T3 路由 + 门禁 + 评审编排） | `Multi-Agent/skills/software-development/` | ✅ 保留 |
-| provider-model-matrix（模型/API 实测矩阵） | 同上 references/ | ✅ 保留 |
-| hermes-model-management / prisma-sqlite-patterns / apk-reverse-engineering / cli-anything-hermes | `Multi-Agent/skills/` | ✅ 保留（通用开发） |
-| 视觉官位（vision_analyze = Qwen3.8-Max custom provider） | Hermes 全局配置 | ✅ 保留（跨项目服务，属编码管线视觉职责） |
-| **qwen_coding_arch.png**（Qwen 接入编码管线架构图） | ⚠️ 误放在 `projects/mcm-2026/` | → 迁回编码侧文档 |
-| qwen_vision_four_reviewer_arch.png（视觉/四评图） | ⚠️ 同上 | → 拆分：视觉部分留编码侧，四评部分随数模 |
+| 资产 | 位置 |
+|---|---|
+| multi-model-orchestration SKILL（T1/T2/T3 路由 + 门禁 + 评审编排） | `skills/multi-model-orchestration/` |
+| provider-model-matrix（模型/API 实测矩阵） | `skills/multi-model-orchestration/references/` |
+| hermes-model-management（API key/连接验证，编排的配套 skill） | `skills/hermes-model-management/` |
+| qwen_coding_arch.png（Qwen 接入编码管线架构图） | `docs/` |
+| 视觉官位（vision_analyze = Qwen3.8-Max custom provider） | Hermes 全局配置（非仓库资产） |
 
-### 角色矩阵（as-is，2026-08-14）
+### 角色矩阵（as-is）
 
 | 角色 | 模型 |
 |---|---|
@@ -43,7 +40,7 @@
 | 推理审查（低频） | Kimi K3 |
 | 视觉 / UI / OCR / 渲染检查 / 页面验收 | Qwen3.8-Max 视觉官 |
 
-### 待办设计（明天，范围已确认）
+### 待办设计（范围已确认）
 
 - **视觉迁移固化**：UI/视觉检查/OCR 全交千问，K3 收缩为推理审查位
 - 视觉单点防护（生产者=检查者的共模风险：OCR 双读取头 / 程序化断言 / 种子图回归）
@@ -51,55 +48,35 @@
 
 ---
 
-## 2. 数模管线（迁移新 MCM 仓库）
+## 2. 数模管线（Multi-agent-mathematical-modeling，已迁移 2026-08-15）
 
-### 资产清单（现状位置 → 迁移去向）
+- skills：6 阶段流水线（1start-mathmodel…6verity）、math-brainstorm、brute-force-think、mathmodel-v2-pipeline、mathmodel-pipeline-v3、mathmodel-judge-perspective、mathmodel-figure-templates、typst-author、doctor、_references、multi-agent-pipeline
+- docs：V5 设计文档、评委 v2.5/v2.6 设计、四模型化设计存档、2026 题目包、首战论文与 v5_run 全部产物
+- git tag 版本线：`v2.2` → `pipeline-v2.3/v2.4/v3.0/v3.1` → `v5-pipeline`；`judge-v1.0…v1.6/v2.0/v2.1/v2.3/v2.5/v2.5.1/v2.6`；`pipeline-4model-design`
+- 角色矩阵：建模手×3（DS/GLM/K3）、检测×3、Stage4 评审×3、评委三评、视觉核查 Qwen、编码执行→协同编码管线
+- 待办设计（单独一份）：四模型化（Qwen 第四全权模型，证据类立即/打分类走校准阶梯）
 
-| 资产 | 现状位置 | 迁移 |
-|---|---|---|
-| 1start-mathmodel / 2analysis-modeling / 3coding-visual / 4drawio / 5writing / 6verity（6 阶段流水线） | `Multi-Agent/skills/data-science/` | → MCM 仓库 |
-| math-brainstorm / brute-force-think（脑暴/暴力求解） | 同上 | → MCM |
-| mathmodel-v2-pipeline / mathmodel-pipeline-v3 / mathmodel-judge-perspective | 同上 | → MCM |
-| mathmodel-figure-templates / typst-author / doctor | 同上 | → MCM（论文写作相关） |
-| multi-agent-pipeline（6 阶段编排 + architecture-landscape.md） | `Multi-Agent/skills/` | → MCM；⚠️ architecture-landscape.md 内角色矩阵跨两管线，拆分时编码侧矩阵迁回 Multi-Agent |
-| apk-forensics | `Multi-Agent/skills/data-science/` | 留 Multi-Agent（网安个人兴趣，非数模） |
-| docs/mcm-2026/（V5 设计、judge v25/v26、v5_run 代码与首战产物、DWTS PDF） | `Multi-Agent/docs/` | → MCM |
-| 设计文档库（V5_pipeline_design / judge_skill_v25/v26 / qwen 图） | `~/projects/mcm-2026/` | → MCM 仓库 docs（本地目录或废弃，以迁移为准） |
-| mathmodel-agent-research/（生态调研库） | `~/projects/` | → MCM |
-| 论文集（437 篇 PDF 语料） | `~/projects/2025年美大学生数学建模…/` | 数据仓库，不迁移（路径引用保留） |
+---
 
-### 角色矩阵（as-is，2026-08-14）
+## 3. Multi-Agent 仓库（原地保留）
 
-| 角色 | 模型 |
+| 资产 | 说明 |
 |---|---|
-| 建模手 ×3（Stage 2 商议） | DeepSeek / GLM 5.2 / Kimi K3 |
-| 检测层抽取 ×3（作者回避） | DeepSeek / GLM / Kimi |
-| Stage 4 评审 ×3（相对排序） | DeepSeek / GLM / Kimi |
-| 评委终评 v2.6 三评（零撰写上下文 + 扣分制 + 分位映射） | GLM / Kimi / DeepSeek |
-| 视觉核查（渲染检查/图内文字提取） | Qwen3.8-Max（K3 视觉已退役） |
-| 编码执行 | → 协同编码管线（T 路由） |
+| skills/software-development/prisma-sqlite-patterns | 通用开发 |
+| skills/software-development/apk-reverse-engineering | 网安个人兴趣 |
+| skills/data-science/apk-forensics | 网安个人兴趣 |
+| skills/cli-anything-hermes | 通用 |
+| SOUL.md / README.md / .github | 体系编排与文档 |
+| docs/pipelines-split-2026-08.md | 本文件 |
 
-### 待办设计（明天，单独一份）
-
-- **四模型化**：Qwen 成为第四全权模型（建模手/检测/Stage4/评委），证据类立即、打分类走校准阶梯
-- 配套：同源偏移检测、阶梯 v2（有效轮次/版本锁/日历上限）、仲裁预算
-- 产出：数模管线专属设计文档 + 架构图
+> 原 Multi-Agent 仓库中的数模与编码管线资产已按版本历史迁出（git filter-repo 保留提交历史）；历史提交仍保留在 Multi-Agent 的 git 历史中（未重写）。
 
 ---
 
-## 3. 今天产物的处理
+## 4. 迁移执行记录（2026-08-15 已完成）
 
-`projects/mcm-2026/pipeline_4model_design.md` + `pipeline_4model_arch.png/.html`（今天的混合设计）：
-- **不删除，作存档**
-- 明天按本文件 §1/§2 的待办范围**拆成两份独立设计重做**（编码管线一份、数模一份），各自出图
-
----
-
-## 4. 仓库迁移执行清单（明天）
-
-1. 用户新建 MCM GitHub 仓库（用户自己建）
-2. `git mv` 迁移 §2 全部资产到 MCM 仓库（保留 git 历史）
-3. Multi-Agent 仓库清理：删除已迁移目录；architecture-landscape.md 拆出的编码侧矩阵合并回 provider-model-matrix.md
-4. 交叉引用更新：skill 内互相引用的路径、SOUL/编排提示词中的仓库路径
-5. 推送验证：SSH 推流 + GitHub API 复核（既有流程）
-6. 迁移完成后，两个仓库各自独立演进，本文件归档至 MCM 仓库 docs/
+1. ✅ 数模仓库：git filter-repo 按 17 个路径过滤 + `docs/mcm-2026/ → docs/` 重命名，26 提交 + 20 个版本 tag 推送
+2. ✅ 编码仓库：git filter-repo 按 2 个 skill 过滤 + 路径扁平化，5 提交 + 版本 tag 推送
+3. ✅ 本地设计文档（评委 v2.6 设计、四模型化设计存档、架构图）随数模仓库导入
+4. ✅ 本文档三仓库各存一份
+5. 遗留：Multi-Agent 仓库的已迁出目录暂保留（git 历史仍在，删除前用户确认）
