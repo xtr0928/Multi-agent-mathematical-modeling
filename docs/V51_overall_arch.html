@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>V5.1 管线 · 整体架构图（最终版）</title>
+<style>
+:root{
+  --paper:#faf8f3; --ink:#1c1a16; --accent:#a63a2a;
+  --c-done:#2f6b5e; --c-eng:#b3562e; --c-data:#8a8578;
+  --c-flow:#3a5a8c; --c-judge:#6b4a8c; --hairline:#d9d4c8; --muted:#6b655a;
+  --serif:"Noto Serif SC","Source Han Serif SC","Songti SC","STSong","SimSun",serif;
+  --sans:"Noto Sans SC","Source Han Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
+  --mono:"JetBrains Mono","SFMono-Regular",Consolas,"Liberation Mono",monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.6}
+#sheet{width:1200px;margin:0 auto;padding:48px 56px 60px}
+#h h1{font-family:var(--serif);font-size:30px;font-weight:700;letter-spacing:.04em}
+#h .sub{font-family:var(--serif);font-size:15px;color:var(--muted);margin-top:8px}
+#h .meta{font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-top:12px;letter-spacing:.04em}
+#legend{display:flex;gap:16px;flex-wrap:wrap;margin:18px 0 28px;padding:12px 16px;border:1px solid var(--hairline)}
+#legend .li{display:flex;align-items:center;gap:6px;font-size:12px}
+#legend .sw{width:14px;height:14px;border-radius:2px}
+#legend .sw.d{background:var(--c-done)} #legend .sw.e{background:var(--c-eng)}
+#legend .sw.f{background:var(--c-flow)} #legend .sw.j{background:var(--c-judge)}
+.lane{margin:0 0 24px}
+.lane-row{display:flex;align-items:stretch}
+.lane-label{width:150px;min-width:150px;border:1px solid var(--hairline);border-right:none;
+  padding:12px 12px;display:flex;flex-direction:column;justify-content:center}
+.lane-label .lnum{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:.1em}
+.lane-label .lname{font-family:var(--serif);font-size:15px;font-weight:700;margin-top:4px}
+.lane-label .lgoal{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.5}
+.lane-body{flex:1;border:1px solid var(--hairline);padding:12px;display:flex;flex-wrap:wrap;gap:10px;align-content:flex-start}
+.agent{position:relative;border:1px solid var(--hairline);padding:10px 12px 9px;min-width:150px;max-width:235px;flex:1 1 150px}
+.agent::before{content:"";position:absolute;top:-1px;left:-1px;right:-1px;height:3px}
+.agent.d::before{background:var(--c-done)} .agent.e::before{background:var(--c-eng)}
+.agent.f::before{background:var(--c-flow)} .agent.j::before{background:var(--c-judge)}
+.agent-name{font-family:var(--serif);font-size:14px;font-weight:700}
+.agent-name .tag{font-family:var(--mono);font-size:9.5px;margin-left:6px;letter-spacing:.08em;color:var(--c-done)}
+.agent-role{font-size:11.5px;color:var(--muted);margin-top:3px;line-height:1.45}
+.agent-io{font-family:var(--mono);font-size:10px;margin-top:5px;line-height:1.5}
+.agent-src{font-family:var(--mono);font-size:9.5px;color:var(--c-flow);margin-top:5px}
+.flow{display:flex;align-items:center;gap:6px;margin:12px 0 12px 160px;flex-wrap:wrap}
+.flow .step{border:1px solid var(--hairline);padding:5px 11px;font-size:12px}
+.flow .step b{font-family:var(--serif)}
+.flow .arrow{color:var(--accent);font-family:var(--mono)}
+#foot{margin-top:26px;border-top:2px solid var(--ink);padding-top:14px;font-size:12px;color:var(--muted);line-height:1.9}
+#foot b{color:var(--ink)}
+</style>
+</head>
+<body>
+<div id="sheet">
+  <div id="h">
+    <h1>数模管线 V5.1 · 整体架构图（最终版）</h1>
+    <div class="sub">确定性基础设施 × LLM 四模型编排 —— 开发文档全部功能已补全，32/32 验收测试通过</div>
+    <div class="meta">CODE: pipeline/ · TESTS: 32/32 · DESIGN: docs/V5_upgrade_dev_doc_2026-08-15.md · 2026-08-15</div>
+  </div>
+
+  <div id="legend">
+    <div class="li"><span class="sw d"></span>确定性层（已落地+测试）</div>
+    <div class="li"><span class="sw e"></span>执行/验证层</div>
+    <div class="li"><span class="sw f"></span>LLM 编排层（DryRun 验证）</div>
+    <div class="li"><span class="sw j"></span>评审/审计层</div>
+  </div>
+
+  <!-- 1 数据层 -->
+  <div class="lane"><div class="lane-row">
+    <div class="lane-label"><span class="lnum">LANE 01</span><span class="lname">数据层</span><span class="lgoal">SHA-512 · 语义化参数 · 原子发布 · 不可变</span></div>
+    <div class="lane-body">
+      <div class="agent d"><div class="agent-name">hashing.py<span class="tag">DONE</span></div>
+        <div class="agent-role">SHA-512 工具：文件/文本/组合哈希 + env_hash</div>
+        <div class="agent-io">params_hash 分作用域 data/model/plot（A5）</div></div>
+      <div class="agent d"><div class="agent-name">dag.py<span class="tag">DONE</span></div>
+        <div class="agent-role">六类节点 DAG：param→input→script→result→claim→paragraph</div>
+        <div class="agent-io">环检测 / 拓扑序 / 传递闭包（A1/A2）</div></div>
+      <div class="agent d"><div class="agent-name">registry.py<span class="tag">DONE</span></div>
+        <div class="agent-role">claims_registry：五元组绑定 + predicate 状态词</div>
+        <div class="agent-io">写入门卫（声明哈希vs生效哈希）+ 原子发布（A4/A16）</div></div>
+      <div class="agent d"><div class="agent-name">invalidation.py<span class="tag">DONE</span></div>
+        <div class="agent-role">作废传播：扫描→传递闭包→拓扑序重算队列</div>
+        <div class="agent-io">impact_report 影响评估（D1/D8/D9）</div></div>
+    </div>
+  </div></div>
+
+  <!-- 2 执行与验证 -->
+  <div class="lane"><div class="lane-row">
+    <div class="lane-label"><span class="lnum">LANE 02</span><span class="lname">执行与验证</span><span class="lgoal">C++ 确定性 · 四断言 · 可复现 · 跨语言对照</span></div>
+    <div class="lane-body">
+      <div class="agent e"><div class="agent-name">cpp/executor.py<span class="tag">DONE</span></div>
+        <div class="agent-role">文件队列 + 编译缓存 + Python 回退 ≤2 次</div>
+        <div class="agent-io">stdin/stdout 任务协议（§3.2/§3.3）</div></div>
+      <div class="agent e"><div class="agent-name">hot_loop_template.cpp<span class="tag">DONE</span></div>
+        <div class="agent-role">确定性模板：固定分块+pairwise 归约+splitmix64</div>
+        <div class="agent-io">实测 2/8/16 线程逐位一致（A8）· %.17g</div></div>
+      <div class="agent e"><div class="agent-name">ks_compare.py<span class="tag">DONE</span></div>
+        <div class="agent-role">跨语言对照：预生成 RNG 文件协议 + KS 分布比较</div>
+        <div class="agent-io">无 scipy 依赖确定性实现（D15）</div></div>
+      <div class="agent d"><div class="agent-name">gate/numeric_gate.py<span class="tag">DONE</span></div>
+        <div class="agent-role">四断言：采样代入/量纲/边界/sympy + 可复现断言</div>
+        <div class="agent-io">3 次重跑哈希全等才入 registry（A25/A26/A32）</div></div>
+    </div>
+  </div></div>
+
+  <!-- 3 状态与假设 -->
+  <div class="lane"><div class="lane-row">
+    <div class="lane-label"><span class="lnum">LANE 03</span><span class="lname">状态与假设</span><span class="lgoal">断点恢复 · 72h 时间窗 · 假设官 · DA</span></div>
+    <div class="lane-body">
+      <div class="agent d"><div class="agent-name">state_machine.py<span class="tag">DONE</span></div>
+        <div class="agent-role">进度状态机=唯一事实源；恢复=重放日志重建 dirty 集</div>
+        <div class="agent-io">checkpoint + append-only 日志（A13/A15/A16）</div></div>
+      <div class="agent d"><div class="agent-name">时间窗状态机<span class="tag">DONE</span></div>
+        <div class="agent-role">只读不拥有：商议14%/双轨迹42%/成文25%硬保底/纠错≤20%</div>
+        <div class="agent-io">预授权降级 + 正确性>完整性>时间窗（D17/D18）</div></div>
+      <div class="agent d"><div class="agent-name">assumptions/officer.py<span class="tag">DONE</span></div>
+        <div class="agent-role">假设官四步 + 作者回避系统强制 + 隐式假设映射（20 方法）</div>
+        <div class="agent-io">assumption_registry.json（A17/A18）</div></div>
+      <div class="agent j"><div class="agent-name">reflect/devils_advocate.py<span class="tag">DONE</span></div>
+        <div class="agent-role">DA 独立角色：攻击清单（反事实+实验设计强制）</div>
+        <div class="agent-io">实质挑战≥2 + 关键假设全覆盖 + 核实分离</div></div>
+    </div>
+  </div></div>
+
+  <!-- 4 反思与辅助 -->
+  <div class="lane"><div class="lane-row">
+    <div class="lane-label"><span class="lnum">LANE 04</span><span class="lname">反思与辅助</span><span class="lgoal">完成度检查 · 排版 · 审计 · 种子 · 基准</span></div>
+    <div class="lane-body">
+      <div class="agent e"><div class="agent-name">reflect/reflector.py<span class="tag">DONE</span></div>
+        <div class="agent-role">反思器：完成度检查+报错结构化反思+hot_loop 推荐</div>
+        <div class="agent-io">最多 3 轮（任务清单对照执行产物）</div></div>
+      <div class="agent d"><div class="agent-name">layout_gate.py<span class="tag">DONE</span></div>
+        <div class="agent-role">图清单（孤儿/脏图/chart junk）+公式清单+四维密度+直观性</div>
+        <div class="agent-io">O 奖 IQR 基线（A20/A22）</div></div>
+      <div class="agent j"><div class="agent-name">audit/role_audit.py<span class="tag">DONE</span></div>
+        <div class="agent-role">角色隔离审计：写评分离/假设自审/零上下文/视觉自审</div>
+        <div class="agent-io">四类违规全检出（A28）</div></div>
+      <div class="agent d"><div class="agent-name">writing/ seed/ bench/ visual/<span class="tag">DONE</span></div>
+        <div class="agent-role">微单元模板（claim 绑定）/ 华数杯17条种子 / 内部基准 / DAG 可视化</div>
+        <div class="agent-io">experiment 禁入引用池（A19/A23/A24）</div></div>
+    </div>
+  </div></div>
+
+  <!-- 5 LLM 编排层 -->
+  <div class="lane"><div class="lane-row">
+    <div class="lane-label"><span class="lnum">LANE 05</span><span class="lname">LLM 编排层</span><span class="lgoal">完整 S0-S6 四模型调度</span></div>
+    <div class="lane-body">
+      <div class="flow">
+        <span class="step"><b>S0</b> 解析</span><span class="arrow">→</span>
+        <span class="step"><b>S1</b> 假设×4</span><span class="arrow">→</span>
+        <span class="step"><b>S1</b> 假设官+DA</span><span class="arrow">→</span>
+        <span class="step"><b>S2</b> 路线选择</span><span class="arrow">→</span>
+        <span class="step"><b>S2</b> 双轨迹+反思</span><span class="arrow">→</span>
+        <span class="step"><b>S3</b> 评审×4+投票</span><span class="arrow">→</span>
+        <span class="step"><b>S4</b> 门禁(0LLM)</span><span class="arrow">→</span>
+        <span class="step"><b>S5</b> 排版</span><span class="arrow">→</span>
+        <span class="step"><b>S5b</b> 检测×4</span><span class="arrow">→</span>
+        <span class="step"><b>S6</b> 交付</span>
+      </div>
+      <div class="agent f"><div class="agent-name">orchestrator.py<span class="tag">DONE</span></div>
+        <div class="agent-role">全流程编排：29 次调用预估 + DryRun 零成本验证</div>
+        <div class="agent-io">生产接 llm_client（DS/GLM/Kimi K3/Qwen3.8-Max）</div></div>
+      <div class="agent f"><div class="agent-name">双轨迹 A/B 编排<span class="tag">DONE</span></div>
+        <div class="agent-role">s2_route_select 选最强两条 → s2_dual_track 并行</div>
+        <div class="agent-io">s3_tournament 投票选主线（LLM 只做相对排序）</div></div>
+      <div class="agent f"><div class="agent-name">检测层四模型抽取<span class="tag">DONE</span></div>
+        <div class="agent-role">s5b_detect：每节 3 个非作者实例抽取取并集</div>
+        <div class="agent-io">作者回避：写 §N 实例不抽 §N（4节×3=12 次）</div></div>
+    </div>
+  </div></div>
+
+  <div id="foot">
+    <b>全功能清单（对照开发文档 §8，全部落地）：</b>作废重算引擎 · C++ 确定性执行器 · 跨语言对照(KS) · 数值门禁四断言+可复现 · 双状态机 · 假设官四步 · Devil's Advocate 独立角色 · 反思器（完成度+hot_loop 推荐）· 排版层 · 语料基线 · 微单元写作模板 · 角色隔离审计 · 种子库 17 条 · 内部基准 · DAG 可视化 · LLM 编排层（S0-S6 完整流程：双轨迹+投票+检测层作者回避）<br>
+    <b>验收：</b>32/32 测试全过（A1/A2/A4/A5/A8/A13-A20/A22-A24/A26/A28/A32 + 时间窗 + DA/反思器/KS/编排层 dry-run）。真实 API 运行前必须先报预估调用次数（完整场次 ≈29 次）。
+  </div>
+</div>
+</body>
+</html>

@@ -15,7 +15,7 @@ from visual.dag_visualizer import dag_json, diff_dag
 from audit.role_audit import RoleAuditLog, RoleAuditor, RoleEvent
 from writing.template import ParagraphUnit, WritingTemplateEngine
 from bench.internal_benchmark import InternalBenchmark
-from orchestrator import Orchestrator, DryRunClient, ROLES
+from orchestrator import Orchestrator, DryRunClient
 
 
 def _mkfile(path, text):
@@ -172,13 +172,12 @@ def test_writing_template_stale():
 
 
 def test_orchestrator_dry_run():
-    """编排层 dry-run：零 API 成本跑通 S0-S6，预估调用数正确"""
+    """编排层 dry-run：零 API 成本跑通 S0-S6（完整流程 29 次调用）"""
     orch = Orchestrator(DryRunClient())
-    # S0:1 + S1假设生成:4 + S1假设官:1 + S2:4 + S3:4 + S4:0(确定性) + S5:1 + S6:1 = 16
-    assert orch.estimate_calls(list(ROLES.keys())) == 16
-    rep = orch.run_full(ctx="测试需求")
+    assert orch.estimate_calls() == 29
+    rep = orch.run_full("测试需求")
     assert rep["_dry_run"] is True
-    assert rep["_total_calls"] == 16
+    assert rep["_total_calls"] == 29
 
 
 def test_benchmark():
