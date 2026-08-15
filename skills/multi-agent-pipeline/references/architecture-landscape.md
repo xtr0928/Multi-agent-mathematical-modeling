@@ -72,7 +72,8 @@
 
 > ⚠️ Kimi K3 视觉审查 / K2.7 编码，不能混用。
 > 🆕 2026-08-14 视觉审查与 UI 设计全迁 Qwen3.8-Max（Kimi 视觉 API 成本退出）：vision_analyze auxiliary.vision 已切 custom/qwen3.8-max（DashScope compatible-mode）；kimi-ocr 仅剩推理审查职责。
-> 🆕 Qwen3.8-Max（2026-08-14 接入）：coder-executor 位，承接 T3 复杂/长时程编码（从零实现多文件模块）；T1/T2 快速修复仍走 kimi-coder。写评分离不变——Qwen 产物过确定性门禁 + glm-review；准入三测（API/质量 A-B 对照/成本）通过才挂正式 T3 路由；永不进评委三评。
+> 🆕 Qwen3.8-Max（2026-08-14 接入）：coder-executor 位，承接 T3 复杂/长时程编码（从零实现多文件模块）；T1/T2 快速修复仍走 kimi-coder。写评分离不变——Qwen 产物过确定性门禁 + glm-review；准入三测（API/质量 A-B 对照/成本）通过才挂正式 T3 路由。
+> 🆕 2026-08-15 四模型化升级（用户指令）：数模侧四建模手（DS/GLM/Kimi K3/Qwen3.8-Max）、四模型评审、四模型检测；**评委 v2.7 四评**——Qwen3.8-Max 以校准阶梯（影子≥15 有效轮→灰度 5 轮→转正）进入评委链（「永不进评委三评」旧规则作废）；排版检查全交 Qwen 视觉官。
 
 ## 6 阶段论文流水线
 
