@@ -172,12 +172,12 @@ def test_writing_template_stale():
 
 
 def test_orchestrator_dry_run():
-    """编排层 dry-run：零 API 成本跑通 S0-S6（完整流程 29 次调用）"""
+    """编排层 dry-run：零 API 成本跑通 S0-S7（v5.2 完整流程 30 次调用）"""
     orch = Orchestrator(DryRunClient())
-    assert orch.estimate_calls() == 29
+    assert orch.estimate_calls() == 30
     rep = orch.run_full("测试需求")
     assert rep["_dry_run"] is True
-    assert rep["_total_calls"] == 29
+    assert rep["_total_calls"] == 30
 
 
 def test_benchmark():

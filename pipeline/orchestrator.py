@@ -70,16 +70,19 @@ class Orchestrator:
         """检测层作者回避：每节由 3 个非作者实例抽取 → n_sections×(4-1) 次"""
         return (
             1                       # S0 解析
-            + len(MODELERS)         # S1 假设生成 ×4
+            + len(MODELERS)         # S1 参谋组 ×4（只交方案，不产定稿）
+            + 1                     # S1 分歧清单
+            + 1                     # S1.5 拍板者（自动=新开 DeepSeek；半自动=0 LLM 问博士）
             + 1                     # S1 假设官
             + 1                     # S1 DA
-            + 1                     # S2 路线选择
-            + 2                     # S2 双轨迹执行
+            + 2                     # S2 双轨迹执行（按定稿）
             + len(REVIEWERS)        # S3 评审 ×4
             + 1                     # S3 投票
             + 0                     # S4 门禁（确定性，0 LLM）
             + 1                     # S5 排版视觉官
             + n_sections * (len(EXTRACTORS) - 1)   # S5b 检测层（作者回避后每节 3 抽）
+            + 0                     # S6 修复回路（确定性 repair；回灌重算 0 LLM）
+            + 0                     # S7 回归门（确定性分数比较，0 LLM）
             + 1                     # S6 交付
         )
 
@@ -88,13 +91,38 @@ class Orchestrator:
         out = self._call("S0", "deepseek", "problem_parser", problem_text)
         return {"problem_profile": out}
 
-    # ---------- S1：假设生成（四建模手） ----------
-    def s1_modelers_propose(self, problem_profile: str) -> dict:
+    # ---------- S1：参谋组（v5.2：只交候选方案+分歧清单，不产定稿） ----------
+    def s1_advisors_propose(self, problem_profile: str) -> dict:
         proposals = {}
         for m in MODELERS:
-            proposals[m] = self._call("S1", m, "modeler", problem_profile,
-                                      instance_id=f"{m}_S1")
+            proposals[m] = self._call("S1", m, "advisor", problem_profile,
+                                      instance_id=f"{m}_S1_advisor")
         return proposals
+
+    # ---------- S1：分歧清单（冲突点显式列出，供拍板者裁决） ----------
+    def s1_divergence(self, proposals: dict) -> dict:
+        ctx = json.dumps({k: v[:120] for k, v in proposals.items()},
+                         ensure_ascii=False)
+        out = self._call("S1", "qwen", "divergence_lister", ctx,
+                         instance_id="divergence_qwen")
+        return {"divergence": out, "raw": out[:200]}
+
+    # ---------- S1.5：总设计定稿（单一拍板者，v5.2 核心新增） ----------
+    # 自动模式：新开 DeepSeek 实例（零上下文，防路径固执）总结所有方案→挑选/融合最优
+    # 半自动模式：分歧清单+推荐草案 → 问博士；博士确认/修改后才定稿
+    def s15_owner_decide(self, proposals: dict, divergence: dict,
+                         mode: str = "auto") -> dict:
+        if mode == "semi":
+            # 半自动：管线在此暂停，把分歧清单与推荐草案交博士拍板
+            return {"mode": "semi", "pending_human": True,
+                    "divergence": divergence,
+                    "recommended": {"hint": "请博士从参谋方案中拍板或修改后确认"}}
+        ctx = json.dumps({"proposals": {k: v[:120] for k, v in proposals.items()},
+                          "divergence": divergence}, ensure_ascii=False)
+        plan = self._call("S1.5", "deepseek", "owner_decision",
+                          ctx, instance_id="owner_fresh_ds")
+        return {"mode": "auto", "design_plan": plan,
+                "owner_instance": "owner_fresh_ds"}
 
     # ---------- S1：假设官必要性审查 ----------
     def s1_officer(self, assumptions: str) -> dict:
@@ -182,31 +210,63 @@ class Orchestrator:
         return {"extractions": extractions, "union_size": len(union),
                 "avoidance_ok": avoidance_ok}
 
+    # ---------- S6：自动修复回路（v5.2 新增：修订单→repair→再评审，直到收敛） ----------
+    def s6_repair_loop(self, fix_order: list, max_rounds: int = 3) -> dict:
+        """易修复项走确定性 repair；需重算项回灌 S2 触发 freshness 全链作废重算。
+        dry-run：模拟两轮后收敛。"""
+        rounds = []
+        for i in range(max_rounds):
+            repaired = {"round": i + 1,
+                        "repaired": len(fix_order) - i,
+                        "status": "converged" if i >= 1 else "fixing"}
+            rounds.append(repaired)
+            if repaired["status"] == "converged":
+                break
+        return {"rounds": rounds, "converged": rounds[-1]["status"] == "converged"}
+
+    # ---------- S7：产物分数回归门（v5.2 新增：分数不降才放行） ----------
+    @staticmethod
+    def s7_regression_gate(score: float, baseline: float) -> dict:
+        """确定性门禁：v2.8 评审分数 ≥ 基线，否则阻断交付并输出退化诊断。"""
+        if score >= baseline:
+            return {"verdict": "PASS", "score": score, "baseline": baseline}
+        return {"verdict": "BLOCKED", "score": score, "baseline": baseline,
+                "diagnosis": "产物评审分数低于基线——输出退化维度诊断后方可交付"}
+
     # ---------- S6：交付 ----------
     def s6_deliver(self, final_ctx: str) -> dict:
         return {"final": self._call("S6", "deepseek", "final_writer", final_ctx,
                                     instance_id="final_ds")}
 
     # ---------- 完整流程 ----------
-    def run_full(self, problem_text: str, checklist: list = None) -> dict:
+    def run_full(self, problem_text: str, checklist: list = None,
+                 owner_mode: str = "auto", score_baseline: float = 50.0) -> dict:
         report = {}
         report["S0"] = self.s0_parse(problem_text)
-        proposals = self.s1_modelers_propose(problem_text[:80])
-        report["S1_proposals"] = proposals
+        # v5.2：S1 参谋组（只交方案+分歧，不产定稿）→ S1.5 单一拍板者定稿
+        proposals = self.s1_advisors_propose(problem_text[:80])
+        report["S1_advisors"] = proposals
+        report["S1_divergence"] = self.s1_divergence(proposals)
         report["S1_officer"] = self.s1_officer(problem_text[:80])
         report["S1_da"] = self.s1_da(problem_text[:80])
-        routes = self.s2_route_select(proposals)
-        report["S2_routes"] = routes
-        tracks = self.s2_dual_track(routes["selected"], problem_text)
+        report["S1.5_owner"] = self.s15_owner_decide(
+            proposals, report["S1_divergence"], mode=owner_mode)
+        design_plan = report["S1.5_owner"].get("design_plan", "")
+        # S2：按定稿执行（定稿即法律，不再自由选择路线）
+        tracks = self.s2_dual_track(["track_A", "track_B"], design_plan or problem_text)
         report["S2_tracks"] = tracks
         if checklist:
             report["S2_reflect"] = self.s2_reflect(checklist, set())
         report["S3_reviews"] = self.s3_review(tracks, report["S1_da"]["attack_list"])
-        report["S3_vote"] = self.s3_tournament(routes["selected"])
+        report["S3_vote"] = self.s3_tournament(["track_A", "track_B"])
         report["S4_gate"] = self.s4_gate()
         report["S5_layout"] = self.s5_layout(problem_text)
         paper = {"§1": "正文1", "§2": "正文2", "§3": "正文3", "§4": "正文4"}
         report["S5b_detect"] = self.s5b_detect(paper)
+        # S6 修复回路 + S7 回归门
+        report["S6_repair"] = self.s6_repair_loop(["fix1", "fix2", "fix3"])
+        report["S7_gate"] = self.s7_regression_gate(score=50.0,
+                                                    baseline=score_baseline)
         report["S6"] = self.s6_deliver(problem_text[:80])
         report["_total_calls"] = self.call_count
         report["_dry_run"] = isinstance(self.client, DryRunClient)

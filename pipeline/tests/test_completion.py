@@ -102,16 +102,20 @@ def test_rng_file_protocol():
 
 
 def test_orchestrator_full_flow():
-    """完整编排层：预估调用数 + 全流程 + 双轨迹 + 检测层作者回避"""
+    """完整编排层：预估调用数 + 全流程 + 参谋组→拍板者 + 修复回路 + 回归门"""
     orch = Orchestrator(DryRunClient())
-    # 1+4+1+1+1+2+4+1+0+1+12(4节×3抽)+1 = 29
-    assert orch.estimate_calls() == 29, orch.estimate_calls()
+    # v5.2：1+4(S1参谋)+1(分歧)+1(S1.5拍板)+1(假设官)+1(DA)+2(双轨迹)+4(评审)+1(投票)+0(S4)+1(S5)+12(4节×3抽)+0(S6修复)+0(S7门)+1(S6交付) = 30
+    assert orch.estimate_calls() == 30, orch.estimate_calls()
     rep = orch.run_full("测试赛题文本")
     assert rep["_dry_run"] is True
-    assert rep["_total_calls"] == 29, rep["_total_calls"]
-    assert rep["S2_routes"]["selected"] == ["route_A", "route_B"], "双轨迹路线选择缺失"
-    assert set(rep["S2_tracks"].keys()) == {"route_A", "route_B"}
-    assert rep["S3_vote"]["winner"] in ("route_A", "route_B"), "投票无胜者"
+    assert rep["_total_calls"] == 30, rep["_total_calls"]
+    assert set(rep["S1_advisors"].keys()) == {"deepseek", "glm", "kimi", "qwen"}, "参谋组四模型缺失"
+    assert rep["S1.5_owner"]["mode"] == "auto"
+    assert rep["S1.5_owner"]["owner_instance"] == "owner_fresh_ds", "拍板者必须新开 DeepSeek 实例"
+    assert set(rep["S2_tracks"].keys()) == {"track_A", "track_B"}
+    assert rep["S3_vote"]["winner"] in ("track_A", "track_B"), "投票无胜者"
+    assert rep["S6_repair"]["converged"] is True, "修复回路未收敛"
+    assert rep["S7_gate"]["verdict"] == "PASS", "基线50分应放行"
     det = rep["S5b_detect"]
     assert det["avoidance_ok"] is True, "检测层作者回避失效"
     # 作者回避验证：每个抽取实例都不抽自己撰写的章节

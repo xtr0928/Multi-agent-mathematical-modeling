@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>数模管线架构 v5.2 — 参谋组 + 单一拍板者 + 产物回归门</title>
+<style>
+:root {
+  --paper: #faf8f3; --paper-deep: #f2efe6;
+  --ink: #1c1a16; --ink-soft: #4a463e; --ink-mute: #8a8578;
+  --hairline: #e3dfd2;
+  --accent: #a63a2a; --accent-deep: #862d20;
+  --c-analyze: #b3562e; --c-code: #2f6b5e; --c-write: #3a5a8c;
+  --c-manage: #6b4a8c; --c-gate: #a63a2a; --c-data: #8a8578;
+  --serif: "Noto Serif SC", "Source Han Serif SC", "Songti SC", "SimSun", serif;
+  --sans: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", -apple-system, sans-serif;
+  --mono: "JetBrains Mono", "SF Mono", "Consolas", monospace;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 14.5px; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+.wrap { max-width: 1180px; margin: 0 auto; padding: 0 32px 60px; }
+header { padding: 46px 0 30px; border-bottom: 3px solid var(--ink); margin-bottom: 32px; }
+h1 { font-family: var(--serif); font-weight: 900; font-size: 32px; letter-spacing: .02em; }
+h1 em { font-style: normal; color: var(--accent); }
+.sub { color: var(--ink-mute); font-size: 13px; margin-top: 8px; font-family: var(--mono); letter-spacing: .04em; }
+.legend { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; padding: 14px 20px; background: var(--paper-deep); border: 1px solid var(--hairline); margin-bottom: 30px; font-size: 12px; color: var(--ink-soft); }
+.legend .lg { display: flex; align-items: center; gap: 6px; }
+.legend .dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.legend b { color: var(--ink); font-weight: 600; }
+.lane { display: grid; grid-template-columns: 150px 1fr; border: 1px solid var(--hairline); }
+.lane + .lane { border-top: none; }
+.lane-label { padding: 18px 14px; background: var(--paper-deep); border-right: 1px solid var(--hairline); display: flex; flex-direction: column; gap: 5px; }
+.lane-num { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: .12em; }
+.lane-name { font-family: var(--serif); font-weight: 700; font-size: 16px; line-height: 1.35; }
+.lane-goal { font-size: 11px; color: var(--ink-mute); line-height: 1.5; }
+.lane-body { padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; }
+.agents { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; }
+.agent { background: #fff; border: 1px solid var(--hairline); padding: 12px 13px; position: relative; display: flex; flex-direction: column; gap: 6px; }
+.agent::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+.agent.t-analyze::before { background: var(--c-analyze); }
+.agent.t-code::before { background: var(--c-code); }
+.agent.t-write::before { background: var(--c-write); }
+.agent.t-manage::before { background: var(--c-manage); }
+.agent.t-gate::before { background: var(--c-gate); }
+.agent.t-human::before { background: var(--ink); }
+.agent-name { font-family: var(--serif); font-weight: 700; font-size: 13.5px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.agent-type { font-family: var(--mono); font-size: 9px; letter-spacing: .06em; padding: 1px 5px; border: 1px solid var(--hairline); color: var(--ink-mute); }
+.agent-role { font-size: 11.8px; color: var(--ink-soft); }
+.agent-io { font-family: var(--mono); font-size: 10px; color: var(--ink-mute); line-height: 1.5; }
+.agent-io b { color: var(--c-data); font-weight: 500; }
+.owner { border: 2px solid var(--accent); box-shadow: 0 0 0 1px var(--accent) inset; }
+.owner .agent-name { color: var(--accent-deep); }
+.data-flow { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-family: var(--mono); font-size: 10px; color: var(--ink-mute); background: var(--paper-deep); border: 1px dashed var(--hairline); padding: 8px 12px; }
+.data-flow .arrow { color: var(--accent); }
+.contract { font-family: var(--mono); font-size: 10px; background: #fff; border: 1px solid var(--hairline); padding: 2px 7px; color: var(--ink-soft); }
+.gate { border: 2px solid var(--c-gate); background: #fff; padding: 10px 14px; display: flex; align-items: center; gap: 12px; }
+.gate-icon { font-size: 18px; }
+.gate-name { font-family: var(--serif); font-weight: 700; font-size: 13.5px; color: var(--c-gate); }
+.gate-desc { font-size: 11.5px; color: var(--ink-soft); margin-top: 2px; }
+.connect { display: flex; justify-content: center; padding: 8px 0 2px; color: var(--accent); }
+.connect svg { width: 26px; height: 18px; }
+.loop-tag { display: inline-block; font-family: var(--mono); font-size: 9.5px; color: var(--c-gate); border: 1px dashed var(--c-gate); padding: 1px 6px; align-self: flex-start; }
+.footer-note { margin-top: 40px; padding: 22px 26px; background: var(--ink); color: #b9b4a6; font-size: 12.5px; }
+.footer-note h3 { font-family: var(--serif); color: var(--paper); font-size: 16px; margin-bottom: 10px; }
+.footer-note ul { padding-left: 18px; }
+.footer-note li { margin: 3px 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>数模管线架构 <em>v5.2</em> · 参谋组 + 单一拍板者 + 产物回归门</h1>
+  <div class="sub">教训落地：建模时间前置 · 方案所有权收拢 · 产物分数进门禁 · registry/freshness/四评 v2.8 全保留</div>
+</header>
+
+<div class="legend">
+  <span class="lg"><span class="dot" style="background:var(--c-analyze)"></span> 参谋 LLM（只交方案，不产定稿）</span>
+  <span class="lg"><span class="dot" style="background:var(--accent)"></span> 拍板者（唯一责任人）</span>
+  <span class="lg"><span class="dot" style="background:var(--ink)"></span> 人（博士）</span>
+  <span class="lg"><span class="dot" style="background:var(--c-code)"></span> 确定性代码/求解</span>
+  <span class="lg"><span class="dot" style="background:var(--c-write)"></span> 装配写作</span>
+  <span class="lg"><span class="dot" style="background:var(--c-gate)"></span> 门禁</span>
+  <span class="lg"><span class="dot" style="background:var(--c-data)"></span> 数据产物</span>
+  <span class="lg"><b>⟳</b> 循环直到收敛/通过</span>
+</div>
+
+<!-- S0 -->
+<div class="lane">
+  <div class="lane-label"><span class="lane-num">S0</span><span class="lane-name">读题解析</span><span class="lane-goal">开赛第一步：要求单元 / 硬约束全集 / 口径 / 题型</span></div>
+  <div class="lane-body">
+    <div class="agents">
+      <div class="agent t-code">
+        <div class="agent-name">解析官（确定性+LLM）</div>
+        <div class="agent-role">要求单元提取 · D2 硬约束全集枚举（GPU容量/IT功率/设施功率/时延/时限/SOC终值/SellLimit/口径）· 附件口径登记 · 题型判定</div>
+        <div class="agent-io"><b>产出</b> input_manifest.json · 硬约束清单 · 题型标签</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="connect"><svg viewBox="0 0 26 18"><path d="M13 0 v12 M6 8 l7 6 7-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg></div>
+
+<!-- S1 -->
+<div class="lane">
+  <div class="lane-label"><span class="lane-num">S1</span><span class="lane-name">参谋组</span><span class="lane-goal">四模型隔离实例，只交候选方案与分歧，不产定稿</span></div>
+  <div class="lane-body">
+    <div class="agents">
+      <div class="agent t-analyze"><div class="agent-name">GLM-5.2 参谋</div><div class="agent-role">每问方法 + 参数 + 依据</div><div class="agent-io"><b>产出</b> 方案摘要</div></div>
+      <div class="agent t-analyze"><div class="agent-name">Kimi 参谋</div><div class="agent-role">每问方法 + 参数 + 依据</div><div class="agent-io"><b>产出</b> 方案摘要</div></div>
+      <div class="agent t-analyze"><div class="agent-name">DeepSeek 参谋</div><div class="agent-role">每问方法 + 参数 + 依据</div><div class="agent-io"><b>产出</b> 方案摘要</div></div>
+      <div class="agent t-analyze"><div class="agent-name">千问 参谋</div><div class="agent-role">每问方法 + 参数 + 依据</div><div class="agent-io"><b>产出</b> 方案摘要</div></div>
+    </div>
+    <div class="data-flow"><span class="contract">分歧清单</span><span class="arrow">→</span><span>冲突点显式列出（同问不同法 / 参数矛盾 / 口径分歧）——供拍板者裁决，禁止和稀泥</span></div>
+  </div>
+</div>
+<div class="connect"><svg viewBox="0 0 26 18"><path d="M13 0 v12 M6 8 l7 6 7-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg></div>
+
+<!-- S1.5 拍板者 -->
+<div class="lane">
+  <div class="lane-label"><span class="lane-num">S1.5 ★</span><span class="lane-name">总设计定稿</span><span class="lane-goal">核心新增：单一拍板者，定稿即法律</span></div>
+  <div class="lane-body">
+    <div class="agents">
+      <div class="agent t-manage owner">
+        <div class="agent-name">🎯 拍板者 · 自动模式 <span class="agent-type">新开 DeepSeek 实例</span></div>
+        <div class="agent-role">零上下文（防路径固执）：总结四份方案 → 挑选/融合最优建模方案 → 逐问定方法、定参数、定硬约束处理方式、定数字口径</div>
+        <div class="agent-io"><b>产出</b> 设计方案定稿.json（唯一真源，hash 登记）</div>
+      </div>
+      <div class="agent t-human">
+        <div class="agent-name">🎛️ 拍板者 · 半自动模式 <span class="agent-type">博士</span></div>
+        <div class="agent-role">分歧清单 + 推荐定稿草案 → 问博士；博士修改/确认后才生效</div>
+        <div class="agent-io"><b>产出</b> 博士定稿.json</div>
+      </div>
+    </div>
+    <div class="data-flow"><span class="contract">定稿内容</span><span class="arrow">→</span><span>每问方法+依据 / 参数及理由 / 硬约束逐条处理 / 反直觉风险预判 / 每数字由哪份脚本产出</span></div>
+    <div class="loop-tag">铁律：定稿即法律——后续阶段偏离定稿 = 作废重做</div>
+  </div>
+</div>
+<div class="connect"><svg viewBox="0 0 26 18"><path d="M13 0 v12 M6 8 l7 6 7-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg></div>
+
+<!-- S2 -->
+<div class="lane">
+  <div class="lane-label"><span class="lane-num">S2</span><span class="lane-name">按定稿求解</span><span class="lane-goal">不许自创方法/参数/口径</span></div>
+  <div class="lane-body">
+    <div class="agents">
+      <div class="agent t-code"><div class="agent-name">求解器（每问一脚本）</div><div class="agent-role">严格按定稿实现；数字全进 registry；SHA-512 防漂移</div><div class="agent-io"><b>产出</b> q1..q4.json → registry/claims.json</div></div>
+    </div>
+  </div>
+</div>
+<div class="connect"><svg viewBox="0 0 26 18"><path d="M13 0 v12 M6 8 l7 6 7-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg></div>
+
+<!-- S3 -->
+<div class="lane">
+  <div class="lane-label"><span class="lane-num">S3</span><span class="lane-name">数值门禁</span><span class="lane-goal">确定性代码，不过不放行</span></div>
+  <div class="lane-body">
+    <div class="gate"><div class="gate-icon">⛩️</div><div class="gate-info"><div class="gate-name">确定性三重检查</div><div class="gate-desc">重跑 SHA-512 全等 · 预测量级一致性（预测分布 vs 实际分布）· 附件基准并置（18.02亿/204.54万吨/32.74% 必须在论文出现）</div></div></div>
+  </div>
+</div>
+<div class="connect"><svg viewBox="0 0 26 18"><path d="M13 0 v12 M6 8 l7 6 7-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg></div>
+
+<!-- S4 -->
+<div class="lane">
+  <div class="lane-label"><span class="lane-num">S4</span><span class="lane-name">装配写作</span><span class="lane-goal">模板+定稿+注册表，writer 只做语言组织</span></div>
+  <div class="lane-body">
+    <div class="agents">
+      <div class="agent t-write"><div class="agent-name">writer（限语言组织）</div><div class="agent-role">按定稿与注册表组织叙述；禁止生成数字/文献/声明</div><div class="agent-io"><b>输入</b> 定稿 + registry + 模板</div></div>
+      <div class="agent t-code"><div class="agent-name">装配器（确定性）</div><div class="agent-role">AI 声明由 manifest 自动生成 · 文献白名单注入 · [Cxxx] 标签自动剥除 · 表格数字从结果 JSON 直出</div><div class="agent-io"><b>产出</b> paper.html / pdf</div></div>
+    </div>
+  </div>
+</div>
+<div class="connect"><svg viewBox="0 0 26 18"><path d="M13 0 v12 M6 8 l7 6 7-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg></div>
+
+<!-- S5 -->
+<div class="lane">
+  <div class="lane-label"><span class="lane-num">S5</span><span class="lane-name">四评 v2.8</span><span class="lane-goal">零上下文隔离，先验证后评分</span></div>
+  <div class="lane-body">
+    <div class="agents">
+      <div class="agent t-manage"><div class="agent-name">GLM / Kimi / 新开 DS</div><div class="agent-role">独立评分（全权）+ 扣分记录制 + HARD FAIL 20 条</div></div>
+      <div class="agent t-manage"><div class="agent-name">千问影子（校准阶梯）</div><div class="agent-role">第 4 评 · 影子≥15 轮 → 灰度 → 转正</div></div>
+    </div>
+    <div class="data-flow"><span class="contract">仲裁</span><span class="arrow">→</span><span>极差>5 审查 / 孤立弱票剔除（Kimi 87 已实证）</span></div>
+  </div>
+</div>
+<div class="connect"><svg viewBox="0 0 26 18"><path d="M13 0 v12 M6 8 l7 6 7-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg></div>
+
+<!-- S6 -->
+<div class="lane">
+  <div class="lane-label"><span class="lane-num">S6</span><span class="lane-name">自动修复回路</span><span class="lane-goal">发现 → 修复 → 再评审，直到收敛</span></div>
+  <div class="lane-body">
+    <div class="agents">
+      <div class="agent t-code"><div class="agent-name">repair 节点（确定性）</div><div class="agent-role">修订单易修复项：剥标签 / 数字统一 / 表述修正 / 表重建</div></div>
+      <div class="agent t-code"><div class="agent-name">回灌节点</div><div class="agent-role">需重算项回灌 S2 → freshness 全链作废重算</div></div>
+    </div>
+    <div class="data-flow"><span>修订单</span><span class="arrow">→</span><span>repair</span><span class="arrow">→</span><span>再评审 ⟳ 直到分数收敛</span></div>
+  </div>
+</div>
+<div class="connect"><svg viewBox="0 0 26 18"><path d="M13 0 v12 M6 8 l7 6 7-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg></div>
+
+<!-- S7 -->
+<div class="lane">
+  <div class="lane-label"><span class="lane-num">S7</span><span class="lane-name">产物回归门</span><span class="lane-goal">最终出口：分数不降才放行</span></div>
+  <div class="lane-body">
+    <div class="gate"><div class="gate-icon">🚪</div><div class="gate-info"><div class="gate-name">v2.8 评审分数 ≥ 基线</div><div class="gate-desc">基线 = 上一版产物仲裁分（华数杯 C 当前 50）；低于基线 → 阻断交付 + 输出退化诊断（掉分维度 ↔ 对应改动）；管线升级同样受此门约束</div></div></div>
+  </div>
+</div>
+
+<div class="footer-note">
+  <h3>六条铁律（落位于 PROJECT.md 与各门禁）</h3>
+  <ul>
+    <li><b>定稿即法律</b>——S1.5 定稿是唯一真源，后续阶段不得自创方法/参数/口径</li>
+    <li><b>单一责任人</b>——每问求解、每个数字、每段正文有且仅有一个责任人</li>
+    <li><b>数字唯一入口</b>——论文数字只从 registry 注入，writer 禁止生成数字/文献/声明</li>
+    <li><b>修一处 → 全链重做</b>——freshness 作废重算（含定稿节点）</li>
+    <li><b>产物分数进门禁</b>——不过 S7 不出管线</li>
+    <li><b>零上下文隔离</b>——参谋 / 拍板 / 四评 / 写作各实例互不带上下文（防路径固执与污染）</li>
+  </ul>
+</div>
+
+</div>
+</body>
+</html>
