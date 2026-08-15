@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>数模管线 V5.1 · 工作流程图</title>
+<style>
+:root{
+  --paper:#faf8f3; --ink:#1c1a16; --accent:#a63a2a;
+  --c-model:#b3562e; --c-code:#2f6b5e; --c-write:#3a5a8c; --c-judge:#6b4a8c;
+  --c-gate:#a63a2a; --c-data:#8a8578; --hairline:#d9d4c8; --muted:#6b655a;
+  --serif:"Noto Serif SC","Source Han Serif SC","Songti SC","STSong","SimSun",serif;
+  --sans:"Noto Sans SC","Source Han Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
+  --mono:"JetBrains Mono","SFMono-Regular",Consolas,"Liberation Mono",monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.6}
+#sheet{width:1160px;margin:0 auto;padding:48px 52px 60px}
+#h h1{font-family:var(--serif);font-size:29px;font-weight:700;letter-spacing:.04em}
+#h .sub{font-family:var(--serif);font-size:14.5px;color:var(--muted);margin-top:8px}
+#h .meta{font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-top:12px;letter-spacing:.04em}
+/* ---------- 流程主体 ---------- */
+#flow{margin-top:26px;position:relative}
+.stage-row{display:flex;align-items:stretch;margin-bottom:0}
+.stage-rail{width:128px;min-width:128px;display:flex;flex-direction:column;justify-content:center;
+  border:1px solid var(--hairline);border-right:none;padding:10px 10px}
+.stage-rail .snum{font-family:var(--mono);font-size:12px;color:var(--accent);letter-spacing:.1em}
+.stage-rail .sname{font-family:var(--serif);font-size:15px;font-weight:700;margin-top:3px}
+.stage-rail .stime{font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:3px}
+.stage-rail .sllm{font-family:var(--mono);font-size:10px;color:var(--c-code);margin-top:2px}
+.stage-body{flex:1;border:1px solid var(--hairline);padding:12px;display:flex;flex-direction:column;gap:8px}
+.stage-main{display:flex;flex-wrap:wrap;gap:8px}
+.cell{position:relative;border:1px solid var(--hairline);padding:8px 10px;min-width:130px;flex:1 1 130px}
+.cell::before{content:"";position:absolute;top:-1px;left:-1px;right:-1px;height:3px}
+.cell.model::before{background:var(--c-model)} .cell.code::before{background:var(--c-code)}
+.cell.write::before{background:var(--c-write)} .cell.judge::before{background:var(--c-judge)}
+.cell.data::before{background:var(--c-data)} .cell.gate::before{background:var(--c-gate)}
+.cell-name{font-family:var(--serif);font-size:13px;font-weight:700}
+.cell-name .tag{font-family:var(--mono);font-size:9px;color:var(--accent);margin-left:5px;letter-spacing:.06em}
+.cell-role{font-size:11px;color:var(--muted);margin-top:2px;line-height:1.4}
+.cell-io{font-family:var(--mono);font-size:9.5px;margin-top:4px;line-height:1.5}
+.arrow{text-align:center;font-family:var(--mono);color:var(--accent);font-size:15px;line-height:1;
+  padding:5px 0 5px 128px}
+.gate-node{border:2px solid var(--c-gate);padding:8px 12px;font-size:11.5px}
+.gate-node b{font-family:var(--serif)}
+.gate-node .pass{font-family:var(--mono);font-size:10px;color:var(--muted)}
+.parallel{display:flex;gap:6px;flex-wrap:wrap}
+.mini{flex:1 1 100px;border:1px solid var(--hairline);padding:6px 8px;font-size:10.5px}
+.mini b{font-family:var(--serif);font-size:11.5px}
+.loop-note{font-family:var(--mono);font-size:10px;color:var(--c-write);border:1px dashed var(--c-write);
+  padding:4px 8px;align-self:flex-start}
+/* ---------- 侧轨 ---------- */
+#side-rail{margin-top:22px;border:1px solid var(--hairline);display:flex}
+#side-rail .sr-label{width:128px;min-width:128px;border-right:1px solid var(--hairline);padding:10px;
+  display:flex;flex-direction:column;justify-content:center}
+#side-rail .sr-body{flex:1;padding:12px;display:flex;flex-wrap:wrap;gap:8px}
+#foot{margin-top:24px;border-top:2px solid var(--ink);padding-top:12px;font-size:11.5px;color:var(--muted);line-height:1.8}
+#foot b{color:var(--ink)}
+</style>
+</head>
+<body>
+<div id="sheet">
+  <div id="h">
+    <h1>数模管线 V5.1 · 工作流程图</h1>
+    <div class="sub">S0-S6 完整流转：72h 时间窗 × 29 次 LLM 调用 × SHA-512 作废重算护航</div>
+    <div class="meta">pipeline/orchestrator.py · 32/32 验收测试 · 2026-08-15</div>
+  </div>
+
+  <div id="flow">
+    <!-- S0 -->
+    <div class="stage-row">
+      <div class="stage-rail"><span class="snum">STAGE S0</span><span class="sname">问题解析</span><span class="stime">~1.5h</span><span class="sllm">1×LLM</span></div>
+      <div class="stage-body"><div class="stage-main">
+        <div class="cell model"><div class="cell-name">题目结构化<span class="tag">DS</span></div>
+          <div class="cell-role">Q1..Qn × {决策变量/约束/指标} + 问题分类学接入</div>
+          <div class="cell-io">problem_profile.json · SHA-512 快照</div></div>
+        <div class="cell data"><div class="cell-name">进气快照<span class="tag">0 LLM</span></div>
+          <div class="cell-role">题目/数据/模板 SHA-512 落盘，模板未就位不前进</div>
+          <div class="cell-io">input_manifest.json</div></div>
+      </div></div>
+    </div>
+    <div class="arrow">↓</div>
+
+    <!-- S1 -->
+    <div class="stage-row">
+      <div class="stage-rail"><span class="snum">STAGE S1</span><span class="sname">假设生成与审查</span><span class="stime">~4h</span><span class="sllm">6×LLM</span></div>
+      <div class="stage-body">
+        <div class="stage-main">
+          <div class="parallel">
+            <div class="mini"><b>建模手 A</b><br>DeepSeek 提案+假设</div>
+            <div class="mini"><b>建模手 B</b><br>GLM 提案+假设</div>
+            <div class="mini"><b>建模手 C</b><br>Kimi K3 提案+假设</div>
+            <div class="mini"><b>建模手 D</b><br>Qwen 提案+假设</div>
+          </div>
+        </div>
+        <div class="stage-main">
+          <div class="cell judge"><div class="cell-name">假设官<span class="tag">独立实例</span></div>
+            <div class="cell-role">必要性审查：能删吗？能用题面事实替代吗？</div>
+            <div class="cell-io">assumption_registry.json（作者回避强制）</div></div>
+          <div class="cell judge"><div class="cell-name">Devil's Advocate<span class="tag">独立实例</span></div>
+            <div class="cell-role">攻击清单：反事实+实验设计强制，实质≥2，关键全覆盖</div>
+            <div class="cell-io">attack_list.json → 喂 S3 评审核实</div></div>
+          <div class="loop-note">⟲ 隐式假设映射表检查（20 方法）→ 漏登记即打回</div>
+        </div>
+      </div>
+    </div>
+    <div class="arrow">↓</div>
+
+    <!-- S2 -->
+    <div class="stage-row">
+      <div class="stage-rail"><span class="snum">STAGE S2</span><span class="sname">双轨迹执行</span><span class="stime">~30h · 42%</span><span class="sllm">3×LLM + C++</span></div>
+      <div class="stage-body">
+        <div class="stage-main">
+          <div class="cell model"><div class="cell-name">路线选择<span class="tag">DS</span></div>
+            <div class="cell-role">从四方案选最强两条独立路线（分歧写 divergence_report）</div>
+            <div class="cell-io">model_route.json</div></div>
+        </div>
+        <div class="stage-main">
+          <div class="parallel">
+            <div class="mini" style="flex:1 1 45%"><b>轨迹 A 并行求解</b><br>真实执行 · 基线对照 · 验证产物 · 灵敏度矩阵<br><span style="font-family:var(--mono);font-size:9.5px">C++ OpenMP 确定性重算（2/8/16 线程逐位一致）</span></div>
+            <div class="mini" style="flex:1 1 45%"><b>轨迹 B 并行求解</b><br>真实执行 · 基线对照 · 验证产物 · 灵敏度矩阵<br><span style="font-family:var(--mono);font-size:9.5px">旧进程不杀并行对照 · KS 跨语言分布校验</span></div>
+          </div>
+        </div>
+        <div class="stage-main">
+          <div class="cell code"><div class="cell-name">反思器<span class="tag">≤3 轮</span></div>
+            <div class="cell-role">完成度检查：任务清单逐项对照执行产物；报错结构化反思</div>
+            <div class="cell-io">hot_loop 推荐 → C++ 重写决策公式</div></div>
+          <div class="loop-note">⟲ 完成度不足 → 补产物重查，≤3 轮</div>
+        </div>
+      </div>
+    </div>
+    <div class="arrow">↓</div>
+
+    <!-- S3 -->
+    <div class="stage-row">
+      <div class="stage-rail"><span class="snum">STAGE S3</span><span class="sname">评审与投票</span><span class="stime">~4h · 6%</span><span class="sllm">5×LLM</span></div>
+      <div class="stage-body">
+        <div class="stage-main">
+          <div class="parallel">
+            <div class="mini"><b>评审 DS</b><br>零上下文</div>
+            <div class="mini"><b>评审 GLM</b><br>零上下文</div>
+            <div class="mini"><b>评审 Kimi</b><br>零上下文</div>
+            <div class="mini"><b>评审 Qwen</b><br>零上下文</div>
+          </div>
+        </div>
+        <div class="stage-main">
+          <div class="cell judge"><div class="cell-name">攻击核实<span class="tag">分离</span></div>
+            <div class="cell-role">DA 攻击清单由评审逐条核实（攻击方不自证）</div></div>
+          <div class="cell write"><div class="cell-name">锦标赛投票<span class="tag">DS</span></div>
+            <div class="cell-role">LLM 只做相对排序，不做绝对打分 → 选主线</div>
+            <div class="cell-io">selection.json</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="arrow">↓</div>
+
+    <!-- S4 门禁 -->
+    <div class="stage-row">
+      <div class="stage-rail"><span class="snum">STAGE S4</span><span class="sname">数值门禁</span><span class="stime">确定性</span><span class="sllm">0×LLM</span></div>
+      <div class="stage-body"><div class="stage-main">
+        <div class="cell gate"><div class="cell-name">四断言 + 可复现性<span class="tag">必须项</span></div>
+          <div class="cell-role">采样代入 · 量纲 · 边界 · sympy 符号比对</div>
+          <div class="cell-io">同输入重跑 3 次 SHA-512 全等才入 registry</div></div>
+        <div class="gate-node"><b>挂 build 钩子</b><span class="pass">· 移除 Agent 仍可执行 · 造假类阻断，其余降级 risk_report</span></div>
+      </div></div>
+    </div>
+    <div class="arrow">↓</div>
+
+    <!-- S5 -->
+    <div class="stage-row">
+      <div class="stage-rail"><span class="snum">STAGE S5</span><span class="sname">成文与排版</span><span class="stime">~18h · 25% 硬保底</span><span class="sllm">1×LLM</span></div>
+      <div class="stage-body"><div class="stage-main">
+        <div class="cell write"><div class="cell-name">注册表驱动写作<span class="tag">单作者</span></div>
+          <div class="cell-role">数字全部动态读自 registry；微单元模板；段落绑定 claim_id</div>
+          <div class="cell-io">正文引用已作废条目 → 排版门禁阻断</div></div>
+        <div class="cell judge"><div class="cell-name">Qwen 视觉官<span class="tag">排版检查</span></div>
+          <div class="cell-role">图清单/公式清单/四维密度（O 奖 IQR 基线）/直观性</div>
+          <div class="cell-io">3 秒理解度 · blocking ≤5/次</div></div>
+      </div></div>
+    </div>
+    <div class="arrow">↓</div>
+
+    <!-- S5b -->
+    <div class="stage-row">
+      <div class="stage-rail"><span class="snum">STAGE S5b</span><span class="sname">检测层</span><span class="stime">~1.5h</span><span class="sllm">12×LLM</span></div>
+      <div class="stage-body"><div class="stage-main">
+        <div class="cell data"><div class="cell-name">四模型独立抽取<span class="tag">作者回避</span></div>
+          <div class="cell-role">每节 3 个非作者实例抽取声明取并集（写 §N 不抽 §N）</div>
+          <div class="cell-io">4 节 × 3 抽取 = 12 次调用 → registry</div></div>
+        <div class="cell data"><div class="cell-name">种子库回归<span class="tag">确定性</span></div>
+          <div class="cell-role">华数杯 17 条教训 + 运行期漏检自动入库</div>
+          <div class="cell-io">召回率硬指标</div></div>
+      </div></div>
+    </div>
+    <div class="arrow">↓</div>
+
+    <!-- S6 -->
+    <div class="stage-row">
+      <div class="stage-rail"><span class="snum">STAGE S6</span><span class="sname">交付</span><span class="stime">~1h</span><span class="sllm">1×LLM</span></div>
+      <div class="stage-body"><div class="stage-main">
+        <div class="cell write"><div class="cell-name">评委 v2.8 终评<span class="tag">四评+复算</span></div>
+          <div class="cell-role">四评仲裁 + 全量数据复算（复算不符先自查评审脚本）</div>
+          <div class="cell-io">分数区间 + 修订单 + risk_report</div></div>
+        <div class="cell gate"><div class="cell-name">交付物<span class="tag">PDF</span></div>
+          <div class="cell-role">MCM 25 页 LaTeX / 华数杯模板版 + AI 声明</div>
+          <div class="cell-io">MEDIA 直发 · 产物全部可溯源</div></div>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- 侧轨：贯穿机制 -->
+  <div id="side-rail">
+    <div class="sr-label"><span class="snum" style="font-family:var(--mono);font-size:12px;color:var(--accent)">CROSS-CUT</span><span class="sname" style="font-family:var(--serif);font-size:15px;font-weight:700">贯穿全程</span></div>
+    <div class="sr-body">
+      <div class="cell data" style="flex:1 1 220px"><div class="cell-name">SHA-512 作废重算引擎<span class="tag">铁律</span></div>
+        <div class="cell-role">任一修改 → 传递闭包下游全部作废重算；写入门卫拦截旧进程回灌；断点恢复=重放日志</div>
+        <div class="cell-io">正确性 &gt; 完整性 &gt; 时间窗</div></div>
+      <div class="cell code" style="flex:1 1 200px"><div class="cell-name">72h 时间窗<span class="tag">状态机</span></div>
+        <div class="cell-role">商议 14% / 双轨迹 42% / 成文 25% 硬保底 / 纠错 ≤20%</div>
+        <div class="cell-io">预授权降级：挤占成文 &gt;30% 自动双轨迹→单轨迹</div></div>
+      <div class="cell judge" style="flex:1 1 200px"><div class="cell-name">角色隔离审计<span class="tag">全称日志</span></div>
+        <div class="cell-role">写评分离 · 评审零上下文 · 作者回避 · 视觉官不查自己的排版</div>
+        <div class="cell-io">audit/role_audit.py 四类违规全检出</div></div>
+    </div>
+  </div>
+
+  <div id="foot">
+    <b>关键数字：</b>完整场次 29 次 LLM 调用 · C++ 重算 2/8/16 线程逐位一致 · 32/32 验收测试 · 作废传播召回 100% · 数字重跑还原率 100%（可复现断言）<br>
+    <b>铁律：</b>所有操作基于正确数据（SHA-512 防漂移）· 写评分离 · 作者回避 · 门禁不认模型挂 build 钩子 · 成文 25% 硬保底 · 旧进程不杀并行对照 · T5 窗口内权重 0
+  </div>
+</div>
+</body>
+</html>

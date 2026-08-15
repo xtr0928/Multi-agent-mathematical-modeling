@@ -4,11 +4,11 @@
 
 输入一道竞赛题（官方题目 PDF + 数据包），输出一篇可直接提交的论文（MCM 25 页 LaTeX / 华数杯官方模板版）。全流程覆盖：**审题 → 假设管理 → 建模商议 → 双轨迹求解 → 评审 → 数值门禁 → 成文 → 检测 → 交付**。
 
-## 一张图看懂（V5.1 管线）
+## 一张图看懂（V5.1 工作流程）
 
-![V5.1 整体架构图](docs/V51_overall_arch.png)
+![V5.1 工作流程图](docs/V51_workflow.png)
 
-> V5.0 时代流程图（Stage 0-7 设计稿）：`docs/flowchart_v5_final.png`
+> 模块级整体架构图：`docs/V51_overall_arch.png`（5 泳道）；V5.0 时代流程图：`docs/flowchart_v5_final.png`
 
 ## 完整工作流（V5.1，S0–S6）
 
@@ -91,7 +91,8 @@ docs/
   V5_pipeline_design.md             # V5 管线完整设计（含设计决策溯源表）
   V5_upgrade_dev_doc_2026-08-15.md  # V5.1 升级开发文档（混合编码管线产出）
   V5_optimization_plan_2026-08-15.html  # 优化清单（16 项→15 项实施决策）
-  V51_overall_arch.html/.png        # V5.1 整体架构图（README 所嵌）
+  V51_workflow.html/.png           # V5.1 工作流程图（README 顶部所嵌）
+  V51_overall_arch.html/.png        # V5.1 模块级整体架构图（5 泳道）
   pipeline_4model_design.md         # 四模型化设计存档
   flowchart_v5*.png                 # V5.0 时代流程图
   2026_MCM-ICM_Problems/            # 2026 官方题目包
