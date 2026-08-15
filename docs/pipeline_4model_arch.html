@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>混合编码管线更新 + 数模四模型化 — 设计总览</title>
+<style>
+:root {
+  --paper: #faf8f3;
+  --paper-deep: #f2efe6;
+  --ink: #1c1a16;
+  --ink-soft: #4a463e;
+  --ink-mute: #8a8578;
+  --hairline: #e3dfd2;
+  --accent: #a63a2a;
+  --accent-deep: #862d20;
+  --c-analyze: #b3562e;
+  --c-code: #2f6b5e;
+  --c-write: #3a5a8c;
+  --c-manage: #6b4a8c;
+  --c-gate: #a63a2a;
+  --c-data: #8a8578;
+  --c-new: #2f6b5e;
+  --serif: "Noto Serif SC", "Source Han Serif SC", "Songti SC", "SimSun", serif;
+  --sans: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", -apple-system, sans-serif;
+  --mono: "JetBrains Mono", "SF Mono", "Consolas", monospace;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1160px; margin: 0 auto; padding: 0 32px 80px; }
+
+header { padding: 56px 0 36px; border-bottom: 3px solid var(--ink); margin-bottom: 24px; }
+h1 { font-family: var(--serif); font-weight: 900; font-size: 32px; letter-spacing: .02em; }
+h1 em { font-style: normal; color: var(--accent); }
+.sub { color: var(--ink-mute); font-size: 13.5px; margin-top: 10px; font-family: var(--mono); letter-spacing: .03em; line-height: 1.8; }
+.sub b { color: var(--ink-soft); font-weight: 500; }
+
+.legend {
+  display: flex; flex-wrap: wrap; gap: 16px; align-items: center;
+  padding: 16px 22px; background: var(--paper-deep);
+  border: 1px solid var(--hairline); margin-bottom: 28px;
+  font-size: 12.5px; color: var(--ink-soft);
+}
+.legend .lg { display: flex; align-items: center; gap: 7px; }
+.legend .dot { width: 11px; height: 11px; border-radius: 50%; flex-shrink: 0; }
+.legend b { color: var(--ink); font-weight: 600; }
+
+.lane {
+  display: grid; grid-template-columns: 148px 1fr; gap: 0;
+  border: 1px solid var(--hairline);
+  margin-bottom: 0; position: relative;
+}
+.lane + .lane { border-top: none; }
+.lane-label {
+  grid-row: 1; grid-column: 1;
+  padding: 22px 16px;
+  background: var(--paper-deep);
+  border-right: 1px solid var(--hairline);
+  display: flex; flex-direction: column; gap: 6px;
+}
+.lane-num { font-family: var(--mono); font-size: 12px; color: var(--accent); letter-spacing: .12em; }
+.lane-name { font-family: var(--serif); font-weight: 700; font-size: 16px; line-height: 1.4; }
+.lane-goal { font-size: 11.5px; color: var(--ink-mute); line-height: 1.5; }
+.lane-body {
+  grid-row: 1; grid-column: 2;
+  padding: 18px 22px;
+  display: flex; flex-direction: column; gap: 12px;
+}
+
+.agents { display: grid; grid-template-columns: repeat(auto-fit, minmax(205px, 1fr)); gap: 12px; }
+.agent {
+  background: #fff; border: 1px solid var(--hairline);
+  padding: 13px 15px 12px; position: relative;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.agent::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+.agent.t-analyze::before { background: var(--c-analyze); }
+.agent.t-code::before { background: var(--c-code); }
+.agent.t-write::before { background: var(--c-write); }
+.agent.t-manage::before { background: var(--c-manage); }
+.agent.t-gate::before { background: var(--c-gate); }
+.agent.t-data::before { background: var(--c-data); }
+.agent.new { border: 1.5px solid var(--c-write); }
+.agent.new::after { content: "新增"; position: absolute; top: -9px; right: 8px; font-family: var(--mono); font-size: 9px; letter-spacing: .08em; color: #fff; background: var(--c-write); padding: 1px 7px; }
+.agent-name { font-family: var(--serif); font-weight: 700; font-size: 14px; display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+.agent-type { font-family: var(--mono); font-size: 9.5px; letter-spacing: .08em; padding: 2px 6px; border: 1px solid var(--hairline); color: var(--ink-mute); }
+.agent-role { font-size: 12.5px; color: var(--ink-soft); }
+.agent-io { font-family: var(--mono); font-size: 10.5px; color: var(--ink-mute); line-height: 1.55; }
+.agent-io b { color: var(--c-data); font-weight: 500; }
+.agent-src { font-family: var(--mono); font-size: 9.5px; color: var(--accent); margin-top: 2px; }
+.agent-src.warn { color: var(--c-gate); }
+.loop-tag { display: inline-block; font-family: var(--mono); font-size: 9.5px; color: var(--c-gate); border: 1px dashed var(--c-gate); padding: 1px 6px; margin-top: 2px; align-self: flex-start; }
+.loop-tag.blue { color: var(--c-write); border-color: var(--c-write); }
+
+.data-flow {
+  display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+  font-family: var(--mono); font-size: 10.5px; color: var(--ink-mute);
+  background: var(--paper-deep); border: 1px dashed var(--hairline);
+  padding: 10px 14px;
+}
+.data-flow .arrow { color: var(--accent); }
+.contract {
+  font-family: var(--mono); font-size: 10.5px;
+  background: #fff; border: 1px solid var(--hairline);
+  padding: 2px 8px; color: var(--ink-soft);
+}
+
+.gate {
+  border: 2px solid var(--c-gate); background: #fff;
+  padding: 11px 16px; display: flex; align-items: center; gap: 14px;
+}
+.gate-icon { font-size: 19px; }
+.gate-info { flex: 1; }
+.gate-name { font-family: var(--serif); font-weight: 700; font-size: 13.5px; color: var(--c-gate); }
+.gate-desc { font-size: 12px; color: var(--ink-soft); margin-top: 2px; }
+.gate-pass { font-family: var(--mono); font-size: 10.5px; color: var(--ink-mute); text-align: right; white-space: nowrap; }
+
+.connect { display: flex; justify-content: center; padding: 8px 0 2px; color: var(--accent); font-family: var(--mono); font-size: 16px; letter-spacing: .2em; }
+.loop-back {
+  display: flex; align-items: center; gap: 8px; justify-content: flex-end;
+  font-family: var(--mono); font-size: 10px; color: var(--ink-mute);
+}
+.stage-flow { display: flex; flex-wrap: wrap; gap: 8px; align-items: stretch; }
+.stage {
+  background: #fff; border: 1px solid var(--hairline);
+  padding: 10px 13px; font-size: 12px; color: var(--ink-soft);
+  display: flex; flex-direction: column; gap: 4px; min-width: 150px; flex: 1;
+}
+.stage .st-num { font-family: var(--mono); font-size: 10px; color: var(--accent); letter-spacing: .1em; }
+.stage .st-name { font-family: var(--serif); font-weight: 700; font-size: 13px; }
+.stage .st-desc { font-size: 11px; color: var(--ink-mute); line-height: 1.55; }
+.stage.hl { border: 1.5px solid var(--c-write); }
+
+.footer-note {
+  margin-top: 40px; padding: 26px 28px;
+  background: var(--ink); color: #b9b4a6; font-size: 13px;
+}
+.footer-note h3 { font-family: var(--serif); color: var(--paper); font-size: 16px; margin-bottom: 12px; }
+.footer-note table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 8px; }
+.footer-note td { padding: 6px 10px; border-bottom: 1px solid rgba(255,255,255,.08); vertical-align: top; }
+.footer-note td:first-child { font-family: var(--mono); color: var(--paper); white-space: nowrap; width: 170px; }
+.footer-note .warn { color: #e8c07a; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>混合编码管线更新 + 数模四模型化 <em>设计总览</em></h1>
+  <div class="sub"><b>设计 v1 · 2026-08-14 · 待批准（未做任何实际改动）</b><br>
+  指令：①K3 太贵 → UI/视觉检查全交千问　②数模千问与其他模型同权（多一份视角）<br>
+  产出：GLM 5.2 架构骨架 × Kimi K3 独立审查 × DeepSeek 编排定稿 · 详情 pipeline_4model_design.md</div>
+</header>
+
+<div class="legend">
+  <div class="lg"><span class="dot" style="background:var(--c-manage)"></span><b>编排/评审</b></div>
+  <div class="lg"><span class="dot" style="background:var(--c-analyze)"></span><b>建模/分析</b></div>
+  <div class="lg"><span class="dot" style="background:var(--c-code)"></span><b>编码</b></div>
+  <div class="lg"><span class="dot" style="background:var(--c-write)"></span><b>视觉/写作</b></div>
+  <div class="lg"><span class="dot" style="background:var(--c-gate)"></span><b>门禁/状态机</b></div>
+  <div class="lg"><span class="dot" style="background:var(--c-data)"></span><b>数据/服务</b></div>
+  <div class="lg"><span style="font-family:var(--mono);font-size:10px;border:1.5px solid var(--c-write);padding:1px 7px;">新增</span><b>本次设计新增/变更</b></div>
+  <div class="lg"><span style="font-family:var(--mono);font-size:10px;color:var(--c-gate);border:1px dashed var(--c-gate);padding:1px 6px;">K3 零视觉</span><b>硬约束</b></div>
+</div>
+
+<!-- ==================== Lane 1 ==================== -->
+<div class="lane">
+  <div class="lane-label">
+    <div class="lane-num">LANE 01</div>
+    <div class="lane-name">混合编码管线</div>
+    <div class="lane-goal">视觉全 Qwen 化<br>K3 收缩至仅推理审查</div>
+  </div>
+  <div class="lane-body">
+    <div class="agents">
+      <div class="agent t-manage">
+        <div class="agent-name">DeepSeek V4 Pro <span class="agent-type">ORCHESTRATOR</span></div>
+        <div class="agent-role">编排 · 任务分级路由 · 失败接管</div>
+        <div class="agent-io">T1&lt;30min → kimi-coder<br>T2 0.5–2h → kimi-coder<br><b>T3 &gt;2h → qwen-coder</b></div>
+        <div class="agent-src">src: multi-model-orchestration</div>
+      </div>
+      <div class="agent t-code">
+        <div class="agent-name">kimi-coder <span class="agent-type">K2.7</span></div>
+        <div class="agent-role">T1/T2 快速迭代 · 小修复</div>
+        <div class="agent-io">不变 · 已磨合工作流</div>
+        <div class="agent-src">src: provider-model-matrix</div>
+      </div>
+      <div class="agent t-code">
+        <div class="agent-name">qwen-coder <span class="agent-type">QWEN3.8-MAX</span></div>
+        <div class="agent-role">T3 长任务自主编码（准入三测已过）</div>
+        <div class="agent-io">失败 ≤2 次 → DS 接管<br>旧进程不杀并行对照</div>
+        <div class="agent-src">src: 准入三测 2026-08-14</div>
+      </div>
+      <div class="agent t-write new">
+        <div class="agent-name">Qwen 视觉官 <span class="agent-type">QWEN3.8-MAX · vision</span></div>
+        <div class="agent-role">视觉核查 / UI 设计 / 渲染检查 / OCR / 页面验收 / 图内文字提取</div>
+        <div class="agent-io">vision_analyze 已切 custom provider<br>DashScope compatible-mode</div>
+        <div class="agent-src">src: 视觉迁移 2026-08-14 已落地</div>
+      </div>
+      <div class="agent t-manage">
+        <div class="agent-name">GLM 5.2 <span class="agent-type">ARCH-REVIEW</span></div>
+        <div class="agent-role">架构评审 · 代码结构/算法正确性</div>
+        <div class="agent-io">写评分离：Qwen 产物同样被审</div>
+        <div class="agent-src">src: glm-review</div>
+      </div>
+      <div class="agent t-manage">
+        <div class="agent-name">Kimi K3 <span class="agent-type">REASON-REVIEW</span></div>
+        <div class="agent-role">推理审查（低频高价值）· 设计审查先行</div>
+        <div class="agent-io">视觉职责退役 → 仅推理审查<br>不可用 → GLM 降级兜底</div>
+        <div class="agent-src warn">src: 成本收缩 · K3 视觉零调用</div>
+      </div>
+    </div>
+    <div class="gate">
+      <div class="gate-icon">⚙</div>
+      <div class="gate-info">
+        <div class="gate-name">确定性验收门禁</div>
+        <div class="gate-desc">编译 / 测试 / 可复现 / provenance —— 门禁不认模型，挂 build 钩子强制</div>
+      </div>
+      <div class="gate-pass">PASS → 入库 · FAIL×3 → DS 接管</div>
+    </div>
+    <div class="data-flow">
+      <span class="contract">视觉任务硬路由</span> UI 设计 → <b>Qwen 视觉官</b> <span class="arrow">·</span> vision_analyze → <b>Qwen</b> <span class="arrow">·</span> 渲染检查 → <b>Qwen</b> <span class="arrow">·</span> OCR → <b>Qwen</b> <span class="arrow">·</span> 页面验收 → <b>Qwen</b>
+      <span class="loop-tag">K3 视觉调用 = 0（30 天日志审计）</span>
+    </div>
+    <div class="gate">
+      <div class="gate-icon">👁</div>
+      <div class="gate-info">
+        <div class="gate-name">视觉单点共模防护（新）</div>
+        <div class="gate-desc">Qwen 既是图生产者又是检查者 → OCR 双读取头（Qwen vision + PaddleOCR）· 程序化渲染断言（零 LLM）· 种子缺陷图注入回归</div>
+      </div>
+      <div class="gate-pass">双头同漏 ≤1/20 · 断言检出 100%</div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Lane 2 ==================== -->
+<div class="lane">
+  <div class="lane-label">
+    <div class="lane-num">LANE 02</div>
+    <div class="lane-name">数模 V5 管线</div>
+    <div class="lane-goal">四模型化：建模手 / 检测 / 评审<br>2v2 = 分簇即轨迹</div>
+  </div>
+  <div class="lane-body">
+    <div class="stage-flow">
+      <div class="stage hl">
+        <div class="st-num">STAGE 2 · 14%</div>
+        <div class="st-name">四方商议 Deliberation</div>
+        <div class="st-desc">DS/GLM/K3/<b>Qwen</b> 独立深推 → 交换批评 → 各自修订 · 2–3 轮自然停止 · 分歧不强制收敛<br>2v2 → 双轨迹 A/B 各领一条 · 时间闸 14% 强制切换</div>
+      </div>
+      <div class="stage">
+        <div class="st-num">STAGE 3 · 42%</div>
+        <div class="st-name">双轨迹 A/B 并行</div>
+        <div class="st-desc">路线级，与模型数无关 · 验证产物强制 · 基线对照 · 灵敏度矩阵</div>
+      </div>
+      <div class="stage hl">
+        <div class="st-num">STAGE 4 · 6%</div>
+        <div class="st-name">四方评审 + 投票</div>
+        <div class="st-desc">DS/GLM/K3 全权 + <b>Qwen 按阶梯</b> · 只做相对排序<br>深度仲裁 ≤2 次/场 · 阈值 ≥10 场回放重校准</div>
+      </div>
+      <div class="stage">
+        <div class="st-num">STAGE 5 · 25%</div>
+        <div class="st-name">成文（硬保底）</div>
+        <div class="st-desc">注册表驱动写作 · 单作者全量重写 · Stage 4 结束剩余 &lt;18h 冻结仲裁</div>
+      </div>
+      <div class="stage">
+        <div class="st-num">STAGE 6–7 · ≤20%</div>
+        <div class="st-name">一致性 + 末端对抗</div>
+        <div class="st-desc">hash/manifest/四方核对 · 造假类阻断 · 其余 risk_report 随附</div>
+      </div>
+    </div>
+    <div class="agents">
+      <div class="agent t-analyze">
+        <div class="agent-name">建模手 ×4 <span class="agent-type">DELIBERATION</span></div>
+        <div class="agent-role">DS / GLM 5.2 / Kimi K3 / <b>Qwen</b>（零上下文实例并行）</div>
+        <div class="agent-io">producer 标签附着 · 门禁不认模型<br>Qwen 打回 2 次 → 降权 0.5；4 次 → 观察员</div>
+        <div class="agent-src">src: V5 Stage 2 · 四方化</div>
+      </div>
+      <div class="agent t-manage new">
+        <div class="agent-name">检测抽取 ×4 <span class="agent-type">EXTRACTION</span></div>
+        <div class="agent-role">DS / GLM / K3 / <b>Qwen</b> 独立抽取声明取并集</div>
+        <div class="agent-io">producer 过滤（Qwen 不抽 Qwen 自产）<br>种子库注入回归 · 召回率按模型分层</div>
+        <div class="agent-src">src: V5 检测层 · 四方化</div>
+      </div>
+      <div class="agent t-manage">
+        <div class="agent-name">作者回避 <span class="agent-type">铁律</span></div>
+        <div class="agent-role">写 §N 的实例不参与 §N 的抽取裁决</div>
+        <div class="agent-io">重写实例作废 · 抽取用另外实例</div>
+        <div class="agent-src">src: V5 张力 2 裁决</div>
+      </div>
+    </div>
+    <div class="loop-back">Qwen 建模手回退状态机：active → degraded（打回×2）→ suspended（×4）→ 恢复（连续 3 轮通过）↺</div>
+  </div>
+</div>
+
+<!-- ==================== Lane 3 ==================== -->
+<div class="lane">
+  <div class="lane-label">
+    <div class="lane-num">LANE 03</div>
+    <div class="lane-name">评委终评 + 校准阶梯</div>
+    <div class="lane-goal">三评 → 四评<br>同源偏移检测</div>
+  </div>
+  <div class="lane-body">
+    <div class="agents">
+      <div class="agent t-manage">
+        <div class="agent-name">评委 v2.6 终评 <span class="agent-type">JUDGE</span></div>
+        <div class="agent-role">GLM / Kimi / DeepSeek（零撰写上下文）+ <b>Qwen 第 4 评（阶梯）</b></div>
+        <div class="agent-io">扣分记录制 · 分位映射须四评分布重拟合<br>D 组四方数字 diff + 图内文字-题注一致性</div>
+        <div class="agent-src">src: judge_skill_v26_design</div>
+      </div>
+      <div class="agent t-gate new">
+        <div class="agent-name">校准阶梯 v2 <span class="agent-type">STATE-MACHINE</span></div>
+        <div class="agent-role">shadow → gray → full → rollback</div>
+        <div class="agent-io">有效轮次：实战=1.0 / 回放=0.5+污染审计<br>pin 快照 · 6 个月上限 → 0.3 降级（不放水）</div>
+        <div class="agent-src">src: 四评设计 + Kimi E1 修订</div>
+      </div>
+      <div class="agent t-gate new">
+        <div class="agent-name">四票仲裁 <span class="agent-type">ARBITRATION</span></div>
+        <div class="agent-role">极差 ≤5 取均值 · 孤立值差 &gt;8 审查 · 分簇差 &gt;5 深裁</div>
+        <div class="agent-io">阈值 ≥10 场回放重校准 · 2v2 tie-break<br>深度仲裁 ≤2 次/场 · 灰度票剔除分簇判定</div>
+        <div class="agent-src">src: Kimi E3 修订</div>
+      </div>
+      <div class="agent t-analyze new">
+        <div class="agent-name">同源偏移检测 <span class="agent-type">NEW</span></div>
+        <div class="agent-role">按工件 producer 分层统计 Qwen 票偏移</div>
+        <div class="agent-io">转正条件 |Δ|≤2 且不显著 · 影子/灰度期 |Δ|&gt;3 → 降权<br>零上下文防不了「不知情的同源偏向」</div>
+        <div class="agent-src">src: Kimi E4 新增机制</div>
+      </div>
+    </div>
+    <div class="data-flow">
+      <span class="contract">阶梯路径</span> 影子 ≥15 有效轮 · 偏差 ≤±8/≤±3 <span class="arrow">→</span> 灰度 5 轮 · 一致性 ≥80% · 同源 |Δ|≤2 <span class="arrow">→</span> 转正 <span class="arrow">→</span> 漂移（连续 3 轮 &gt;±8 / |Δ|&gt;3）<span class="arrow">→</span> 退回灰度
+      <span class="loop-tag blue">检测逻辑用原始分 · 0.5 权重仅用于分数合成</span>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Lane 4 ==================== -->
+<div class="lane">
+  <div class="lane-label">
+    <div class="lane-num">LANE 04</div>
+    <div class="lane-name">风控服务层</div>
+    <div class="lane-goal">无模型服务<br>隔离可观测 · 预算可闸</div>
+  </div>
+  <div class="lane-body">
+    <div class="agents">
+      <div class="agent t-data new">
+        <div class="agent-name">producer 标签服务 <span class="agent-type">METADATA</span></div>
+        <div class="agent-role">标签内嵌 frontmatter（非 sidecar）+ hash 反查</div>
+        <div class="agent-io">入库无标签拒收 · 评审/检测分发前过滤<br>自评回避的物理实现</div>
+        <div class="agent-src">src: Kimi 场景 1 兜底</div>
+      </div>
+      <div class="agent t-data new">
+        <div class="agent-name">四子账户记账 <span class="agent-type">OPS</span></div>
+        <div class="agent-role">Qwen 六身份各独立子账户/role 标签</div>
+        <div class="agent-io">账单按身份拆分 · 工程失败(429/超时)不进校准统计<br>隔离可观测才可验收</div>
+        <div class="agent-src">src: Kimi 场景 3 + B1</div>
+      </div>
+      <div class="agent t-gate new">
+        <div class="agent-name">时间闸门 <span class="agent-type">CLOCK</span></div>
+        <div class="agent-role">72h 窗口执行闸</div>
+        <div class="agent-io">商议 14% 强制切换 · Stage 4 结束剩余 &lt;18h 冻结仲裁<br>成文 25% 硬保底不可压缩</div>
+        <div class="agent-src">src: Kimi 场景 7 + B10</div>
+      </div>
+      <div class="agent t-gate">
+        <div class="agent-name">回退状态机 <span class="agent-type">FALLBACK</span></div>
+        <div class="agent-role">全部预定义 · 禁止现场决策</div>
+        <div class="agent-io">编码位 ≤2 次 → DS 接管 · 视觉失败 → 重试×2 → 人工<br>四票 ↔ 三票仲裁切换预定义</div>
+        <div class="agent-src">src: D3 回退表</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer-note">
+  <h3>角色矩阵（设计目标态）</h3>
+  <table>
+    <tr><td>DeepSeek V4 Pro</td><td>编排/主献策 · 失败接管 · 数模建模手① · 检测① · Stage4 评审 · 评委（零撰写上下文）</td></tr>
+    <tr><td>kimi-coder K2.7</td><td>T1/T2 快速编码（不变）</td></tr>
+    <tr><td>GLM 5.2</td><td>架构评审 · 数模建模手② · 检测② · Stage4 评审 · 评委</td></tr>
+    <tr><td>Kimi K3</td><td>推理审查（收缩后仅此 + 数模全权：建模手③/检测③/评审/评委）· <b>视觉零调用</b></td></tr>
+    <tr><td>Qwen3.8-Max</td><td><b>六身份六实例零上下文</b>：T3 coder / 视觉官 / 建模手④ / 检测④ / Stage4 评审（阶梯）/ 评委（阶梯）</td></tr>
+    <tr><td>确定性层</td><td>门禁不认模型 · build 钩子 · producer 标签 · 时间闸 · 阶梯状态机（无模型服务）</td></tr>
+  </table>
+  <h3 style="margin-top:18px;">关键裁决（GLM × Kimi）与待批准点</h3>
+  <table>
+    <tr><td>采纳 Kimi ×10</td><td>标签内嵌 / 有效轮次+版本锁 / 灰度双层用法 / 仲裁重校准+2v2 出口 / 双读取头 / 同源偏移检测 / 仲裁预算 / 数模位回退预定义 / 四视角收益度量 / 分位映射重算</td></tr>
+    <tr><td>驳回 GLM ×1</td><td>「K3 单价为 Qwen 8–12 倍」——无账单依据，不进入结论</td></tr>
+    <tr><td class="warn">待批准 3 问</td><td>①Qwen 数模全权是否立即生效（证据类立即 / 打分类走阶梯）？②K3 数模位本期保留，二期可选收缩——同意？③阶梯参数（有效轮次/6 个月上限/仲裁预算 ≤2）可否按此实施？</td></tr>
+  </table>
+</div>
+
+</div>
+</body>
+</html>
