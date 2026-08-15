@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>评委 Skill v2.8 架构 — 六阶段 · 先验证后评分 · 四评仲裁</title>
+<style>
+:root {
+  --paper: #faf8f3; --paper-deep: #f2efe6;
+  --ink: #1c1a16; --ink-soft: #4a463e; --ink-mute: #8a8578;
+  --hairline: #e3dfd2;
+  --accent: #a63a2a; --accent-deep: #862d20;
+  --c-analyze: #b3562e; --c-code: #2f6b5e; --c-write: #3a5a8c;
+  --c-manage: #6b4a8c; --c-gate: #a63a2a; --c-data: #8a8578;
+  --serif: "Noto Serif SC", "Source Han Serif SC", "Songti SC", "SimSun", serif;
+  --sans: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", -apple-system, sans-serif;
+  --mono: "JetBrains Mono", "SF Mono", "Consolas", monospace;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 14.5px; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+.wrap { max-width: 1180px; margin: 0 auto; padding: 0 32px 60px; }
+header { padding: 46px 0 30px; border-bottom: 3px solid var(--ink); margin-bottom: 32px; }
+h1 { font-family: var(--serif); font-weight: 900; font-size: 32px; letter-spacing: .02em; }
+h1 em { font-style: normal; color: var(--accent); }
+.sub { color: var(--ink-mute); font-size: 13px; margin-top: 8px; font-family: var(--mono); letter-spacing: .04em; }
+.legend { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; padding: 14px 20px; background: var(--paper-deep); border: 1px solid var(--hairline); margin-bottom: 30px; font-size: 12px; color: var(--ink-soft); }
+.legend .lg { display: flex; align-items: center; gap: 6px; }
+.legend .dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.legend b { color: var(--ink); font-weight: 600; }
+.lane { display: grid; grid-template-columns: 150px 1fr; border: 1px solid var(--hairline); }
+.lane + .lane { border-top: none; }
+.lane-label { padding: 18px 14px; background: var(--paper-deep); border-right: 1px solid var(--hairline); display: flex; flex-direction: column; gap: 5px; }
+.lane-num { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: .12em; }
+.lane-name { font-family: var(--serif); font-weight: 700; font-size: 16px; line-height: 1.35; }
+.lane-goal { font-size: 11px; color: var(--ink-mute); line-height: 1.5; }
+.lane-body { padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; }
+.agents { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
+.agent { background: #fff; border: 1px solid var(--hairline); padding: 12px 13px; position: relative; display: flex; flex-direction: column; gap: 6px; }
+.agent::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+.agent.t-analyze::before { background: var(--c-analyze); }
+.agent.t-code::before { background: var(--c-code); }
+.agent.t-write::before { background: var(--c-write); }
+.agent.t-manage::before { background: var(--c-manage); }
+.agent.t-gate::before { background: var(--c-gate); }
+.agent-name { font-family: var(--serif); font-weight: 700; font-size: 13.5px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.agent-type { font-family: var(--mono); font-size: 9px; letter-spacing: .06em; padding: 1px 5px; border: 1px solid var(--hairline); color: var(--ink-mute); }
+.agent-role { font-size: 11.8px; color: var(--ink-soft); }
+.agent-io { font-family: var(--mono); font-size: 10px; color: var(--ink-mute); line-height: 1.5; }
+.agent-io b { color: var(--c-data); font-weight: 500; }
+.owner { border: 2px solid var(--accent); box-shadow: 0 0 0 1px var(--accent) inset; }
+.owner .agent-name { color: var(--accent-deep); }
+.data-flow { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-family: var(--mono); font-size: 10px; color: var(--ink-mute); background: var(--paper-deep); border: 1px dashed var(--hairline); padding: 8px 12px; }
+.data-flow .arrow { color: var(--accent); }
+.contract { font-family: var(--mono); font-size: 10px; background: #fff; border: 1px solid var(--hairline); padding: 2px 7px; color: var(--ink-soft); }
+.gate { border: 2px solid var(--c-gate); background: #fff; padding: 10px 14px; display: flex; align-items: center; gap: 12px; }
+.gate-icon { font-size: 18px; }
+.gate-name { font-family: var(--serif); font-weight: 700; font-size: 13.5px; color: var(--c-gate); }
+.gate-desc { font-size: 11.5px; color: var(--ink-soft); margin-top: 2px; }
+.connect { display: flex; justify-content: center; padding: 8px 0 2px; color: var(--accent); }
+.connect svg { width: 26px; height: 18px; }
+.loop-tag { display: inline-block; font-family: var(--mono); font-size: 9.5px; color: var(--c-gate); border: 1px dashed var(--c-gate); padding: 1px 6px; align-self: flex-start; }
+.footer-note { margin-top: 40px; padding: 22px 26px; background: var(--ink); color: #b9b4a6; font-size: 12.5px; }
+.footer-note h3 { font-family: var(--serif); color: var(--paper); font-size: 16px; margin-bottom: 10px; }
+.footer-note ul { padding-left: 18px; }
+.footer-note li { margin: 3px 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>评委 Skill <em>v2.8</em> 架构 · 先验证后评分 · 四评仲裁</h1>
+  <div class="sub">六阶段 · 确定性审计(D组) → 推演(E组) → 定向搜索 → 全量复算 → 扣分记录制评分(F组) → 修订回路 · 华数杯实战：47 分复评 50 分</div>
+</header>
+
+<div class="legend">
+  <span class="lg"><span class="dot" style="background:var(--c-code)"></span> 确定性脚本（D 组事实层）</span>
+  <span class="lg"><span class="dot" style="background:var(--c-manage)"></span> 隔离 LLM（四评/推演）</span>
+  <span class="lg"><span class="dot" style="background:var(--c-analyze)"></span> 视觉官（千问排版）</span>
+  <span class="lg"><span class="dot" style="background:var(--c-gate)"></span> 门禁/纪律</span>
+  <span class="lg"><span class="dot" style="background:var(--c-data)"></span> 数据产物</span>
+  <span class="lg"><span class="dot" style="background:var(--accent)"></span> 核心闭环（全量复算）</span>
+  <span class="lg"><b>⟳</b> 修订回路直到收敛</span>
+</div>
+
+<!-- 段0 -->
+<div class="lane">
+  <div class="lane-label"><span class="lane-num">段0</span><span class="lane-name">输入准备</span><span class="lane-goal">没有推演的搜索无靶子</span></div>
+  <div class="lane-body">
+    <div class="agents">
+      <div class="agent t-code"><div class="agent-name">题目解析 + 约束枚举 <span class="agent-type">确定性</span></div><div class="agent-role">要求单元提取 · 题型判定 · D2 约束全集硬编码枚举（算电协同类：GPU容量/IT功率/设施功率/时延/时限/SOC终值/SellLimit…）· 参照系 T1-T5 加载（T5 窗口内权重 0）</div><div class="agent-io"><b>产出</b> 要求单元清单 · 约束全集 · 参照系</div></div>
+    </div>
+  </div>
+</div>
+<div class="connect"><svg viewBox="0 0 26 18"><path d="M13 0 v12 M6 8 l7 6 7-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg></div>
+
+<!-- 段1 -->
+<div class="lane">
+  <div class="lane-label"><span class="lane-num">段1</span><span class="lane-name">确定性审计</span><span class="lane-goal">脚本穷尽 · D 组事实层不可被推翻</span></div>
+  <div class="lane-body">
+    <div class="agents">
+      <div class="agent t-code"><div class="agent-name">数字血缘双向覆盖</div><div class="agent-role">论文每数字 ↔ registry/结果文件/脚本/原始数据双向核对</div></div>
+      <div class="agent t-code"><div class="agent-name">D1 四方数字 diff</div><div class="agent-role">摘要/正文/表格/图内「指标名+数值」全局 diff；>5% = 致命——抓新旧拼贴</div></div>
+      <div class="agent t-code"><div class="agent-name">M1/M2/M4/M6</div><div class="agent-role">要求-回应矩阵 · 题型交付物 · 引用链+统计三要素 · 数据源三态 PASS/FAIL/UNVERIFIED</div></div>
+      <div class="agent t-analyze"><div class="agent-name">版面门禁 · 千问视觉官</div><div class="agent-role">排版专业度/图公式密度/视觉逻辑流；数量类声称以脚本计数为准</div></div>
+    </div>
+    <div class="data-flow"><span class="contract">单向棘轮</span><span class="arrow">→</span><span>段1 finding 不可被段2 撤销；净确认只增不减</span></div>
+  </div>
+</div>
+<div class="connect"><svg viewBox="0 0 26 18"><path d="M13 0 v12 M6 8 l7 6 7-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg></div>
+
+<!-- 段2 -->
+<div class="lane">
+  <div class="lane-label"><span class="lane-num">段2</span><span class="lane-name">推演</span><span class="lane-goal">论证链重建是评分资格前置</span></div>
+  <div class="lane-body">
+    <div class="agents">
+      <div class="agent t-manage"><div class="agent-name">四隔离代理（零上下文）</div><div class="agent-role">GLM / Kimi / 新开 DeepSeek / Qwen 影子——评审实例与撰写实例完全分离，各建论证链</div></div>
+      <div class="agent t-manage"><div class="agent-name">E1-E4 名实审查</div><div class="agent-role">E1 目标-机制映射（缺位判定）· E2 对照公平性 · E3 基线公允性 · E4 文献评审</div></div>
+    </div>
+    <div class="data-flow"><span>claim → evidence → reasoning → weak_link</span><span class="arrow">→</span><span>sufficient / insufficient / contradictory</span></div>
+  </div>
+</div>
+<div class="connect"><svg viewBox="0 0 26 18"><path d="M13 0 v12 M6 8 l7 6 7-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg></div>
+
+<!-- 段3 -->
+<div class="lane">
+  <div class="lane-label"><span class="lane-num">段3</span><span class="lane-name">定向搜索</span><span class="lane-goal">疑点逐个三态结论</span></div>
+  <div class="lane-body">
+    <div class="agents">
+      <div class="agent t-code"><div class="agent-name">疑点验证 + 血缘回溯</div><div class="agent-role">计算复现 · 数据血缘回溯 + 错误传播反查（依赖图）· 联网定向核对（失败显式报 UNVERIFIED）</div></div>
+    </div>
+  </div>
+</div>
+<div class="connect"><svg viewBox="0 0 26 18"><path d="M13 0 v12 M6 8 l7 6 7-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg></div>
+
+<!-- 段4.5 全量复算 -->
+<div class="lane">
+  <div class="lane-label"><span class="lane-num">§四.5 ★</span><span class="lane-name">全量数据复算</span><span class="lane-goal">v2.8 新增核心闭环：每个注册数字都要复算</span></div>
+  <div class="lane-body">
+    <div class="agents">
+      <div class="agent t-code owner"><div class="agent-name">三通道复算</div><div class="agent-role">① 重跑论文附录源码 ② 按公式重建复算脚本（存档）③ 数据血缘回溯逐级反算</div></div>
+      <div class="agent t-gate"><div class="agent-name">防误杀纪律</div><div class="agent-role">复算不符 → 先自查评审脚本（量纲/交叉复算/输入核对/公式忠实）最多 3 轮 → 脚本无误才标论文错；无法复算 = UNVERIFIED 禁止当错误</div></div>
+    </div>
+    <div class="loop-tag">实战记录：基准成本复算中评审脚本自身单位错误（÷1e6 误标亿）被四重自查第①条当场拦截——纪律挡住了一次评审事故</div>
+  </div>
+</div>
+<div class="connect"><svg viewBox="0 0 26 18"><path d="M13 0 v12 M6 8 l7 6 7-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg></div>
+
+<!-- 段4 -->
+<div class="lane">
+  <div class="lane-label"><span class="lane-num">段4</span><span class="lane-name">评分引擎</span><span class="lane-goal">扣分记录制 · 满分起扣</span></div>
+  <div class="lane-body">
+    <div class="agents">
+      <div class="agent t-gate"><div class="agent-name">F1/F2 扣分记录</div><div class="agent-role">100 起扣，每条扣分带 finding 编号；二维矩阵（严重度×可修复性）</div></div>
+      <div class="agent t-gate"><div class="agent-name">F3 常模分位 + F4 锚定</div><div class="agent-role">原始分→常模分位→绝对分；每维分数必须落地引用表号/页码</div></div>
+      <div class="agent t-manage"><div class="agent-name">四评仲裁</div><div class="agent-role">极差>5 审查 / 孤立值>8 审查 / 两两分簇>5 深度仲裁；Qwen 校准阶梯（影子≥15轮→灰度→转正）</div></div>
+    </div>
+    <div class="data-flow"><span class="contract">HARD FAIL 20 条</span><span class="arrow">→</span><span>编造文献/占位符/四方diff致命矛盾/约束漏建模/对照不公平…逐条 hit/miss</span></div>
+    <div class="loop-tag">实战：Kimi 87 孤立弱票（盲评失实+零证据定位）被仲裁正确剔除</div>
+  </div>
+</div>
+<div class="connect"><svg viewBox="0 0 26 18"><path d="M13 0 v12 M6 8 l7 6 7-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg></div>
+
+<!-- 段5 -->
+<div class="lane">
+  <div class="lane-label"><span class="lane-num">段5</span><span class="lane-name">输出与闭环</span><span class="lane-goal">分数区间+分位+修订单 → 修订回路全量重跑</span></div>
+  <div class="lane-body">
+    <div class="agents">
+      <div class="agent t-code"><div class="agent-name">修订单 Top-8</div><div class="agent-role">每条 {severity, issue, evidence, fix, section}——无证据定位的批评无效（HARD FAIL 20）</div></div>
+      <div class="agent t-code"><div class="agent-name">修订回路 ⟳</div><div class="agent-role">修复后全量重跑四评 → 分数收敛才闭环（实战：47 → 50，HARD FAIL 15 → 11）</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="footer-note">
+  <h3>核心原则六条（§零）· 验收标准六条（§九）</h3>
+  <ul>
+    <li><b>推演先行</b>——先重建论证链，再有靶子地查；<b>语义完成度</b>——查"要求是否被完成"而非字面是否对</li>
+    <li><b>隔离多视角</b>——四评零上下文；<b>确定性优先</b>——脚本能查的不靠 LLM，D 组不可被 E 组推翻</li>
+    <li><b>扣分记录制</b>——评分 = 满分 100 − Σ(issue 扣分)，最终分由常模分位映射</li>
+    <li><b>验收</b>：离线回放命中 ≥14/17（华数杯外部基线，实测 ≥15/17 通过）· 四评区间宽 ≤8 · 与真人常模偏差 ≤4 · 全流程 ≤40 分钟 · 保全清单 22 项零回退</li>
+    <li><b>诚实边界</b>：D1 依赖图内文字提取质量；F3 冷启动用档位近似；不承诺与真人评委完全一致（确定性层承诺零漏检，论证质量承诺可审计推理）</li>
+  </ul>
+</div>
+
+</div>
+</body>
+</html>
