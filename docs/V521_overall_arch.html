@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>数模管线 v5.2.1 架构 — 定稿即法律闭环版</title>
+<style>
+:root {
+  --paper: #faf8f3;
+  --paper-deep: #f2efe6;
+  --ink: #1c1a16;
+  --ink-soft: #4a463e;
+  --ink-mute: #8a8578;
+  --hairline: #e3dfd2;
+  --accent: #a63a2a;
+  --accent-deep: #862d20;
+  --c-analyze: #b3562e;
+  --c-code: #2f6b5e;
+  --c-write: #3a5a8c;
+  --c-manage: #6b4a8c;
+  --c-gate: #a63a2a;
+  --c-data: #8a8578;
+  --serif: "Noto Serif SC", "Source Han Serif SC", "Songti SC", "SimSun", serif;
+  --sans: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", -apple-system, sans-serif;
+  --mono: "JetBrains Mono", "SF Mono", "Consolas", monospace;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1160px; margin: 0 auto; padding: 0 32px 80px; }
+
+header { padding: 52px 0 32px; border-bottom: 3px solid var(--ink); margin-bottom: 36px; }
+.topbar { height: 8px; margin-bottom: 40px; display: flex; }
+.topbar span { flex: 1; }
+h1 { font-family: var(--serif); font-weight: 900; font-size: 32px; letter-spacing: .02em; }
+h1 em { font-style: normal; color: var(--accent); }
+.sub { color: var(--ink-mute); font-size: 13.5px; margin-top: 8px; font-family: var(--mono); letter-spacing: .04em; }
+
+.legend {
+  display: flex; flex-wrap: wrap; gap: 18px; align-items: center;
+  padding: 16px 22px; background: var(--paper-deep);
+  border: 1px solid var(--hairline); margin-bottom: 36px;
+  font-size: 12.5px; color: var(--ink-soft);
+}
+.legend .lg { display: flex; align-items: center; gap: 7px; }
+.legend .dot { width: 11px; height: 11px; border-radius: 50%; flex-shrink: 0; }
+.legend b { color: var(--ink); font-weight: 600; }
+
+.lane {
+  display: grid; grid-template-columns: 158px 1fr; gap: 0;
+  border: 1px solid var(--hairline);
+  margin-bottom: 0; position: relative;
+}
+.lane + .lane { border-top: none; }
+.lane-label {
+  grid-row: 1; grid-column: 1;
+  padding: 20px 16px;
+  background: var(--paper-deep);
+  border-right: 1px solid var(--hairline);
+  display: flex; flex-direction: column; gap: 6px;
+}
+.lane-num { font-family: var(--mono); font-size: 12px; color: var(--accent); letter-spacing: .12em; }
+.lane-name { font-family: var(--serif); font-weight: 700; font-size: 16px; line-height: 1.4; }
+.lane-goal { font-size: 11.5px; color: var(--ink-mute); line-height: 1.5; }
+.lane-body {
+  grid-row: 1; grid-column: 2;
+  padding: 18px 22px;
+  display: flex; flex-direction: column; gap: 12px;
+}
+
+.stage { display: flex; gap: 12px; align-items: flex-start; }
+.stage-arrow { color: var(--ink-mute); font-family: var(--mono); padding-top: 2px; }
+.card {
+  border: 1px solid var(--hairline); background: #fff;
+  padding: 10px 14px; flex: 1;
+}
+.card b { font-family: var(--serif); font-size: 14.5px; }
+.card .role { font-family: var(--mono); font-size: 10.5px; color: #fff; padding: 1px 7px; border-radius: 2px; margin-left: 6px; }
+.card .desc { font-size: 12.5px; color: var(--ink-soft); margin-top: 3px; line-height: 1.6; }
+.new { border: 1.6px solid var(--c-gate); position: relative; }
+.new::after { content: "v5.2.1"; position: absolute; top: -10px; right: 8px; background: var(--c-gate); color: #fff; font-family: var(--mono); font-size: 9.5px; padding: 0 6px; border-radius: 2px; }
+.gate-card { border-left: 4px solid var(--c-gate); background: #fdf6f3; }
+.data-card { border-left: 4px solid var(--c-data); background: #f7f6f1; }
+
+.r-analyze { background: var(--c-analyze); }
+.r-code { background: var(--c-code); }
+.r-write { background: var(--c-write); }
+.r-manage { background: var(--c-manage); }
+.r-gate { background: var(--c-gate); }
+.r-data { background: var(--c-data); }
+
+.flowline { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--ink-mute); font-family: var(--mono); margin: 2px 0; }
+footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--hairline); font-size: 12.5px; color: var(--ink-mute); }
+footer b { color: var(--ink); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="topbar">
+  <span style="background:var(--c-analyze)"></span>
+  <span style="background:var(--c-code)"></span>
+  <span style="background:var(--c-write)"></span>
+  <span style="background:var(--c-manage)"></span>
+  <span style="background:var(--c-gate)"></span>
+  <span style="background:var(--c-data)"></span>
+</div>
+
+<header>
+  <h1>数模管线 <em>v5.2.1</em> — 定稿即法律 · 实现可追溯 · 结论有纪律</h1>
+  <div class="sub">Multi-agent-mathematical-modeling · 2026-08-16 · 华数杯 C 四轮评审实战校准版</div>
+</header>
+
+<div class="legend">
+  <div class="lg"><span class="dot" style="background:var(--c-analyze)"></span><b>分析/决策</b></div>
+  <div class="lg"><span class="dot" style="background:var(--c-code)"></span><b>求解/代码</b></div>
+  <div class="lg"><span class="dot" style="background:var(--c-write)"></span><b>装配/写作</b></div>
+  <div class="lg"><span class="dot" style="background:var(--c-manage)"></span><b>评审/仲裁</b></div>
+  <div class="lg"><span class="dot" style="background:var(--c-gate)"></span><b>门禁（阻断式）</b></div>
+  <div class="lg"><span class="dot" style="background:var(--c-data)"></span><b>数据产物</b></div>
+  <div class="lg" style="margin-left:auto"><span class="new" style="border:none;position:static">　</span>&nbsp;红色边框 = v5.2.1 新增</div>
+</div>
+
+<!-- 泳道一：决策核心 -->
+<div class="lane">
+  <div class="lane-label">
+    <div class="lane-num">S0–S1.5</div>
+    <div class="lane-name">决策核心</div>
+    <div class="lane-goal">解析 → 参谋 → 分歧 → 单一拍板者定稿<br>定稿即法律</div>
+  </div>
+  <div class="lane-body">
+    <div class="stage">
+      <div class="card"><b>问题解析</b><span class="role r-analyze">DS</span>
+        <div class="desc">题面条款全集 + 数据字典条款提取 → 要求单元清单</div></div>
+      <span class="stage-arrow">→</span>
+      <div class="card"><b>参谋组 ×4</b><span class="role r-analyze">DS/GLM/Kimi/Qwen</span>
+        <div class="desc">只交候选方案 + 分歧清单，不产定稿</div></div>
+      <span class="stage-arrow">→</span>
+      <div class="card"><b>单一拍板者</b><span class="role r-analyze">新开 DS</span>
+        <div class="desc">《设计方案定稿》：D-决策编号 + 口径条款清单 + 兜底协议编号</div></div>
+    </div>
+    <div class="stage">
+      <div class="card new"><b>适配论证前置（铁律⑨）</b><span class="role r-gate">废票条件</span>
+        <div class="desc">参谋提交前必答两项：①数据形状→建模粒度适配（零值占比/周期强度/稀疏度）②数据字典条款→模型口径映射（取整/单位/时点）。缺一废票。</div></div>
+      <span class="stage-arrow">→</span>
+      <div class="card new"><b>定稿三附件（铁律⑨）</b><span class="role r-gate">定稿即法律</span>
+        <div class="desc">①口径条款清单 ②兜底协议编号（大规模降级必须引用编号）③验证协议（要求单元→产出物→脚本）</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- 泳道二：求解层 -->
+<div class="lane">
+  <div class="lane-label">
+    <div class="lane-num">S2–S2.5</div>
+    <div class="lane-name">求解层</div>
+    <div class="lane-goal">按定稿逐问求解<br>实现-定稿比对门禁</div>
+  </div>
+  <div class="lane-body">
+    <div class="stage">
+      <div class="card"><b>逐问求解</b><span class="role r-code">确定性脚本 / C++</span>
+        <div class="desc">数字唯一入口：结果只从 registry 注入论文；Q2 类大规模问题 C++ + OpenMP</div></div>
+      <span class="stage-arrow">→</span>
+      <div class="card data-card"><b>注册表</b><span class="role r-data">registry</span>
+        <div class="desc">output/*.csv 全量登记；SHA 与 freshness 追踪</div></div>
+    </div>
+    <div class="stage">
+      <div class="card new gate-card"><b>实现-定稿比对门禁（铁律⑦）</b><span class="role r-gate">S2.5 · 0 LLM · fail_closed</span>
+        <div class="desc">impl_manifest.json 逐条声明每个 D-决策的实现架构；与定稿不一致且未引用兜底条款编号 = 阻断。联合优化降级串行、口径擅自变更——一律在此拦截。</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- 泳道三：装配层 -->
+<div class="lane">
+  <div class="lane-label">
+    <div class="lane-num">S5</div>
+    <div class="lane-name">装配写作层</div>
+    <div class="lane-goal">数字注入 + 归因纪律<br>结论不可自由组织</div>
+  </div>
+  <div class="lane-body">
+    <div class="card"><b>注册表数字注入</b><span class="role r-write">确定性脚本</span>
+      <div class="desc">论文数字只从 registry 注入；writer 禁止生成数字/文献/声明</div></div>
+    <div class="card new"><b>装配纪律 R1–R6（铁律⑧）</b><span class="role r-write">写作层收敛</span>
+      <div class="desc">R1 对照表→结论直接导出（禁止反向圆说）· R2 头条结论与结构性前提同级 · R3 恒等式禁止包装为命题 · R4 可疑精确必附机制 · R5 方法对比含数据形状适配基线 · R6 指标体例统一</div></div>
+  </div>
+</div>
+
+<!-- 泳道四：评审层 -->
+<div class="lane">
+  <div class="lane-label">
+    <div class="lane-num">S6</div>
+    <div class="lane-name">评审修复回路</div>
+    <div class="lane-goal">评委 skill v2.9 四评<br>零上下文隔离</div>
+  </div>
+  <div class="lane-body">
+    <div class="card"><b>四评隔离</b><span class="role r-manage">GLM / Kimi / 新开 DS / Qwen 阶梯</span>
+      <div class="desc">评审实例与撰写实例完全分离；不得采信论文自述数字；无法独立验证标 UNVERIFIED</div></div>
+    <div class="card new"><b>v2.9 四审计（铁律⑩）</b><span class="role r-manage">段1.5 新增</span>
+      <div class="desc">D4 声明强度（恒等式包装/头条前提同级/归因导出）· D5 可疑精确性（σ=0、末态=初态须附机制）· M7 MCDA 稳健性（等权论证+权重灵敏度）· M8 基线完备性（稀疏数据须有合并建模基线）</div></div>
+  </div>
+</div>
+
+<!-- 泳道五：回归门 -->
+<div class="lane">
+  <div class="lane-label">
+    <div class="lane-num">S7</div>
+    <div class="lane-name">产物回归门</div>
+    <div class="lane-goal">分数不降级才放行<br>同尺基线</div>
+  </div>
+  <div class="lane-body">
+    <div class="card gate-card"><b>产物分数回归门</b><span class="role r-gate">不过不出管线</span>
+      <div class="desc">v2.9 四评仲裁分数 ≥ 同尺基线（华数杯 50 / 美赛 78，基线须同评审制度重测）；分数降级 = 阻断交付</div></div>
+  </div>
+</div>
+
+<footer>
+  <b>v5.2.1 修了什么</b>（2026-08-16 华数杯 C 四轮评审，20+ 真问题复算背书）：①实现-定稿比对门禁 S2.5——堵「定稿时拍板、实现时打折」（Q4 联合优化静默降级串行的教训）②装配归因纪律 R1–R6——堵「对照表字面结论被反向圆说」（迁移价值论述自相矛盾的教训）③决策核心适配论证——堵「18 组细分建模低分陷阱过三关」④评委 v2.9 四审计——堵「定义恒等式包装命题」「σ=0 无机制说明」「TOPSIS 无权重灵敏度」。<br>
+  全部改动：pipeline/gate/design_fidelity_gate.py · pipeline/writing/assembly_rules.py · pipeline/orchestrator.py（ROLE_PROMPTS + S2.5）· skills/data-science/mathmodel-judge-perspective/SKILL.md（v2.9）· PROJECT.md 铁律 7–10。
+</footer>
+
+</div>
+</body>
+</html>

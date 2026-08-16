@@ -36,7 +36,28 @@ class DryRunClient:
         return {"content": f"[dry-run {provider}]\n{user[:80]}"}
 
 
-# 四模型
+# v5.2.1 角色提示词（2026-08-16 华数杯 C 教训：参谋组/拍板者缺"数据形状→方法适配"深度推理，
+# 18 组细分建模这种低分陷阱过了三关；拍板者未逐条核对数据字典口径条款）
+ROLE_PROMPTS = {
+    "advisor": (
+        "你是建模参谋。提交候选方案前必须先回答两项适配论证（缺一即废票）：\n"
+        "1. 数据形状→建模粒度适配：先列数据特征画像（零值占比/周期强度/稀疏度/类型异质性），"
+        "再论证你选的建模粒度（分组建模 vs 合并建模 vs 全域建模）为何匹配该形状；"
+        "稀疏无周期数据优先考虑合并建模，禁止默认分组建模。\n"
+        "2. 数据字典条款→口径映射：逐条列出你方案中用到的题面/附录口径条款，"
+        "并给出模型口径（含单位、取整规则、计算时点）与条款原文的对应关系；"
+        "有取整/近似必须注明偏差方向与量级。\n"
+        "然后给出方案本身。方案末尾必须写清：哪些部分在大规模下可能降级实现，降级时的兜底条款编号。"
+    ),
+    "owner_decision": (
+        "你是单一拍板者。综合参谋方案与分歧清单产出《设计方案定稿》。定稿必须包含：\n"
+        "1. 每个 D-决策编号 + 结论 + 采纳理由（引用具体参谋方案的论点）\n"
+        "2. 数据适配裁定：建模粒度选择必须与数据特征画像显式挂钩（引用 EDA 数字）\n"
+        "3. 口径条款清单：数据字典每条被使用的条款 → 模型口径的映射表（取整/单位/时点）\n"
+        "4. 兜底协议：每条『大规模不可行时降级为 X』的降级条款给编号，实现偏离定稿时必须引用该编号，否则作废重做\n"
+        "5. 验证协议：每个题面要求单元 → 产出物 → 验证脚本的映射"
+    ),
+}
 MODELERS = ["deepseek", "glm", "kimi", "qwen"]
 REVIEWERS = MODELERS  # 四评
 EXTRACTORS = MODELERS  # 检测层四模型抽取
@@ -58,12 +79,24 @@ class Orchestrator:
     def _call(self, stage: str, provider: str, role: str, ctx: str,
               instance_id: str = None) -> str:
         self.call_count += 1
-        r = self.client.ask(provider, f"role={role}", ctx)
+        system = ROLE_PROMPTS.get(role, f"role={role}")
+        r = self.client.ask(provider, system, ctx)
         content = r.get("content", "")
         self.run_log.append({"stage": stage, "provider": provider, "role": role,
                              "instance_id": instance_id or provider,
                              "ts": time.time()})
         return content
+
+    # ---------- S2.5：实现-定稿比对门禁（v5.2.1 新增，0 LLM，fail_closed） ----------
+    def s25_fidelity_gate(self, plan_path: str = "design_plan.json",
+                          manifest_path: str = "impl_manifest.json") -> dict:
+        from gate.design_fidelity_gate import check_fidelity
+        report = check_fidelity(plan_path, manifest_path)
+        if report["status"] != "pass":
+            # 阻断语义：偏离定稿 = 作废重做协议触发（由上层决定重跑定稿还是补登记）
+            raise SystemExit(
+                f"S2.5 实现-定稿比对门禁阻断: {report['fails']} {report['missing']}")
+        return report
 
     # ---------- 预估调用数（花钱纪律：运行前必报） ----------
     def estimate_calls(self, n_sections: int = 4) -> int:
