@@ -157,7 +157,7 @@ input_manifest.json → problem_analysis.json → problem_taxonomy.json → data
 | 角色 | 模型 | 说明 |
 |------|------|------|
 | 编排/汇总 | DeepSeek V4 Pro | 主流程控制 |
-| 建模手/分析 | GLM 5.2 / DeepSeek | 深度推理 |
+| 建模手/分析 | GLM 5.3 / DeepSeek | 深度推理 |
 | 编码手 | Kimi K2.7 | 代码生成 |
 | 视觉审查 | Kimi K3 | browser_vision 截图 |
 | 评审团 | GLM / DeepSeek | 严谨评分 |

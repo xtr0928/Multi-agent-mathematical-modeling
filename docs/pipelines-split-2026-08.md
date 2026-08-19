@@ -36,7 +36,7 @@
 | 编排 / 任务分级路由 / 失败接管 | DeepSeek V4 Pro |
 | T1 快速修复（<30min）/ T2 标准模块（0.5–2h） | kimi-coder (K2.7) |
 | T3 复杂/长时程（>2h） | qwen-coder (Qwen3.8-Max) |
-| 架构评审 | GLM 5.2 |
+| 架构评审 | GLM 5.3 |
 | 推理审查（低频） | Kimi K3 |
 | 视觉 / UI / OCR / 渲染检查 / 页面验收 | Qwen3.8-Max 视觉官 |
 

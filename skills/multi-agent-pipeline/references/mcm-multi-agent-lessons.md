@@ -6,7 +6,7 @@
 
 | Agent | 耗时 | 输出 |
 |-------|------|------|
-| GLM 5.2 | 4m25s | 凸多面体+Shapley+SEM+动态权重 |
+| GLM 5.3 | 4m25s | 凸多面体+Shapley+SEM+动态权重 |
 | DeepSeek V4 | 2m28s | QP约束+FPI+Z-score+Plackett-Luce |
 | Kimi K2.6 | 2m34s | 贝叶斯MCMC+Cox+二次投票+Arrow公理 |
 | Merge | 1m20s | 统一方案(标注来源) |

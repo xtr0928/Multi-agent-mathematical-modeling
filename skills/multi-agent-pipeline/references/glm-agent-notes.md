@@ -12,7 +12,7 @@
 
 ## Root Cause
 
-GLM 5.2 自动探索项目代码库，即使所有上下文已在 prompt 中。`find`/`grep`/`read_file` 工具调用增加 60-120s 延迟。
+GLM 5.3 自动探索项目代码库，即使所有上下文已在 prompt 中。`find`/`grep`/`read_file` 工具调用增加 60-120s 延迟。
 
 ## Fix Patterns
 

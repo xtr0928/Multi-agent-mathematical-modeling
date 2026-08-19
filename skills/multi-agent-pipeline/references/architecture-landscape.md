@@ -64,7 +64,7 @@
 | Profile | 模型 | 脑暴 | 暴力思考 | 编码 | 分析 | 审查 | 编排 |
 |---------|------|:--:|:------:|:--:|:--:|:--:|:--:|
 | default | DeepSeek V4 Pro | ✅ | ✅ | 🔧 | - | - | 🎯 |
-| glm-review | GLM 5.2 | ✅ | ✅ | - | ✅ | ✅ | - |
+| glm-review | GLM 5.3 | ✅ | ✅ | - | ✅ | ✅ | - |
 | kimi-ocr | Kimi K3 | ✅ | ✅ | - | ✅ | ✅ | - |
 | qwen-vision（新） | Qwen3.8-Max | ❌ | ❌ | - | ✅ 视觉审查 | ✅ UI 设计 | - |
 | kimi-coder | Kimi K2.7 | ❌ | ❌ | ✅ | - | - | - |

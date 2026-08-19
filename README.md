@@ -66,7 +66,7 @@ S0 问题解析 → S1 参谋组(四模型只交候选方案，不产定稿) + �
 
 | 角色 | 模型 |
 |---|---|
-| 建模手 ×4（S2 双轨迹） | DeepSeek V4 Pro / GLM 5.2 / **Kimi K3** / **Qwen3.8-Max** |
+| 建模手 ×4（S2 双轨迹） | DeepSeek V4 Pro / GLM 5.3 / **Kimi K3** / **Qwen3.8-Max** |
 | 假设官 / Devil's Advocate | 独立实例（作者回避系统强制） |
 | 反思器（完成度检查+hot_loop 推荐） | 确定性为主 + 独立实例 |
 | S3 评审 ×4（相对排序）+ 投票 | DeepSeek / GLM / Kimi / Qwen |

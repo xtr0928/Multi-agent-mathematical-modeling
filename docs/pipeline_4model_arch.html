@@ -155,7 +155,7 @@ h1 em { font-style: normal; color: var(--accent); }
   <h1>混合编码管线更新 + 数模四模型化 <em>设计总览</em></h1>
   <div class="sub"><b>设计 v1 · 2026-08-14 · 待批准（未做任何实际改动）</b><br>
   指令：①K3 太贵 → UI/视觉检查全交千问　②数模千问与其他模型同权（多一份视角）<br>
-  产出：GLM 5.2 架构骨架 × Kimi K3 独立审查 × DeepSeek 编排定稿 · 详情 pipeline_4model_design.md</div>
+  产出：GLM 5.3 架构骨架 × Kimi K3 独立审查 × DeepSeek 编排定稿 · 详情 pipeline_4model_design.md</div>
 </header>
 
 <div class="legend">
@@ -203,7 +203,7 @@ h1 em { font-style: normal; color: var(--accent); }
         <div class="agent-src">src: 视觉迁移 2026-08-14 已落地</div>
       </div>
       <div class="agent t-manage">
-        <div class="agent-name">GLM 5.2 <span class="agent-type">ARCH-REVIEW</span></div>
+        <div class="agent-name">GLM 5.3 <span class="agent-type">ARCH-REVIEW</span></div>
         <div class="agent-role">架构评审 · 代码结构/算法正确性</div>
         <div class="agent-io">写评分离：Qwen 产物同样被审</div>
         <div class="agent-src">src: glm-review</div>
@@ -276,7 +276,7 @@ h1 em { font-style: normal; color: var(--accent); }
     <div class="agents">
       <div class="agent t-analyze">
         <div class="agent-name">建模手 ×4 <span class="agent-type">DELIBERATION</span></div>
-        <div class="agent-role">DS / GLM 5.2 / Kimi K3 / <b>Qwen</b>（零上下文实例并行）</div>
+        <div class="agent-role">DS / GLM 5.3 / Kimi K3 / <b>Qwen</b>（零上下文实例并行）</div>
         <div class="agent-io">producer 标签附着 · 门禁不认模型<br>Qwen 打回 2 次 → 降权 0.5；4 次 → 观察员</div>
         <div class="agent-src">src: V5 Stage 2 · 四方化</div>
       </div>
@@ -380,7 +380,7 @@ h1 em { font-style: normal; color: var(--accent); }
   <table>
     <tr><td>DeepSeek V4 Pro</td><td>编排/主献策 · 失败接管 · 数模建模手① · 检测① · Stage4 评审 · 评委（零撰写上下文）</td></tr>
     <tr><td>kimi-coder K2.7</td><td>T1/T2 快速编码（不变）</td></tr>
-    <tr><td>GLM 5.2</td><td>架构评审 · 数模建模手② · 检测② · Stage4 评审 · 评委</td></tr>
+    <tr><td>GLM 5.3</td><td>架构评审 · 数模建模手② · 检测② · Stage4 评审 · 评委</td></tr>
     <tr><td>Kimi K3</td><td>推理审查（收缩后仅此 + 数模全权：建模手③/检测③/评审/评委）· <b>视觉零调用</b></td></tr>
     <tr><td>Qwen3.8-Max</td><td><b>六身份六实例零上下文</b>：T3 coder / 视觉官 / 建模手④ / 检测④ / Stage4 评审（阶梯）/ 评委（阶梯）</td></tr>
     <tr><td>确定性层</td><td>门禁不认模型 · build 钩子 · producer 标签 · 时间闸 · 阶梯状态机（无模型服务）</td></tr>
