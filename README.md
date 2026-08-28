@@ -11,9 +11,7 @@
 
 （V5.2 旧图：docs/V52_overall_arch.html）
 
-![V5.2 架构图](docs/V52_overall_arch.png)
-
-> 评委 skill v2.8 架构图：`docs/judge_v28_arch.png`；V5.1 时代流程图：`docs/V51_workflow.png`、`docs/V51_overall_arch.png`
+![V5.2.1 架构图](docs/V521_overall_arch.png)
 
 ## 完整工作流（V5.2，S0–S7）
 
@@ -99,9 +97,7 @@ skills/
   data-science/
     1start-mathmodel … 6verity/     # 6 阶段论文流水线
     math-brainstorm/  brute-force-think/   # 思路脑暴 / 暴力求解
-    mathmodel-v2-pipeline/          # 融合架构 v2.2
-    mathmodel-pipeline-v3/          # 管线 v3.0 全题型执行手册
-    mathmodel-judge-perspective/    # 评委视角 skill v2.8
+    mathmodel-judge-perspective/    # 评委视角 skill v2.9（权威版）
     mathmodel-figure-templates/  typst-author/  doctor/  _references/
   multi-agent-pipeline/             # 6 阶段编排 + 架构全景
 docs/
@@ -109,12 +105,8 @@ docs/
   V5_upgrade_dev_doc_2026-08-15.md  # V5.1 升级开发文档（混合编码管线产出）
   V52_pipeline_design.md            # V5.2 设计定稿（参谋组+单一拍板者+产物回归门，2026-08-15）
   V52_overall_arch.html/.png        # V5.2 总架构图（纸墨风 9 泳道）
-  judge_v28_arch.html/.png          # 评委 skill v2.8 架构图（六阶段+全量复算+四评仲裁）
   V5_optimization_plan_2026-08-15.html  # 优化清单（16 项→15 项实施决策）
-  V51_workflow.html/.png           # V5.1 工作流程图（README 顶部所嵌）
-  V51_overall_arch.html/.png        # V5.1 模块级整体架构图（5 泳道）
-  pipeline_4model_design.md         # 四模型化设计存档
-  flowchart_v5*.png                 # V5.0 时代流程图
+  V521_overall_arch.html/.png       # V5.2.1 总架构图（S2.5 比对门禁+装配纪律 R1-R6+评委 v2.9 四审计）
   2026_MCM-ICM_Problems/            # 2026 官方题目包
   v5_run/                           # V5 首战代码与全部运行产物
 ```
