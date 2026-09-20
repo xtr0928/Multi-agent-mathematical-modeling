@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>数模管线 V6 · 逐问推进流程图</title>
+<style>
+:root{
+  --paper:#faf8f3; --ink:#1c1a16; --accent:#a63a2a;
+  --c-flow:#3a5a8c; --c-det:#8a8578; --c-gate:#2f6b5e; --c-judge:#6b4a8c; --c-fix:#b3562e;
+  --hairline:#d9d4c8; --muted:#6b655a;
+  --serif:"Noto Serif SC","Source Han Serif SC","Songti SC","STSong","SimSun",serif;
+  --sans:"Noto Sans SC","Source Han Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
+  --mono:"JetBrains Mono","SFMono-Regular",Consolas,"Liberation Mono",monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.6}
+#sheet{width:1000px;margin:0 auto;padding:44px 0 48px}
+#h h1{font-family:var(--serif);font-size:29px;font-weight:700;letter-spacing:.04em}
+#h .sub{font-family:var(--serif);font-size:14.5px;color:var(--muted);margin-top:8px}
+#h .meta{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:11px;letter-spacing:.03em}
+#legend{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0 8px;padding:11px 15px;border:1px solid var(--hairline);font-size:12px}
+#legend .li{display:flex;align-items:center;gap:6px}
+#legend .sw{width:14px;height:14px;border-radius:2px}
+#legend .sw.f{background:var(--c-flow)} #legend .sw.d{background:var(--c-det)}
+#legend .sw.g{background:var(--c-gate)} #legend .sw.j{background:var(--c-judge)}
+#legend .sw.x{background:var(--c-fix)} #legend .sw.a{background:var(--accent)}
+#legend .ln{width:22px;border-top:2px dashed var(--accent);margin:0 2px}
+#foot{margin-top:18px;border-top:2px solid var(--ink);padding-top:13px;font-size:12px;color:var(--muted);line-height:2.0}
+#foot b{color:var(--ink)} #foot .mono{font-family:var(--mono);font-size:11.5px}
+svg{display:block}
+svg text{font-family:var(--sans)}
+.t{font-family:var(--serif)!important;font-weight:700}
+.m{font-family:"Consolas","Courier New","Liberation Mono",monospace}
+</style>
+</head>
+<body>
+<div id="sheet">
+  <div id="h">
+    <h1>数模管线 V6 · 逐问推进流程图</h1>
+    <div class="sub">逐问串行 × 全新实例 × 冻结交接 —— 每问一个责任人、一份冻结版本、一条完整证据链</div>
+    <div class="meta">DESIGN: docs/V6_per_question_pipeline_dev_doc_2026-09-13.md ｜ 状态：待确认 · v6 修订 2026-09-19</div>
+  </div>
+
+  <div id="legend">
+    <div class="li"><span class="sw f"></span>LLM 节点（每次调用 = 全新实例）</div>
+    <div class="li"><span class="sw d"></span>确定性脚本（0 LLM）</div>
+    <div class="li"><span class="sw g"></span>门禁 / 冻结（双保险）</div>
+    <div class="li"><span class="sw j"></span>评审</div>
+    <div class="li"><span class="sw x"></span>修复回路</div>
+    <div class="li"><span class="sw a"></span>主模型节点</div>
+    <div class="li"><span class="ln"></span>回改（作废重算）</div>
+  </div>
+
+<svg viewBox="0 0 1000 1300" width="1000" height="1300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="ar" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#6b655a"/></marker>
+    <marker id="arR" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#a63a2a"/></marker>
+    <marker id="arB" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#3a5a8c"/></marker>
+  </defs>
+
+  <!-- ================= S0 前置：开场点将（先问后验） ================= -->
+  <rect x="100" y="26" width="540" height="76" rx="8" fill="#fffdf8" stroke="#d9d4c8"/>
+  <rect x="100" y="26" width="540" height="3.5" rx="1.5" fill="#3a5a8c"/>
+  <rect x="114" y="40" width="44" height="20" rx="3" fill="#f1ede3" stroke="#d9d4c8"/>
+  <text x="136" y="54" font-size="11" class="m" text-anchor="middle" fill="#1c1a16">S0·1</text>
+  <text x="176" y="55" class="t" font-size="15">开场点将（先问后验）</text>
+  <text x="626" y="55" font-size="10" class="m" text-anchor="end" fill="#6b655a">问询 ×1 ＋ smoke 核查</text>
+  <text x="114" y="76" font-size="11" fill="#6b655a">先问博士：用几个模型 / 哪些？（推理池 N · 评审池 R · 主模型）</text>
+  <text x="114" y="88" font-size="11" fill="#6b655a">→ 仅对所选别名真调用核查（smoke）→ 状态表裁决 → 池冻结进 RUN.json</text>
+  <line x1="370" y1="102" x2="370" y2="114" stroke="#6b655a" stroke-width="1.6" marker-end="url(#ar)"/>
+
+  <g transform="translate(0,90)">
+
+  <!-- ================= S0 ================= -->
+  <rect x="100" y="26" width="540" height="70" rx="8" fill="#fffdf8" stroke="#d9d4c8"/>
+  <rect x="100" y="26" width="540" height="3.5" rx="1.5" fill="#3a5a8c"/>
+  <rect x="114" y="40" width="44" height="20" rx="3" fill="#f1ede3" stroke="#d9d4c8"/>
+  <text x="136" y="54" font-size="11" class="m" text-anchor="middle" fill="#1c1a16">S0·2</text>
+  <text x="176" y="55" class="t" font-size="15">整题解析</text>
+  <text x="626" y="55" font-size="10" class="m" text-anchor="end" fill="#6b655a">重开 ×1</text>
+  <text x="114" y="76" font-size="11" fill="#6b655a">题面结构 · 问题编号与粒度 · 数据字典 · 依赖初判</text>
+  <text x="114" y="91" font-size="11" fill="#6b655a">产出：problem_profile ／ data_index ／ 全局口径表 v0</text>
+
+  <line x1="370" y1="96" x2="370" y2="114" stroke="#6b655a" stroke-width="1.6" marker-end="url(#ar)"/>
+
+  <!-- ================= 逐问循环容器 ================= -->
+  <rect x="60" y="120" width="640" height="878" rx="12" fill="#fcfaf4" stroke="#a63a2a" stroke-width="1.6"/>
+  <text x="370" y="150" class="t" font-size="15" text-anchor="middle">逐问循环　q = 1..N</text>
+  <text x="370" y="169" font-size="10.5" text-anchor="middle" fill="#6b655a">每问结束冻结；下一问只带：冻结统一方案 ＋ 全局口径表 ＋ 已注册数据</text>
+
+  <!-- P1 -->
+  <rect x="100" y="186" width="540" height="66" rx="8" fill="#fffdf8" stroke="#d9d4c8"/>
+  <rect x="100" y="186" width="540" height="3.5" rx="1.5" fill="#8a8578"/>
+  <rect x="114" y="200" width="44" height="20" rx="3" fill="#f1ede3" stroke="#d9d4c8"/>
+  <text x="136" y="214" font-size="11" class="m" text-anchor="middle">P1</text>
+  <text x="176" y="215" class="t" font-size="15">交接包装配</text>
+  <text x="626" y="215" font-size="10" class="m" text-anchor="end" fill="#6b655a">0 LLM</text>
+  <text x="114" y="236" font-size="11" fill="#6b655a">题面Qn ＋ 数据索引（逐项 sha256 · registry=fresh 校验）</text>
+  <text x="114" y="248" font-size="11" fill="#6b655a">＋ 前一问冻结统一方案 ＋ 全局口径表 ＋ 已冻结产物索引 ｜ 校验不过即阻断</text>
+
+  <line x1="370" y1="252" x2="370" y2="270" stroke="#6b655a" stroke-width="1.6" marker-end="url(#ar)"/>
+  <!-- P2 -->
+  <rect x="100" y="276" width="540" height="66" rx="8" fill="#fffdf8" stroke="#d9d4c8"/>
+  <rect x="100" y="276" width="540" height="3.5" rx="1.5" fill="#3a5a8c"/>
+  <rect x="114" y="290" width="44" height="20" rx="3" fill="#f1ede3" stroke="#d9d4c8"/>
+  <text x="136" y="304" font-size="11" class="m" text-anchor="middle">P2</text>
+  <text x="176" y="305" class="t" font-size="15">独立推理（本问方案）</text>
+  <text x="626" y="305" font-size="10" class="m" text-anchor="end" fill="#6b655a">重开 ×N</text>
+  <text x="114" y="333" font-size="11" fill="#6b655a">推理池每模型一份：同一交接包 · 互不可见 · 单发单收 · 每一份都是全新实例</text>
+
+  <line x1="370" y1="342" x2="370" y2="360" stroke="#6b655a" stroke-width="1.6" marker-end="url(#ar)"/>
+  <!-- P3 -->
+  <rect x="100" y="366" width="540" height="66" rx="8" fill="#fffdf8" stroke="#d9d4c8"/>
+  <rect x="100" y="366" width="540" height="3.5" rx="1.5" fill="#3a5a8c"/>
+  <rect x="114" y="380" width="44" height="20" rx="3" fill="#f1ede3" stroke="#d9d4c8"/>
+  <text x="136" y="394" font-size="11" class="m" text-anchor="middle">P3</text>
+  <text x="176" y="395" class="t" font-size="15">分歧＋假设审计</text>
+  <text x="626" y="395" font-size="10" class="m" text-anchor="end" fill="#6b655a">重开 ×3</text>
+  <text x="114" y="423" font-size="11" fill="#6b655a">记录员（divergence）＋假设官（assumptions）＋DA（da_report）——三实例各自重开</text>
+
+  <line x1="370" y1="432" x2="370" y2="450" stroke="#6b655a" stroke-width="1.6" marker-end="url(#ar)"/>
+  <!-- P4 -->
+  <rect x="100" y="456" width="540" height="66" rx="8" fill="#fffdf8" stroke="#d9d4c8"/>
+  <rect x="100" y="456" width="540" height="3.5" rx="1.5" fill="#a63a2a"/>
+  <rect x="114" y="470" width="44" height="20" rx="3" fill="#f1ede3" stroke="#d9d4c8"/>
+  <text x="136" y="484" font-size="11" class="m" text-anchor="middle">P4</text>
+  <text x="176" y="485" class="t" font-size="15">主模型统一（融合重写）</text>
+  <text x="626" y="485" font-size="10" class="m" text-anchor="end" fill="#6b655a">重开 ×1</text>
+  <text x="114" y="506" font-size="11" fill="#6b655a">逐处裁决分歧 → 统一方案</text>
+  <text x="114" y="518" font-size="11" fill="#6b655a">＋ D 决策记录（采纳／否决／理由／影响面）＋ 全局口径表增量</text>
+
+  <line x1="370" y1="522" x2="370" y2="540" stroke="#6b655a" stroke-width="1.6" marker-end="url(#ar)"/>
+  <!-- P5 -->
+  <rect x="100" y="546" width="540" height="66" rx="8" fill="#fffdf8" stroke="#d9d4c8"/>
+  <rect x="100" y="546" width="540" height="3.5" rx="1.5" fill="#8a8578"/>
+  <rect x="114" y="560" width="44" height="20" rx="3" fill="#f1ede3" stroke="#d9d4c8"/>
+  <text x="136" y="574" font-size="11" class="m" text-anchor="middle">P5</text>
+  <text x="176" y="575" class="t" font-size="15">求解执行</text>
+  <text x="626" y="575" font-size="10" class="m" text-anchor="end" fill="#6b655a">0 LLM</text>
+  <text x="114" y="603" font-size="11" fill="#6b655a">按统一方案执行（本机／服务器）→ 产物登记 registry（数字身份证）</text>
+
+  <line x1="370" y1="612" x2="370" y2="630" stroke="#6b655a" stroke-width="1.6" marker-end="url(#ar)"/>
+  <!-- P6 -->
+  <rect x="100" y="636" width="540" height="66" rx="8" fill="#fffdf8" stroke="#d9d4c8"/>
+  <rect x="100" y="636" width="540" height="3.5" rx="1.5" fill="#2f6b5e"/>
+  <rect x="114" y="650" width="44" height="20" rx="3" fill="#f1ede3" stroke="#d9d4c8"/>
+  <text x="136" y="664" font-size="11" class="m" text-anchor="middle">P6</text>
+  <text x="176" y="665" class="t" font-size="15">本问门禁</text>
+  <text x="626" y="665" font-size="10" class="m" text-anchor="end" fill="#6b655a">0 LLM</text>
+  <text x="114" y="686" font-size="11" fill="#6b655a">提交表比对 · 数值恒等式 · 口径一致性 · 信息集合规（正反用例）</text>
+  <text x="114" y="698" font-size="11" fill="#6b655a">任一 fail 即转修复回路（确定性判定，可挂 build 钩子）</text>
+  <text x="377" y="722" font-size="10" class="m" fill="#6b655a">pass</text>
+
+  <line x1="370" y1="702" x2="370" y2="720" stroke="#6b655a" stroke-width="1.6" marker-end="url(#ar)"/>
+  <!-- P7 -->
+  <rect x="100" y="726" width="540" height="66" rx="8" fill="#fffdf8" stroke="#d9d4c8"/>
+  <rect x="100" y="726" width="540" height="3.5" rx="1.5" fill="#6b4a8c"/>
+  <rect x="114" y="740" width="44" height="20" rx="3" fill="#f1ede3" stroke="#d9d4c8"/>
+  <text x="136" y="754" font-size="11" class="m" text-anchor="middle">P7</text>
+  <text x="176" y="755" class="t" font-size="15">评审 ＋ 评审长</text>
+  <text x="626" y="755" font-size="10" class="m" text-anchor="end" fill="#6b655a">重开 ×R＋1</text>
+  <text x="114" y="776" font-size="11" fill="#6b655a">评审池零上下文独立评分（R 家，全部重开）</text>
+  <text x="114" y="788" font-size="11" fill="#6b655a">主模型额外新实例当评审长 → 汇总评审＋证据 → 修订单／判定</text>
+
+  <line x1="370" y1="792" x2="370" y2="810" stroke="#6b655a" stroke-width="1.6" marker-end="url(#ar)"/>
+  <!-- P8 -->
+  <rect x="100" y="816" width="540" height="66" rx="8" fill="#fffdf8" stroke="#d9d4c8"/>
+  <rect x="100" y="816" width="540" height="3.5" rx="1.5" fill="#b3562e"/>
+  <rect x="114" y="830" width="44" height="20" rx="3" fill="#f1ede3" stroke="#d9d4c8"/>
+  <text x="136" y="844" font-size="11" class="m" text-anchor="middle">P8</text>
+  <text x="176" y="845" class="t" font-size="15">修复回路</text>
+  <text x="626" y="845" font-size="10" class="m" text-anchor="end" fill="#6b655a">≤K 轮</text>
+  <text x="114" y="866" font-size="11" fill="#6b655a">修复实例（重开）→ 重过 P6 → 重评审（虚线回跳）</text>
+  <text x="114" y="878" font-size="11" fill="#6b655a">修复前后字节级复核；修复报告由脚本生成（禁止自证）</text>
+
+  <line x1="370" y1="882" x2="370" y2="900" stroke="#6b655a" stroke-width="1.6" marker-end="url(#ar)"/>
+  <!-- P9 -->
+  <rect x="100" y="906" width="540" height="66" rx="8" fill="#fffdf8" stroke="#d9d4c8"/>
+  <rect x="100" y="906" width="540" height="3.5" rx="1.5" fill="#2f6b5e"/>
+  <rect x="114" y="920" width="44" height="20" rx="3" fill="#f1ede3" stroke="#d9d4c8"/>
+  <text x="136" y="934" font-size="11" class="m" text-anchor="middle">P9</text>
+  <text x="176" y="935" class="t" font-size="15">冻结（双保险）</text>
+  <text x="626" y="935" font-size="10" class="m" text-anchor="end" fill="#6b655a">git＋sha256</text>
+  <text x="114" y="956" font-size="11" fill="#6b655a">git commit（sha256 对象格式）＋ MANIFEST.sha256.json</text>
+  <text x="114" y="968" font-size="11" fill="#6b655a">＋ FREEZE.json · 版本号 v1、v2…永不覆盖</text>
+
+  <!-- 修复回路：fail 右键肘线（P6→P8） -->
+  <path d="M 640 669 H 668 V 849 H 644" fill="none" stroke="#a63a2a" stroke-width="1.6" marker-end="url(#arR)"/>
+  <text x="645" y="661" font-size="10" class="m" fill="#a63a2a">fail</text>
+  <!-- 修复回路：重过门禁回跳虚线（P8→P6） -->
+  <path d="M 100 849 H 76 V 669 H 96" fill="none" stroke="#a63a2a" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#arR)"/>
+  <text x="64" y="759" font-size="10" class="m" fill="#a63a2a" text-anchor="middle" transform="rotate(-90 64 759)">≤K 轮 · 重过门禁重评审</text>
+
+  <!-- 回改轨道（P7 评审 → P1 交接包） -->
+  <path d="M 100 759 H 48 V 219 H 96" fill="none" stroke="#a63a2a" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#arR)"/>
+  <text x="30" y="489" font-size="10.5" fill="#a63a2a" text-anchor="middle" transform="rotate(-90 30 489)">回改（自动）：推翻冻结件 → 作废重算链 → 重新冻结</text>
+
+  <!-- 下一问轨道（P9 → 容器顶 P1） -->
+  <path d="M 640 939 H 730 V 110 H 510 V 116" fill="none" stroke="#3a5a8c" stroke-width="1.6" marker-end="url(#arB)"/>
+  <rect x="735" y="430" width="240" height="54" rx="6" fill="#fffdf8" stroke="#d9d4c8"/>
+  <text x="747" y="453" class="t" font-size="12.5">下一问 q＋1：</text>
+  <text x="747" y="471" font-size="10" class="m" fill="#6b655a">只带冻结交接包（方案／口径／数据）</text>
+
+  <!-- 出口箭头 → 终局 -->
+  <text x="380" y="1022" font-size="11" fill="#6b655a">全部问完成（q = N）</text>
+  <line x1="370" y1="998" x2="370" y2="1040" stroke="#6b655a" stroke-width="1.6" marker-end="url(#ar)"/>
+
+  <!-- ================= S_end 终局 ================= -->
+  <rect x="40" y="1044" width="920" height="130" rx="12" fill="#fbf8f1" stroke="#d9d4c8"/>
+  <rect x="64" y="1060" width="52" height="20" rx="3" fill="#f1ede3" stroke="#d9d4c8"/>
+  <text x="90" y="1074" font-size="11" class="m" text-anchor="middle">S_end</text>
+  <text x="128" y="1075" class="t" font-size="14">终局：跨问一致性 → 成文 → 交付</text>
+
+  <rect x="60" y="1090" width="130" height="44" rx="6" fill="#fffdf8" stroke="#d9d4c8"/>
+  <text x="125" y="1117" font-size="11.5" text-anchor="middle">跨问一致性门禁</text>
+  <text x="198" y="1117" font-size="13" fill="#8a8578" text-anchor="middle">→</text>
+  <rect x="212" y="1090" width="165" height="44" rx="6" fill="#fffdf8" stroke="#d9d4c8"/>
+  <text x="294.5" y="1117" font-size="11.5" text-anchor="middle">全池总评审 ＋ 评审长</text>
+  <text x="385" y="1117" font-size="13" fill="#8a8578" text-anchor="middle">→</text>
+  <rect x="399" y="1090" width="115" height="44" rx="6" fill="#fffdf8" stroke="#d9d4c8"/>
+  <text x="456.5" y="1117" font-size="11.5" text-anchor="middle">排版（视觉官）</text>
+  <text x="522" y="1117" font-size="13" fill="#8a8578" text-anchor="middle">→</text>
+  <rect x="536" y="1090" width="150" height="44" rx="6" fill="#fffdf8" stroke="#d9d4c8"/>
+  <text x="611" y="1117" font-size="11.5" text-anchor="middle">检测层（作者回避）</text>
+  <text x="694" y="1117" font-size="13" fill="#8a8578" text-anchor="middle">→</text>
+  <rect x="708" y="1090" width="95" height="44" rx="6" fill="#fffdf8" stroke="#d9d4c8"/>
+  <text x="755.5" y="1117" font-size="11.5" text-anchor="middle">交付门禁</text>
+  <text x="811" y="1117" font-size="13" fill="#8a8578" text-anchor="middle">→</text>
+  <rect x="825" y="1090" width="130" height="44" rx="6" fill="#fffdf8" stroke="#d9d4c8"/>
+  <text x="890" y="1117" font-size="11.5" text-anchor="middle">交付冻结</text>
+
+  <text x="64" y="1158" font-size="10" class="m" fill="#6b655a">交付冻结 ＝ git commit ＋ MANIFEST.sha256 ＋ 打包 ｜ 上传平台人工确认</text>
+  </g>
+</svg>
+
+  <div id="foot">
+    <b>实例生命周期（绝对隔离）：</b>一次调用 ＝ 一个全新实例（含重试）· 单发单收、禁止多轮 · 实例间唯一连续性 ＝ 磁盘冻结工件 · audit/calls.jsonl 逐条可审计<br>
+    <b>成本（先问后验、按最终确定池现算，先报后批）：</b><span class="mono">calls = 1 + Σq ( N + R + 5 ) + 29</span>　（N＝推理池、R＝评审池；示例 N=6、R=3、4 问 ≈ 86 次）<br>
+    <b>哈希口径：</b>全系统统一 SHA-256（内容级与 git 对象格式同族）· 冻结双保险：git commit + tag ＋ MANIFEST.sha256.json<br>
+    <b>门禁八项 · 里程碑 · 数据模型：</b>见 docs/V6_per_question_pipeline_dev_doc_2026-09-13.md
+  </div>
+</div>
+</body>
+</html>
