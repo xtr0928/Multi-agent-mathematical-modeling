@@ -16,7 +16,7 @@ def gen_rng_file(path: str, n: int, seed: int = 42):
     with open(tmp, "w") as f:
         for v in vals:
             f.write("%.17g\n" % v)
-    os.rename(tmp, path)
+    os.replace(tmp, path)
     return path
 
 

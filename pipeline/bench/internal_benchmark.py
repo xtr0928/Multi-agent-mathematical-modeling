@@ -27,7 +27,7 @@ class InternalBenchmark:
         tmp = self.path + ".tmp"
         with open(tmp, "w", encoding="utf-8") as f:
             json.dump(self.data, f, ensure_ascii=False, indent=2)
-        os.rename(tmp, self.path)
+        os.replace(tmp, self.path)
 
     # ---------- C++ 重写收益（D30：重写决策公式 + 预估 vs 实测留档） ----------
     def record_cpp_decision(self, task_name: str, est_py_s: float, est_cpp_s: float,

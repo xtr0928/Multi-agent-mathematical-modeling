@@ -32,7 +32,7 @@ class TaskQueue:
         tmp = p + ".tmp"
         with open(tmp, "w", encoding="utf-8") as f:
             json.dump(task, f, ensure_ascii=False)
-        os.rename(tmp, p)
+        os.replace(tmp, p)
         return task_id
 
     def move(self, task_id: str, to_state: str):
@@ -45,7 +45,7 @@ class TaskQueue:
         if not src:
             raise FileNotFoundError(f"任务 {task_id} 不在队列中")
         dst = os.path.join(self.root, to_state, f"{task_id}.json")
-        os.rename(src, dst)
+        os.replace(src, dst)
 
     def pending_ids(self) -> list:
         return [f[:-5] for f in os.listdir(os.path.join(self.root, "pending"))

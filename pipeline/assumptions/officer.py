@@ -64,7 +64,7 @@ class AssumptionOfficer:
         with open(tmp, "w", encoding="utf-8") as f:
             json.dump([a.to_dict() for a in self.assumptions.values()],
                       f, ensure_ascii=False, indent=2)
-        os.rename(tmp, self.registry_path)
+        os.replace(tmp, self.registry_path)
 
     # ---------- 第一步：生成登记 ----------
     def register(self, statement: str, author: str, basis: str = "",

@@ -62,7 +62,7 @@ class ProgressStateMachine:
         tmp = self.ckpt_path + ".tmp"
         with open(tmp, "w", encoding="utf-8") as f:
             json.dump(ck, f, ensure_ascii=False)
-        os.rename(tmp, self.ckpt_path)  # 原子发布
+        os.replace(tmp, self.ckpt_path)  # 原子发布
         self.append_log({"event": "checkpoint", "stage": stage,
                          "hashes": artifact_hashes})
 

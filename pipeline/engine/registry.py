@@ -149,7 +149,7 @@ def atomic_write(path: str, content: bytes):
     try:
         with os.fdopen(fd, "wb") as f:
             f.write(content)
-        os.rename(tmp, path)
+        os.replace(tmp, path)  # Windows: rename 不覆盖已存在目标 (WinError 183)
     except Exception:
         if os.path.exists(tmp):
             os.remove(tmp)
