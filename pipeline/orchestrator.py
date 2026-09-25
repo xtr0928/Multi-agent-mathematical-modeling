@@ -98,11 +98,35 @@ class Orchestrator:
                 f"S2.5 实现-定稿比对门禁阻断: {report['fails']} {report['missing']}")
         return report
 
+    # ---------- S-1：反投毒摄入门禁（V6.1 新增，0 LLM，fail-closed） ----------
+    def s_1_ingest_gate(self, paths, outdir: str = "stage_S-1_ingest",
+                        strict: bool = True) -> dict:
+        """所有外部输入必须先过此门（题目 PDF / 数据集 / 图片）。
+
+        检测 8 类 30 项物理隐藏投毒 → 产出三件套（clean_problem.md /
+        poison_report.md / ingest_manifest.json，含 SHA-512 哈希链）。
+        有 HIGH 级发现时 fail-closed 阻断，须人工确认后放行。
+        详见 pipeline/ingest/ 与 docs/V61_antipoison_design.md。
+        """
+        from ingest import ingest_gate
+        rep = ingest_gate(paths, outdir=outdir, strict=strict)
+        self.run_log.append({
+            "stage": "S-1", "provider": "-", "role": "ingest_gate",
+            "instance_id": "deterministic", "ts": time.time(),
+            "status": rep["status"], "n_findings": len(rep["findings"]),
+        })
+        if rep["blocked"]:
+            raise SystemExit(
+                "S-1 反投毒门禁阻断：%s —— 详见 %s/poison_report.md（人工确认后以 "
+                "strict=False 放行）" % (rep["severity_counts"], outdir))
+        return rep
+
     # ---------- 预估调用数（花钱纪律：运行前必报） ----------
     def estimate_calls(self, n_sections: int = 4) -> int:
         """检测层作者回避：每节由 3 个非作者实例抽取 → n_sections×(4-1) 次"""
         return (
-            1                       # S0 解析
+            0                       # S-1 反投毒摄入门禁（V6.1：确定性 0 LLM）
+            + 1                     # S0 解析
             + len(MODELERS)         # S1 参谋组 ×4（只交方案，不产定稿）
             + 1                     # S1 分歧清单
             + 1                     # S1.5 拍板者（自动=新开 DeepSeek；半自动=0 LLM 问博士）
@@ -273,8 +297,14 @@ class Orchestrator:
 
     # ---------- 完整流程 ----------
     def run_full(self, problem_text: str, checklist: list = None,
-                 owner_mode: str = "auto", score_baseline: float = 50.0) -> dict:
+                 owner_mode: str = "auto", score_baseline: float = 50.0,
+                 ingest_paths=None, ingest_outdir: str = "stage_S-1_ingest",
+                 ingest_strict: bool = True) -> dict:
         report = {}
+        # V6.1：S-1 反投毒摄入门禁（外部输入必须先过门；不传 paths 则跳过）
+        if ingest_paths:
+            report["S-1_ingest"] = self.s_1_ingest_gate(
+                ingest_paths, outdir=ingest_outdir, strict=ingest_strict)
         report["S0"] = self.s0_parse(problem_text)
         # v5.2：S1 参谋组（只交方案+分歧，不产定稿）→ S1.5 单一拍板者定稿
         proposals = self.s1_advisors_propose(problem_text[:80])

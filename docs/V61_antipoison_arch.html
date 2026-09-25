@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<style>
+:root{
+  --paper:#faf8f3; --paper-deep:#f2efe6; --ink:#1c1a16; --ink-soft:#4a463e;
+  --ink-mute:#8a8578; --hairline:#e3dfd2; --accent:#a63a2a; --accent-deep:#862d20;
+  --c-analyze:#b3562e; --c-code:#2f6b5e; --c-write:#3a5a8c;
+  --c-manage:#6b4a8c; --c-gate:#a63a2a; --c-data:#8a8578;
+  --serif:"Noto Serif SC","Source Han Serif SC","Songti SC",serif;
+  --sans:"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
+  --mono:"JetBrains Mono","SF Mono",Consolas,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.7}
+.wrap{max-width:1180px;margin:0 auto;padding:0 34px 60px}
+
+header{padding:48px 0 30px;border-bottom:3px solid var(--ink);margin-bottom:32px}
+h1{font-family:var(--serif);font-weight:900;font-size:33px;letter-spacing:.02em}
+h1 em{font-style:normal;color:var(--accent)}
+.sub{color:var(--ink-mute);font-size:13.5px;margin-top:8px;font-family:var(--mono);letter-spacing:.03em}
+.sub b{color:var(--ink-soft);font-weight:600}
+
+.legend{display:flex;flex-wrap:wrap;gap:20px;align-items:center;padding:15px 20px;
+  background:var(--paper-deep);border:1px solid var(--hairline);margin-bottom:30px;font-size:12.5px;color:var(--ink-soft)}
+.legend .lg{display:flex;align-items:center;gap:7px}
+.legend .dot{width:11px;height:11px;border-radius:50%;flex-shrink:0}
+.legend b{color:var(--ink);font-weight:600}
+
+/* 泳道 */
+.lane{display:grid;grid-template-columns:150px 1fr;border:1px solid var(--hairline);border-bottom:none}
+.lane:last-of-type{border-bottom:1px solid var(--hairline)}
+.lane-label{padding:20px 14px;background:var(--paper-deep);border-right:1px solid var(--hairline);
+  display:flex;flex-direction:column;gap:5px;justify-content:center}
+.lane-label .no{font-family:var(--mono);font-size:10.5px;color:var(--ink-mute);letter-spacing:.08em}
+.lane-label .nm{font-family:var(--serif);font-weight:800;font-size:15px;line-height:1.35}
+.lane-label .en{font-family:var(--mono);font-size:9.5px;color:var(--ink-mute);line-height:1.4}
+.lane-body{padding:18px 20px;display:flex;flex-wrap:wrap;gap:12px;align-items:stretch}
+
+/* 卡片（name-role-io-src 四层） */
+.card{flex:1 1 200px;min-width:186px;background:#fff;border:1px solid var(--hairline);
+  border-top:3px solid var(--c-data);padding:11px 13px 10px;position:relative}
+.card.analyze{border-top-color:var(--c-analyze)}
+.card.code{border-top-color:var(--c-code)}
+.card.write{border-top-color:var(--c-write)}
+.card.manage{border-top-color:var(--c-manage)}
+.card.gate{border-top-color:var(--c-gate)}
+.card.data{border-top-color:var(--c-data)}
+.card .nm{font-weight:700;font-size:13.5px;font-family:var(--serif);margin-bottom:3px}
+.card .role{font-size:11px;color:var(--ink-mute);font-family:var(--mono);margin-bottom:6px;letter-spacing:.02em}
+.card .io{font-size:11.5px;color:var(--ink-soft);line-height:1.55}
+.card .src{font-size:10px;color:var(--ink-mute);font-family:var(--mono);margin-top:6px;
+  border-top:1px dotted var(--hairline);padding-top:5px}
+
+/* 输入输出盒 */
+.boxes{display:flex;flex-wrap:wrap;gap:12px;width:100%}
+.box{flex:1 1 150px;background:var(--paper-deep);border:1px dashed var(--hairline);
+  padding:10px 12px;font-size:12.5px;text-align:center;font-family:var(--mono)}
+.box b{font-family:var(--sans);font-weight:600;color:var(--accent-deep)}
+
+/* 矩阵表 */
+.matrix{margin-top:34px;border:1px solid var(--hairline);background:#fff}
+.matrix h3{font-family:var(--serif);font-size:16px;font-weight:800;padding:13px 18px;
+  background:var(--paper-deep);border-bottom:1px solid var(--hairline)}
+.mgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+.mcell{padding:11px 14px;border-right:1px solid var(--hairline);border-bottom:1px solid var(--hairline)}
+.mcell:nth-child(4n){border-right:none}
+.mcell .t{font-size:12.5px;font-weight:600;margin-bottom:4px;display:flex;align-items:center;gap:6px}
+.mcell .t i{width:8px;height:8px;border-radius:50%;flex-shrink:0;font-style:normal}
+.mcell .n{font-size:11px;color:var(--ink-mute);font-family:var(--mono)}
+
+/* 数据条 */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:34px;
+  border:1px solid var(--hairline);background:#fff}
+.stat{padding:16px 14px;text-align:center;border-right:1px solid var(--hairline)}
+.stat:last-child{border-right:none}
+.stat .v{font-family:var(--serif);font-weight:900;font-size:27px;line-height:1.15}
+.stat .v.ok{color:var(--c-code)}
+.stat .v.bad{color:var(--c-gate)}
+.stat .l{font-size:11px;color:var(--ink-mute);margin-top:4px;letter-spacing:.03em}
+
+footer{margin-top:36px;padding-top:16px;border-top:1px solid var(--hairline);
+  font-size:11.5px;color:var(--ink-mute);font-family:var(--mono);display:flex;justify-content:space-between}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>V6.1 <em>反投毒机制</em> · Anti-Poisoning Ingest Gate</h1>
+  <div class="sub">数模管线 S-1 期 · <b>零 LLM 依赖</b> · 三通道交叉验证 · fail-closed &nbsp;|&nbsp; 2026-09-25 · amiya</div>
+</header>
+
+<div class="legend">
+  <div class="lg"><span class="dot" style="background:var(--c-analyze)"></span>检测</div>
+  <div class="lg"><span class="dot" style="background:var(--c-code)"></span>解析通道</div>
+  <div class="lg"><span class="dot" style="background:var(--c-write)"></span>判定</div>
+  <div class="lg"><span class="dot" style="background:var(--c-gate)"></span>门禁</div>
+  <div class="lg"><span class="dot" style="background:var(--c-data)"></span>产物</div>
+  <div class="lg" style="margin-left:auto"><b>核心命题</b>：文本层 ≠ 可见内容</div>
+</div>
+
+<!-- 1 输入 -->
+<div class="lane">
+  <div class="lane-label"><span class="no">L0</span><span class="nm">输入</span><span class="en">INPUT</span></div>
+  <div class="lane-body">
+    <div class="boxes">
+      <div class="box"><b>题目 PDF</b><br>文本层 + 图片 + 附件</div>
+      <div class="box"><b>数据集</b><br>CSV / XLSX / DOCX</div>
+      <div class="box"><b>图片</b><br>PNG / JPG / TIFF</div>
+    </div>
+  </div>
+</div>
+
+<!-- 2 通道B -->
+<div class="lane">
+  <div class="lane-label"><span class="no">L1</span><span class="nm">通道 B<br>原始直读</span><span class="en">RAW READ</span></div>
+  <div class="lane-body">
+    <div class="card code">
+      <div class="nm">pdftotext -layout</div>
+      <div class="role">baseline / 不净化</div>
+      <div class="io">原样读出全部文本层<br><b>隐藏文字在这里"跑不掉"</b></div>
+      <div class="src">→ raw_text</div>
+    </div>
+    <div class="card code">
+      <div class="nm">pymupdf dict</div>
+      <div class="role">结构化直读</div>
+      <div class="io">span 级颜色/字号/坐标<br>含 clip 扩到页面外</div>
+      <div class="src">→ raw_text / 交叉校验</div>
+    </div>
+  </div>
+</div>
+
+<!-- 3 通道A -->
+<div class="lane">
+  <div class="lane-label"><span class="no">L2</span><span class="nm">通道 A<br>物理净化</span><span class="en">PURIFY</span></div>
+  <div class="lane-body">
+    <div class="card analyze">
+      <div class="nm">物理隐藏检测</div>
+      <div class="role">8 类判据</div>
+      <div class="io">对比度 · <b>渲染模式 Tr=3</b> · 透明度<br>字号 · 离屏 · 零宽 · 同形字</div>
+      <div class="src">texttrace() 拿 render mode</div>
+    </div>
+    <div class="card analyze">
+      <div class="nm">像素交叉验证 ★</div>
+      <div class="role">双证据</div>
+      <div class="io">文本层说"这里有字"<br>→ 渲染像素上真有笔画吗？</div>
+      <div class="src">无笔画 ✓ 证实不可见</div>
+    </div>
+    <div class="card code">
+      <div class="nm">抹除 + 净化</div>
+      <div class="role">purify</div>
+      <div class="io">剔除可疑 span<br>得到干净题目</div>
+      <div class="src">→ clean_text</div>
+    </div>
+  </div>
+</div>
+
+<!-- 4 通道C -->
+<div class="lane">
+  <div class="lane-label"><span class="no">L3</span><span class="nm">通道 C<br>语义评分</span><span class="en">SEMANTIC</span></div>
+  <div class="lane-body">
+    <div class="card analyze">
+      <div class="nm">多特征加权</div>
+      <div class="role">不用单正则</div>
+      <div class="io">强指令模式 +3 · 弱模式≥2 +1<br>模型术语∧输出动词 +1 · 位置异常 +2</div>
+      <div class="src">≥4 HIGH / ≥2 MEDIUM</div>
+    </div>
+    <div class="card manage">
+      <div class="nm">双轨判定 ★</div>
+      <div class="role">修误报核心</div>
+      <div class="io"><b>物理隐藏</b>：本身即异常，独立告警<br><b>语义可疑</b>：需内容分 ≥2<br><span style="color:var(--ink-mute)">载体（元数据/书签）不算物理隐藏</span></div>
+      <div class="src">否则 "format=PDF 1.7" 也告警</div>
+    </div>
+  </div>
+</div>
+
+<!-- 5 判定 -->
+<div class="lane">
+  <div class="lane-label"><span class="no">L4</span><span class="nm">判定层</span><span class="en">VERDICT</span></div>
+  <div class="lane-body">
+    <div class="card write">
+      <div class="nm">三通道差分</div>
+      <div class="role">raw − clean</div>
+      <div class="io">差集 = 投毒候选<br>差异即证据</div>
+      <div class="src">输出字符级差值</div>
+    </div>
+    <div class="card write">
+      <div class="nm">纯度判据 ★</div>
+      <div class="role">区分隐藏字 vs 图表</div>
+      <div class="io">孤立像素 / 同档总数 ≥ 0.80<br>真隐藏字"纯净"，图表多抗锯齿</div>
+      <div class="src">实测：96.8% vs 29%</div>
+    </div>
+    <div class="card write">
+      <div class="nm">字符形态</div>
+      <div class="role">连通域分析</div>
+      <div class="io">膨胀后 6 ≤ 连通域 ≤ 200<br>高 4-90px · 宽 2-140px</div>
+      <div class="src">⚠ 不可用 open(1×3)：腐蚀竖笔画</div>
+    </div>
+  </div>
+</div>
+
+<!-- 6 门禁+输出 -->
+<div class="lane">
+  <div class="lane-label"><span class="no">L5</span><span class="nm">门禁 · 输出</span><span class="en">GATE / OUT</span></div>
+  <div class="lane-body">
+    <div class="card gate">
+      <div class="nm">fail-closed 门禁</div>
+      <div class="role">S-1 强制</div>
+      <div class="io">有 HIGH → 阻断<br>须人工确认才放行</div>
+      <div class="src">对齐"定稿即法律"</div>
+    </div>
+    <div class="card data">
+      <div class="nm">clean_problem.md</div>
+      <div class="role">交付物 · 建模唯一输入</div>
+      <div class="io">净化后的题目</div>
+      <div class="src">SHA-512 → registry</div>
+    </div>
+    <div class="card data">
+      <div class="nm">poison_report.md</div>
+      <div class="role">交付物 · 给人看</div>
+      <div class="io">投毒清单 + 证据定位<br><b>先给人看（严格反例）</b></div>
+      <div class="src">位置/颜色/像素证据</div>
+    </div>
+    <div class="card data">
+      <div class="nm">ingest_manifest.json</div>
+      <div class="role">哈希链</div>
+      <div class="io">raw/clean/findings 三哈希<br>+ 检测器版本 + 阈值</div>
+      <div class="src">阈值改动 → 结论可追溯</div>
+    </div>
+  </div>
+</div>
+
+<!-- 检测矩阵 -->
+<div class="matrix">
+  <h3>检测矩阵 · 8 类 30 项</h3>
+  <div class="mgrid">
+    <div class="mcell"><div class="t"><i style="background:var(--c-analyze)"></i>视觉隐藏</div>
+      <div class="n">对比度 · Tr=3 · 透明度 · 字号 · 离屏 · 遮挡</div></div>
+    <div class="mcell"><div class="t"><i style="background:var(--c-analyze)"></i>载体隐藏</div>
+      <div class="n">注释 · 元数据 · XMP · 书签 · 图层 · 表单 · <b>附件内容</b> · JS</div></div>
+    <div class="mcell"><div class="t"><i style="background:var(--c-analyze)"></i>字符级</div>
+      <div class="n">零宽字符 · 方向控制 · 同形字 · 异常字符占比</div></div>
+    <div class="mcell"><div class="t"><i style="background:var(--c-analyze)"></i>结构级</div>
+      <div class="n">原始字节流 · 增量更新残留对象</div></div>
+    <div class="mcell"><div class="t"><i style="background:var(--c-analyze)"></i>图片级</div>
+      <div class="n">真实背景色 · 四档色差 · 形态学去噪 · 纯度 · 字符形态</div></div>
+    <div class="mcell"><div class="t"><i style="background:var(--c-analyze)"></i>数据集</div>
+      <div class="n">公式注入 · 隐藏sheet/行/列 · 白字 · 批注 · 定义名称 · 宏</div></div>
+    <div class="mcell"><div class="t"><i style="background:var(--c-analyze)"></i>语义级</div>
+      <div class="n">强/弱指令模式 · 模型术语 · 输出动词 · 加权评分</div></div>
+    <div class="mcell"><div class="t"><i style="background:var(--c-data)"></i>跨文件（规划）</div>
+      <div class="n">文件名 · 目录结构 · zip 注释 · 隐藏文件</div></div>
+  </div>
+</div>
+
+<!-- 实测数据 -->
+<div class="stats">
+  <div class="stat"><div class="v ok">94%</div><div class="l">攻击样本检出率 15/16</div></div>
+  <div class="stat"><div class="v ok">0</div><div class="l">官方 41 文件误报</div></div>
+  <div class="stat"><div class="v">30</div><div class="l">检测项（8 大类）</div></div>
+  <div class="stat"><div class="v ok">0</div><div class="l">API 成本 / 纯本地</div></div>
+</div>
+
+<footer>
+  <span>V6.1 Anti-Poisoning Ingest Gate · design v1.0</span>
+  <span>pipeline/ingest/ · 关联 V5.2.1 S-1 期</span>
+</footer>
+
+</div>
+</body>
+</html>
